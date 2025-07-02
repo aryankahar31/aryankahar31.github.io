@@ -1,37 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Redirecting to AlienXFile</title>
-  <meta http-equiv="refresh" content="2;url=https://alienxfile.pythonanywhere.com" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="refresh" content="3;url=https://alienxfile.pythonanywhere.com" />
+  <title>AlienX Redirecting...</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: #000;
-      color: #39ff14;
-      font-family: 'Courier New', Courier, monospace;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+      font-family: 'Orbitron', sans-serif;
+      color: #00ffe1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .container {
       text-align: center;
-      margin-top: 20%;
-      animation: flicker 1s infinite;
+      z-index: 10;
     }
 
     h1 {
-      font-size: 2em;
-      margin-bottom: 20px;
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 15px #00ffe1;
+    }
+
+    p {
+      font-size: 1.1rem;
     }
 
     a {
-      color: #39ff14;
+      color: #00ffe1;
       text-decoration: underline;
     }
 
-    @keyframes flicker {
-      0% { opacity: 1; }
-      50% { opacity: 0.6; }
-      100% { opacity: 1; }
+    /* Star particles */
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #00ffe1;
+      animation: blink 2s infinite ease-in-out alternate;
+      opacity: 0.7;
     }
+
+    @keyframes blink {
+      from { opacity: 0.2; transform: scale(1); }
+      to { opacity: 1; transform: scale(1.5); }
+    }
+
+    /* Random star generator */
   </style>
 </head>
 <body>
-  <h1>🛸 Redirecting to AlienXFile...</h1>
-  <p>If you're not redirected, <a href="https://alienxfile.pythonanywhere.com">click here</a>.</p>
+  <div class="container">
+    <h1>🛸 Launching AlienXFile...</h1>
+    <p>If not redirected in 3 seconds, <a href="https://alienxfile.pythonanywhere.com">click here</a>.</p>
+  </div>
+
+  <script>
+    // Create animated glowing stars
+    for (let i = 0; i < 60; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.top = `${Math.random() * 100}vh`;
+      star.style.left = `${Math.random() * 100}vw`;
+      star.style.animationDelay = `${Math.random() * 3}s`;
+      star.style.opacity = Math.random();
+      document.body.appendChild(star);
+    }
+  </script>
 </body>
 </html>
