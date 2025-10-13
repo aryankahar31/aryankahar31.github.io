@@ -5,7 +5,7 @@
 <h1 align="center">AlienXFile V2 🚀</h1>
 
 <p align="center">
-  A secure, fast, and ephemeral file-sharing platform built with Flask and the Catbox.moe API.
+  A secure, fast, and ephemeral file-sharing platform built with Flask and the litterbox.catbox.moe API.
 </p>
 
 <p align="center">
@@ -33,11 +33,11 @@
 ## 🌟 Key Features
 
 - **Dual Upload Modes:** Share both files and raw text snippets seamlessly.
-- **Secure & Ephemeral:** Files are temporary. No permanent storage on the server.
+- **Secure & Ephemeral:** Files are temporary with customizable expiration (1h to 3 days). No permanent storage on the server.
 - **Unique Access Keys:** Auto-generated 4-digit keys for every upload.
 - **Glassmorphism UI:** Modern, clean, and responsive design that works on any device.
 - **Lightweight & Fast:** Built for speed with no unnecessary bloat.
-- **Large File Support:** Handles uploads up to **200 MB** per file.
+- **Large File Support:** Handles uploads up to **1 GB** per file.
 
 ---
 
@@ -47,31 +47,39 @@
 |--------------|------------------------------------------------------|
 | **Backend** | Python 3.11, Flask 2.x                               |
 | **Frontend** | HTML5, CSS3 (Glassmorphism, Responsive Design)       |
-| **Storage** | [Catbox.moe API](https://catbox.moe/)                |
+| **Storage** | [litterbox.catbox.moe API](https://litterbox.catbox.moe/)                |
 | **Hosting** | PythonAnywhere, Render, Railway, etc.                |
 
 ---
 
 ## 💾 Get Started Locally
 
-> **💻 Terminal**
+> **💻 Using Terminal / Command Line**
 > ```bash
 > # 1. Clone the repository
-> git clone [https://github.com/yourusername/AlienXFileV2.git](https://github.com/yourusername/AlienXFileV2.git)
+> git clone https://github.com/aryankahar31/AlienXFileV2.git
 > cd AlienXFileV2
 >
-> # 2. Create and activate a virtual environment
+> # 2. Create a virtual environment
 > python3 -m venv venv
-> source venv/bin/activate   # On Linux/Mac
-> # venv\Scripts\activate    # On Windows
 >
-> # 3. Install dependencies
+> # 3. Activate the virtual environment
+> # On Linux / Mac
+> source venv/bin/activate
+> # On Windows (PowerShell)
+> # venv\Scripts\Activate.ps1
+> # On Windows (Command Prompt)
+> # venv\Scripts\activate.bat
+>
+> # 4. Install dependencies
 > pip install -r requirements.txt
 >
-> # 4. Run the development server
+> # 5. Run the development server
 > python app.py
 > ```
-Now, open your browser and go to `http://127.0.0.1:5000`.
+>
+> Open your browser and visit: [`http://127.0.0.1:5000`](http://127.0.0.1:5000)
+
 
 ---
 
