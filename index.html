@@ -1,104 +1,645 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting to AlienX</title>
+    <title>AlienXEdu - Practice Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --accent-color: #8A2BE2;
-            --accent-glow: rgba(138, 43, 226, 0.4);
-            --bg-start: #1D2B64;
-            --bg-end: #F8CDDA;
-            --card-bg: rgba(255, 255, 255, 0.08);
-            --card-border: rgba(255, 255, 255, 0.15);
-            --shadow-color: rgba(31, 38, 135, 0.35);
-            --text-color: #f0f0f0;
-            --text-muted: #a0a0a0;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        /* Custom styles for the glass effect, scrollbar, and modern UI */
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Poppins', 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e7eb;
+            overflow-x: hidden;
         }
 
-        .card {
-            background: var(--card-bg);
+        .glass-container {
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: 18px;
-            padding: 35px 40px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 8px 32px var(--shadow-color);
-            animation: fadeInScale 0.5s ease-out forwards;
-            opacity: 0;
-            transform: scale(0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        
+        .main-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: radial-gradient(circle at top left, rgba(128, 0, 128, 0.3), transparent 40%),
+                              radial-gradient(circle at bottom right, rgba(0, 0, 255, 0.3), transparent 40%);
+            z-index: -1;
+            animation: gradient-animation 15s ease infinite;
         }
 
-        @keyframes fadeInScale {
-            to { opacity: 1; transform: scale(1); }
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        h2 {
-            font-weight: 600;
-            font-size: 24px;
-            margin-bottom: 12px;
+        .btn-primary {
+            background: linear-gradient(90deg, #8A2BE2, #4169E1);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(116, 79, 168, 0.9);
         }
 
-        p {
-            font-size: 15px;
-            color: var(--text-muted);
-            margin-bottom: 25px;
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #8A2BE2, #4169E1);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
         }
 
-        .loader {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--accent-glow);
-            border-top: 4px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(138, 43, 226, 0.6);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(65, 105, 225, 0.8);
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .option-btn {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease-in-out;
         }
-
-        a.redirect-button {
-            display: none; /* hidden since we redirect automatically */
+        .option-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: #8A2BE2;
         }
-
+        .option-btn.correct {
+            background-color: rgba(16, 185, 129, 0.3);
+            border-color: #10B981;
+        }
+        .option-btn.incorrect {
+            background-color: rgba(239, 68, 68, 0.3);
+            border-color: #EF4444;
+        }
     </style>
-    <meta http-equiv="refresh" content="1;url=https://alienxfilev2.pythonanywhere.com" />
 </head>
-<body>
-    
-    <div class="card">
-        <h2>Redirecting...</h2>
-        <p>Taking you to the AlienX web app.</p>
-        <div class="loader"></div>
-        <a href="https://alienxfilev2.pythonanywhere.com" class="redirect-button">Proceed Now</a>
+<body class="min-h-screen p-4 sm:p-6 md:p-8">
+    <div class="main-bg"></div>
+
+    <!-- Header -->
+    <header class="glass-container p-4 mb-8 flex justify-between items-center sticky top-4 z-50">
+        <h1 class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
+            AlienXEdu
+        </h1>
+        <nav class="hidden md:flex items-center space-x-6">
+            <a href="#" class="nav-link text-lg active" data-section="mcq">MCQ</a>
+            <a href="#" class="nav-link text-lg" data-section="true-false">True/False</a>
+            <a href="#" class="nav-link text-lg" data-section="letter">Letter Format</a>
+            <a href="#" class="nav-link text-lg" data-section="about">About</a>
+        </nav>
+        <div class="md:hidden">
+            <button id="menu-btn" class="text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+    </header>
+     <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden glass-container rounded-lg p-4 mb-8">
+        <nav class="flex flex-col space-y-4 text-center">
+            <a href="#" class="nav-link text-lg active" data-section="mcq">MCQ</a>
+            <a href="#" class="nav-link text-lg" data-section="true-false">True/False</a>
+            <a href="#" class="nav-link text-lg" data-section="letter">Letter Format</a>
+            <a href="#" class="nav-link text-lg" data-section="about">About</a>
+        </nav>
     </div>
 
+    <!-- Main Content -->
+    <main id="main-content" class="glass-container p-6 sm:p-8 md:p-12 min-h-[70vh]">
+        <!-- Content will be injected here by JavaScript -->
+    </main>
+    
+    <!-- Results Modal -->
+    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
+        <div class="glass-container p-8 rounded-2xl w-full max-w-md text-center transform transition-all scale-95 opacity-0">
+            <h2 class="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">Quiz Completed!</h2>
+            <p class="text-xl mb-2">Your Score:</p>
+            <p id="final-score" class="text-5xl font-bold mb-6"></p>
+            <p id="score-message" class="text-lg mb-8"></p>
+            <button id="restart-quiz-btn" class="btn-primary text-white font-bold py-3 px-6 rounded-xl w-full">
+                Try Again
+            </button>
+        </div>
+    </div>
+
+
     <script>
-        // Fast automatic redirect with fallback
-        setTimeout(function() {
-            window.location.href = "https://alienxfilev2.pythonanywhere.com";
-        }, 1000); // 1 second
+        // --- DATA ---
+        const mcqData = [
+            {
+                topic: "हिंदी भाषा : सामान्य परिचय",
+                questions: [
+                    { question: "हिंदी भाषा __________ भाषा परिवार से सम्बन्ध रखती है।", options: ["द्रविड़", "इंडो-आर्यन", "चीनी-तिब्बती", "अफ्रीकी"], answer: "इंडो-आर्यन" },
+                    { question: "हिंदी का मानक रूप __________ है।", options: ["ब्रजभाषा", "अवधी", "खड़ीबोली", "भोजपुरी"], answer: "खड़ीबोली" },
+                    { question: "हिंदी भाषा की लिपि रूप __________ है।", options: ["रोमन", "देवनागरी", "गुरुमुखी", "कन्नड़"], answer: "देवनागरी" },
+                    { question: "हिंदी दिवस हर साल __________ को मनाया जाता है।", options: ["14 सितंबर", "15 अगस्त", "26 जनवरी", "2 अक्टूबर"], answer: "14 सितंबर" },
+                    { question: "भारत में हिंदी बोलनेवालों की संख्या लगभग __________ करोड़ है।", options: ["15", "30", "60", "40"], answer: "60" }
+                ]
+            },
+            {
+                topic: "राजभाषा हिंदी : संवैधानिक महत्व",
+                questions: [
+                    { question: "भारत की राजभाषा __________ है।", options: ["अंग्रेज़ी", "हिंदी", "संस्कृत", "तमिल"], answer: "हिंदी" },
+                    { question: "भारतीय संविधान के अनुच्छेद __________ में राजभाषा का उल्लेख है।", options: ["340", "343", "370", "356"], answer: "343" },
+                    { question: "हिंदी भाषा __________ लिपि में लिखी जाती है।", options: ["रोमन", "देवनागरी", "तमिल", "उर्दू"], answer: "देवनागरी" },
+                    { question: "भारत में सह-राजभाषा __________ है।", options: ["तमिल", "मराठी", "अंग्रेज़ी", "संस्कृत"], answer: "अंग्रेज़ी" },
+                    { question: "राजभाषा संबंधी प्रावधान संविधान के __________ अध्याय भाग में हैं।", options: ["पंचम", "सत्रहवें", "पंद्रहवें", "बीसवें"], answer: "सत्रहवें" }
+                ]
+            },
+            {
+                topic: "वर्णमाला : स्वर एवं व्यंजन",
+                questions: [
+                    { question: "हिंदी में स्वर की संख्या __________ है।", options: ["11", "12", "14", "20"], answer: "11" },
+                    { question: "हिंदी वर्णमाला में व्यंजन की संख्या __________ है।", options: ["33", "35", "36", "40"], answer: "35" },
+                    { question: "“अ” से “औ” तक सभी वर्ण __________ हैं।", options: ["स्वर", "व्यंजन", "संज्ञा", "कारक"], answer: "स्वर" },
+                    { question: "“क, ख, ग, घ” किस वर्ग में आते हैं?", options: ["तालव्य", "मूर्धन्य", "कंठ्य", "दन्त्य"], answer: "कंठ्य" },
+                    { question: "स्वर और व्यंजन मिलकर __________ बनाते हैं।", options: ["वाक्य", "शब्द", "कारक", "भाषा"], answer: "शब्द" }
+                ]
+            },
+            {
+                topic: "शब्द भेद : सामान्य परिचय",
+                questions: [
+                    { question: "जिस शब्द से किसी वस्तु, व्यक्ति या स्थान का बोध हो, उसे __________ कहते हैं।", options: ["सर्वनाम", "संज्ञा", "क्रिया", "विशेषण"], answer: "संज्ञा" },
+                    { question: "जो शब्द संज्ञा के स्थान पर प्रयोग होते हैं वे __________ कहलाते हैं।", options: ["सर्वनाम", "विशेषण", "क्रिया", "अव्यय"], answer: "सर्वनाम" },
+                    { question: "“राम दौड़ता है” – “दौड़ता है” किस भेद का है?", options: ["संज्ञा", "क्रिया", "विशेषण", "सर्वनाम"], answer: "क्रिया" },
+                    { question: "जो शब्द संज्ञा या सर्वनाम की विशेषता बताते हैं वे __________ कहलाते हैं।", options: ["क्रिया", "विशेषण", "सर्वनाम", "संज्ञा"], answer: "विशेषण" },
+                    { question: "“लाल फूल” में “लाल” __________ है।", options: ["संज्ञा", "सर्वनाम", "विशेषण", "क्रिया"], answer: "विशेषण" }
+                ]
+            },
+            {
+                topic: "वाक्य : सामान्य परिचय",
+                questions: [
+                    { question: "शब्दों का समूह जो पूर्ण अर्थ दे, उसे __________ कहते हैं।", options: ["पद", "वाक्य", "कारक", "संधि"], answer: "वाक्य" },
+                    { question: "“राम खेल रहा है” – यह एक __________ वाक्य है।", options: ["सरल", "मिश्र", "संयुक्त", "विस्मयादिबोधक"], answer: "सरल" },
+                    { question: "“यदि बारिश होगी तो हम घर में रहेंगे।” यह __________ वाक्य है।", options: ["मिश्र", "सरल", "प्रश्नवाचक", "संयुक्त"], answer: "मिश्र" },
+                    { question: "प्रश्न पूछनेवाला वाक्य __________ कहलाता है।", options: ["विस्मयादिबोधक", "वर्णनात्मक", "प्रश्नवाचक", "आज्ञावाचक"], answer: "प्रश्नवाचक" },
+                    { question: "“वाह! कितना सुंदर है” – यह __________ वाक्य है।", options: ["प्रश्नवाचक", "आज्ञावाचक", "वर्णनात्मक", "विस्मयादिबोधक"], answer: "विस्मयादिबोधक" }
+                ]
+            },
+            {
+                topic: "वर्तनी : शुद्धता का प्रयोग एवं सावधानियाँ",
+                questions: [
+                    { question: "शब्दों को सही रूप में लिखने को __________ कहते हैं।", options: ["व्याकरण", "वर्तनी", "संधि", "कारक"], answer: "वर्तनी" },
+                    { question: "शुद्ध वर्तनी से भाषा की __________ बनी रहती है।", options: ["स्पष्टता", "कठिनाई", "त्रुटि", "समस्या"], answer: "स्पष्टता" },
+                    { question: "“आँगन” शब्द में __________ का प्रयोग हुआ है।", options: ["विसर्ग", "अनुस्वार", "अनुनासिक", "दीर्घस्वर"], answer: "अनुस्वार" },
+                    { question: "गलत वर्तनी का प्रयोग अर्थ को __________ सकता है।", options: ["सुंदर बना", "बदल", "सही कर", "लुप्त कर"], answer: "बदल" },
+                    { question: "शब्दों को सही लिखने के लिए __________ का सहारा लिया जा सकता है।", options: ["संधि", "शब्दकोश", "कारक", "क्रिया"], answer: "शब्दकोश" }
+                ]
+            },
+            {
+                topic: "कारक एवं विराम",
+                questions: [
+                    { question: "जो काम करता है उसे __________ कहते हैं।", options: ["कर्म", "कर्ता", "करण", "अधिकरण"], answer: "कर्ता" },
+                    { question: "जिस पर काम होता है वह __________ कारक है।", options: ["कर्म", "कर्ता", "सम्बन्ध", "अपादान"], answer: "कर्म" },
+                    { question: "वाक्य में ठहराव और स्पष्टता लाने हेतु __________ का प्रयोग होता है।", options: ["कारक", "विराम चिह्न", "विशेषण", "शब्द"], answer: "विराम चिह्न" },
+                    { question: "“कितने सुंदर फूल हैं!” – यहाँ __________ चिह्न का प्रयोग हुआ है।", options: ["पूर्णविराम", "विस्मयादिबोधक", "प्रश्नवाचक", "अल्पविराम"], answer: "विस्मयादिबोधक" },
+                    { question: "“तुम कहाँ जा रहे हो?” – इसमें __________ चिह्न प्रयुक्त है।", options: ["प्रश्नवाचक", "पूर्णविराम", "अल्पविराम", "उद्धरण"], answer: "प्रश्नवाचक" }
+                ]
+            },
+            {
+                topic: "पत्र-लेखन",
+                questions: [
+                    { question: "औपचारिक पत्र मुख्यतः __________ कार्यों के लिए लिखे जाते हैं।", options: ["निजी", "पारिवारिक", "आधिकारिक", "मनोरंजन"], answer: "आधिकारिक" },
+                    { question: "अनौपचारिक पत्र में भाषा __________ और अपनापन भरी होती है।", options: ["गंभीर", "भावनात्मक", "शुद्ध", "कठोर"], answer: "भावनात्मक" },
+                    { question: "प्रधानाचार्य को लिखा जानेवाला पत्र __________ पत्र है।", options: ["अनौपचारिक", "औपचारिक", "पारिवारिक", "निजी"], answer: "औपचारिक" },
+                    { question: "मित्र को जन्मदिन की बधाई देना एक __________ पत्र है।", options: ["औपचारिक", "अनौपचारिक", "सरकारी", "व्यापारिक"], answer: "अनौपचारिक" },
+                    { question: "औपचारिक पत्र में __________ और शुद्धता का ध्यान रखा जाता है।", options: ["भावनाएँ", "नियम", "अपनापन", "अनुभव"], answer: "नियम" }
+                ]
+            }
+        ];
+
+        const trueFalseData = [
+            {
+                topic: "हिंदी भाषा : सामान्य परिचय",
+                questions: [
+                    { question: "हिंदी आर्यभाषा परिवार की भाषा है।", answer: true },
+                    { question: "हिंदी की लिपि कन्नड़ है।", answer: false },
+                    { question: "हिंदी दिवस 14 सितंबर को मनाया जाता है।", answer: true },
+                    { question: "खड़ीबोली हिंदी का मानक रूप है।", answer: true },
+                    { question: "हिंदी विश्व की सबसे कम बोली जानेवाली भाषाओं में है।", answer: false }
+                ]
+            },
+            {
+                topic: "राजभाषा हिंदी : संवैधानिक महत्व",
+                questions: [
+                    { question: "संविधान के अनुच्छेद 343 में हिंदी को राजभाषा घोषित किया गया।", answer: true },
+                    { question: "हिंदी की लिपि उर्दू है।", answer: false },
+                    { question: "अंग्रेज़ी को सहायक राजभाषा माना गया।", answer: true },
+                    { question: "भारत में केवल हिंदी ही राजभाषा है।", answer: false },
+                    { question: "राजभाषा के नियम संविधान में दिए गए हैं।", answer: true }
+                ]
+            },
+            {
+                topic: "वर्णमाला : स्वर एवं व्यंजन",
+                questions: [
+                    { question: "हिंदी में 11 स्वर और 35 व्यंजन हैं।", answer: true },
+                    { question: "व्यंजन बिना स्वर उच्चारित नहीं हो सकते।", answer: false },
+                    { question: "“ए” और “ऐ” स्वर हैं।", answer: true },
+                    { question: "“श, ष, स” सभी दन्त्य व्यंजन हैं।", answer: false },
+                    { question: "स्वर वर्ण स्वतः उच्चारित होते हैं।", answer: true }
+                ]
+            },
+             {
+                topic: "शब्द भेद : सामान्य परिचय",
+                questions: [
+                    { question: "संज्ञा केवल व्यक्ति का नाम है।", answer: false },
+                    { question: "सर्वनाम संज्ञा के स्थान पर आता है।", answer: true },
+                    { question: "क्रिया से कार्य का बोध होता है।", answer: true },
+                    { question: "विशेषण संज्ञा और सर्वनाम की विशेषता बताते हैं।", answer: true },
+                    { question: "“मीठा फल” – यहाँ “फल” विशेषण है।", answer: false }
+                ]
+            },
+            {
+                topic: "वाक्य : सामान्य परिचय",
+                questions: [
+                    { question: "हर वाक्य में कर्ता और क्रिया होना जरूरी है।", answer: true },
+                    { question: "संयुक्त वाक्य केवल एक ही विचार प्रकट करता है।", answer: false },
+                    { question: "विस्मयादिबोधक वाक्य आश्चर्य या भाव व्यक्त करता है।", answer: true },
+                    { question: "वर्णनात्मक वाक्य सूचना या तथ्य बताते हैं।", answer: true },
+                    { question: "“दरवाजा बंद करो” – यह प्रश्नवाचक वाक्य है।", answer: false }
+                ]
+            },
+            {
+                topic: "वर्तनी : शुद्धता का प्रयोग एवं सावधानियाँ",
+                questions: [
+                    { question: "वर्तनी की शुद्धता से भाषा की सुंदरता बढ़ती है।", answer: true },
+                    { question: "“दिपक” शुद्ध वर्तनी है।", answer: false },
+                    { question: "उच्चारण पर ध्यान देने से वर्तनी सही लिखी जा सकती है।", answer: true },
+                    { question: "वर्तनी की शुद्धता शिक्षा और साहित्य में जरूरी नहीं है।", answer: false },
+                    { question: "अनुस्वार और अनुनासिक का भ्रम अक्सर वर्तनी की गलती कराता है।", answer: true }
+                ]
+            },
+            {
+                topic: "कारक एवं विराम",
+                questions: [
+                    { question: "कर्ता वही होता है जो काम करता है।", answer: true },
+                    { question: "“फल खाया गया” – यहाँ “फल” कर्ता है।", answer: false },
+                    { question: "विराम चिह्न वाक्य को स्पष्ट बनाते हैं।", answer: true },
+                    { question: "पूर्णविराम का प्रयोग प्रश्नवाचक वाक्य के अंत में होता है।", answer: false },
+                    { question: "अल्पविराम को कॉमा भी कहते हैं।", answer: true }
+                ]
+            },
+            {
+                topic: "पत्र-लेखन",
+                questions: [
+                    { question: "औपचारिक पत्र में व्यक्तिगत भावनाएँ ज्यादा होती हैं।", answer: false },
+                    { question: "अनौपचारिक पत्र स्वतंत्र और स्वाभाविक शैली में लिखे जाते हैं।", answer: true },
+                    { question: "शिकायत पत्र अनौपचारिक पत्र है।", answer: false },
+                    { question: "परिवार को लिखा गया पत्र अनौपचारिक पत्र है।", answer: true },
+                    { question: "औपचारिक पत्र में संक्षिप्त और स्पष्ट भाषा का प्रयोग होता है।", answer: true }
+                ]
+            }
+        ];
+
+        // --- GLOBAL STATE ---
+        let currentQuizType = 'mcq';
+        let currentTopicIndex = 0;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let questions = [];
+
+        // --- DOM ELEMENTS ---
+        const mainContent = document.getElementById('main-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const resultsModal = document.getElementById('results-modal');
+        const modalContent = resultsModal.querySelector('div');
+        const finalScoreEl = document.getElementById('final-score');
+        const scoreMessageEl = document.getElementById('score-message');
+        const restartQuizBtn = document.getElementById('restart-quiz-btn');
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+
+        // --- FUNCTIONS ---
+        
+        // Function to shuffle an array
+        const shuffleArray = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        const renderMCQTopics = () => {
+            currentQuizType = 'mcq';
+            mainContent.innerHTML = `
+                <h2 class="text-3xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">MCQ Practice</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${mcqData.map((topic, index) => `
+                        <button class="topic-btn p-6 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300" data-topic-index="${index}">
+                            <h3 class="text-xl font-semibold text-gray-200">${topic.topic}</h3>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+            addTopicButtonListeners();
+        };
+
+        const renderTrueFalseTopics = () => {
+            currentQuizType = 'true-false';
+            mainContent.innerHTML = `
+                <h2 class="text-3xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">True / False Practice</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${trueFalseData.map((topic, index) => `
+                        <button class="topic-btn p-6 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300" data-topic-index="${index}">
+                            <h3 class="text-xl font-semibold text-gray-200">${topic.topic}</h3>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+            addTopicButtonListeners();
+        };
+        
+        const renderLetterFormat = () => {
+             mainContent.innerHTML = `
+                <h2 class="text-3xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">Easy Informal Letter Format</h2>
+                <div class="space-y-8 text-gray-300">
+                    <div class="p-6 rounded-xl bg-white/5 border border-white/10">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-100">Format for Informal Letter (Any Topic)</h3>
+                        <p class="mb-4 text-gray-400">(Use this for friends, family, etc. - Keep it simple and personal)</p>
+                        <pre class="bg-black/20 p-4 rounded-lg whitespace-pre-wrap font-mono text-sm">
+सेवा में
+[Receiver's Name, e.g., प्रिय मित्र/भाई/बहन]
+[Address, if needed, e.g., दिल्ली, भारत]
+
+दिनांक
+[e.g., 14 अक्टूबर 2025]
+
+प्रिय [Name/Relation],
+
+शुभेच्छा
+(Optional greeting, e.g., नमस्ते/हाय, कैसे हो?)
+
+शरीर (Body)
+शुरूआत: हालचाल पूछें (e.g., तुम कैसे हो? मैं ठीक हूँ।)
+मुख्य बात: अपना संदेश लिखें (e.g., मैं तुम्हें अपने जन्मदिन की पार्टी के लिए बुलाना चाहता हूँ। यह 20 अक्टूबर को होगी।)
+अंत: मिलने की इच्छा (e.g., जल्दी मिलते हैं।)
+
+निवेदन/अंत में
+(e.g., अपना ख्याल रखना।)
+
+तुम्हारा/तुम्हारी,
+[Your Name]
+                        </pre>
+                    </div>
+                     <div class="p-6 rounded-xl bg-white/5 border border-white/10">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-100">Example</h3>
+                        <pre class="bg-black/20 p-4 rounded-lg whitespace-pre-wrap font-mono text-sm">
+सेवा में
+प्रिय राहुल,
+
+दिनांक: 14 अक्टूबर 2025
+
+प्रिय राहुल,
+
+नमस्ते! तुम कैसे हो? मैं ठीक हूँ। मैं तुम्हें अपने जन्मदिन की पार्टी के लिए बुलाना चाहता हूँ, जो 20 अक्टूबर को होगी। कृपया आना।
+
+जल्दी मिलते हैं।
+
+तुम्हारा,
+अमित
+                        </pre>
+                    </div>
+                </div>
+            `;
+        }
+
+        const renderAbout = () => {
+            mainContent.innerHTML = `
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">About & Contact</h2>
+                    <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-10">This platform is designed to provide a simple and effective way for students to practice Hindi concepts. Created with a modern UI for an engaging user experience.</p>
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-100">Connect with the Developer</h3>
+                    <div class="flex justify-center items-center flex-wrap gap-4">
+                        <a href="https://github.com/aryankahar31" target="_blank" class="flex items-center gap-2 p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            GitHub
+                        </a>
+                        <a href="https://instagram.com/aryankahar31" target="_blank" class="flex items-center gap-2 p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                            Instagram
+                        </a>
+                        <a href="https://twitter.com/aryankahar31" target="_blank" class="flex items-center gap-2 p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="currentColor" class="w-6 h-6"><path d="M9.294 6.928L14.357 1h-1.2L8.762 6.147 5.25 1H1.2l5.31 7.643L1.143 15h1.2l4.892-5.486L11.75 15h4.05l-5.632-8.072zM7.651 8.852l-.538-.77-4.26-6.043h1.825l3.42 4.856.538.77 4.527 6.423h-1.825l-3.682-5.23z"></path></svg>
+                            X (Twitter)
+                        </a>
+                         <a href="mailto:aryankahar3000@gmail.com" class="flex items-center gap-2 p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                           Email
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        const addTopicButtonListeners = () => {
+            document.querySelectorAll('.topic-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const topicIndex = parseInt(e.currentTarget.dataset.topicIndex);
+                    startQuiz(topicIndex);
+                });
+            });
+        };
+
+        const startQuiz = (topicIndex) => {
+            currentTopicIndex = topicIndex;
+            currentQuestionIndex = 0;
+            score = 0;
+            const data = currentQuizType === 'mcq' ? mcqData : trueFalseData;
+            questions = shuffleArray([...data[topicIndex].questions]);
+            displayQuestion();
+        };
+
+        const displayQuestion = () => {
+            if (currentQuestionIndex >= questions.length) {
+                showResults();
+                return;
+            }
+
+            const questionData = questions[currentQuestionIndex];
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            let optionsHTML;
+
+            if (currentQuizType === 'mcq') {
+                 const shuffledOptions = shuffleArray([...questionData.options]);
+                 optionsHTML = `
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                        ${shuffledOptions.map(option => `
+                            <button class="option-btn p-4 rounded-lg text-lg">
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            } else { // true-false
+                optionsHTML = `
+                    <div class="flex justify-center gap-4 mt-8">
+                        <button class="option-btn p-4 rounded-lg text-lg w-32">सही</button>
+                        <button class="option-btn p-4 rounded-lg text-lg w-32">गलत</button>
+                    </div>
+                `;
+            }
+
+            mainContent.innerHTML = `
+                <div class="w-full bg-white/10 rounded-full h-2.5 mb-6">
+                    <div class="bg-gradient-to-r from-purple-500 to-blue-500 h-2.5 rounded-full" style="width: ${progress}%"></div>
+                </div>
+                <div class="text-center">
+                     <p class="text-gray-400 mb-2">Question ${currentQuestionIndex + 1} of ${questions.length}</p>
+                     <h2 class="text-2xl md:text-3xl font-semibold">${questionData.question}</h2>
+                </div>
+                ${optionsHTML}
+            `;
+
+            addOptionListeners();
+        };
+        
+        const addOptionListeners = () => {
+             document.querySelectorAll('.option-btn').forEach(button => {
+                button.addEventListener('click', handleAnswer);
+            });
+        }
+        
+        const handleAnswer = (e) => {
+            const selectedButton = e.currentTarget;
+            const selectedAnswer = selectedButton.textContent.trim();
+            const questionData = questions[currentQuestionIndex];
+            let isCorrect;
+
+            if (currentQuizType === 'mcq') {
+                isCorrect = selectedAnswer === questionData.answer;
+            } else { // true-false
+                const selectedBool = selectedAnswer === 'सही';
+                isCorrect = selectedBool === questionData.answer;
+            }
+
+            // Provide visual feedback
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.disabled = true; // Disable all buttons
+                
+                let btnAnswer = btn.textContent.trim();
+                let correctOriginalAnswer;
+                if(currentQuizType === 'mcq'){
+                   correctOriginalAnswer = questionData.answer;
+                } else {
+                   correctOriginalAnswer = questionData.answer ? 'सही' : 'गलत';
+                }
+
+                if (btnAnswer === correctOriginalAnswer) {
+                    btn.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+                selectedButton.classList.add('correct');
+            } else {
+                selectedButton.classList.add('incorrect');
+            }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                displayQuestion();
+            }, 1200); // Wait a moment before showing the next question
+        }
+        
+        const showResults = () => {
+            const percentage = Math.round((score / questions.length) * 100);
+            finalScoreEl.textContent = `${percentage}%`;
+            
+            let message = "";
+            if (percentage === 100) message = "Perfect! Excellent work!";
+            else if (percentage >= 80) message = "Great job! You know this topic well.";
+            else if (percentage >= 60) message = "Good effort! A little more practice will help.";
+            else message = "Keep practicing! You can do it.";
+            
+            scoreMessageEl.textContent = message;
+
+            resultsModal.classList.remove('hidden');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        }
+        
+        const restartQuiz = () => {
+            resultsModal.classList.add('hidden');
+            modalContent.classList.add('scale-95', 'opacity-0');
+
+            if (currentQuizType === 'mcq') {
+                renderMCQTopics();
+            } else {
+                renderTrueFalseTopics();
+            }
+        }
+
+
+        // --- EVENT LISTENERS ---
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // For mobile menu, close it on click
+                if (!mobileMenu.classList.contains('hidden')) {
+                     mobileMenu.classList.add('hidden');
+                }
+
+                const section = e.target.dataset.section;
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to all links with the same data-section (for mobile + desktop)
+                document.querySelectorAll(`.nav-link[data-section="${section}"]`).forEach(activeLink => {
+                   activeLink.classList.add('active');
+                });
+
+
+                if (section === 'mcq') renderMCQTopics();
+                else if (section === 'true-false') renderTrueFalseTopics();
+                else if (section === 'letter') renderLetterFormat();
+                else if (section === 'about') renderAbout();
+            });
+        });
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        restartQuizBtn.addEventListener('click', restartQuiz);
+        
+        // Initial load
+        renderMCQTopics();
     </script>
 </body>
 </html>
