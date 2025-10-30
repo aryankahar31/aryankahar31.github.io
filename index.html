@@ -1,645 +1,1247 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlienXEdu - Practice Platform</title>
+    <title>AlienXEdu - Python Practice Hub</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Prism.js for Code Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+    
+    <!-- Google Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Custom styles for the glass effect, scrollbar, and modern UI */
         body {
-            font-family: 'Poppins', 'Inter', sans-serif;
-            background-color: #0a0a0a;
-            color: #e5e7eb;
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
         }
-
-        .glass-container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        /* Custom class for the code output block */
+        .code-output {
+            background-color: #f3f4f6; /* gray-100 */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: #111827; /* gray-900 */
+            white-space: pre-wrap;
         }
-        
-        .main-bg {
+        .dark .code-output {
+            background-color: #374151; /* dark:gray-700 */
+            color: #f9fafb; /* dark:gray-50 */
+        }
+        /* Smooth transition for accordion */
+        .answer-content {
+            transition: max-height 0.3s ease-out;
+            overflow: hidden;
+        }
+        /* Image styles for better look */
+        .plot-image {
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            max-width: 100%;
+            height: auto;
+        }
+        .plot-image:hover {
+            transform: scale(1.02);
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
             position: fixed;
-            top: 0;
+            z-index: 1000;
             left: 0;
+            top: 0;
             width: 100%;
-            height: 100vh;
-            background-image: radial-gradient(circle at top left, rgba(128, 0, 128, 0.3), transparent 40%),
-                              radial-gradient(circle at bottom right, rgba(0, 0, 255, 0.3), transparent 40%);
-            z-index: -1;
-            animation: gradient-animation 15s ease infinite;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
         }
-
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80%;
+            padding-top: 60px;
         }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #8A2BE2, #4169E1);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+        .modal img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px 0 rgba(116, 79, 168, 0.9);
-        }
-
-        .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        .nav-link::after {
-            content: '';
+        .close {
             position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(90deg, #8A2BE2, #4169E1);
-            transition: width 0.3s ease;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
         }
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
+        .close:hover {
+            color: #bbb;
         }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(138, 43, 226, 0.6);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(65, 105, 225, 0.8);
-        }
-
-        .option-btn {
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.2s ease-in-out;
-        }
-        .option-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: #8A2BE2;
-        }
-        .option-btn.correct {
-            background-color: rgba(16, 185, 129, 0.3);
-            border-color: #10B981;
-        }
-        .option-btn.incorrect {
-            background-color: rgba(239, 68, 68, 0.3);
-            border-color: #EF4444;
+        @media only screen and (max-width: 700px) {
+            .modal-content {
+                width: 100%;
+                padding-top: 40px;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen p-4 sm:p-6 md:p-8">
-    <div class="main-bg"></div>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 
     <!-- Header -->
-    <header class="glass-container p-4 mb-8 flex justify-between items-center sticky top-4 z-50">
-        <h1 class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-            AlienXEdu
-        </h1>
-        <nav class="hidden md:flex items-center space-x-6">
-            <a href="#" class="nav-link text-lg active" data-section="mcq">MCQ</a>
-            <a href="#" class="nav-link text-lg" data-section="true-false">True/False</a>
-            <a href="#" class="nav-link text-lg" data-section="letter">Letter Format</a>
-            <a href="#" class="nav-link text-lg" data-section="about">About</a>
-        </nav>
-        <div class="md:hidden">
-            <button id="menu-btn" class="text-white focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
+    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                AlienXEdu
+            </div>
+            <div class="flex space-x-6">
+                <a href="#module1" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium">Module 1</a>
+                <a href="#module2" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium">Module 2</a>
+            </div>
         </div>
-    </header>
-     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="md:hidden hidden glass-container rounded-lg p-4 mb-8">
-        <nav class="flex flex-col space-y-4 text-center">
-            <a href="#" class="nav-link text-lg active" data-section="mcq">MCQ</a>
-            <a href="#" class="nav-link text-lg" data-section="true-false">True/False</a>
-            <a href="#" class="nav-link text-lg" data-section="letter">Letter Format</a>
-            <a href="#" class="nav-link text-lg" data-section="about">About</a>
-        </nav>
-    </div>
+    </nav>
 
     <!-- Main Content -->
-    <main id="main-content" class="glass-container p-6 sm:p-8 md:p-12 min-h-[70vh]">
-        <!-- Content will be injected here by JavaScript -->
-    </main>
+    <main class="container mx-auto px-6 py-12">
+        
+        <!-- Hero Section -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Python Practice Hub</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400">Your complete guide to Modules 1 & 2 Python questions, with detailed solutions and code examples.</p>
+        </header>
+
+        <!-- Module 1 -->
+        <section id="module1" class="mb-16">
+            <h2 class="text-3xl font-bold border-b border-indigo-500 pb-3 mb-8">Module 1: Python Basics, Lists, Regex & More</h2>
+
+            <!-- Topic: Basic Python -->
+            <h3 class="text-2xl font-semibold mb-6 text-indigo-600 dark:text-indigo-400">Basic Python Questions</h3>
+            <div class="space-y-6">
+                
+                <!-- Q1.1: Arithmetic -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q1a')">
+                        <span class="text-lg font-semibold">Q1.1: Solve $56 + 45 - 909 \times 81$</span>
+                        <span id="m1q1a-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1q1a-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Problem:</h4>
+                            <p class="mb-4">Solve the following arithmetic question: $56 + 45 - 909 \times 81$</p>
+                            
+                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
+                            <ol class="list-decimal list-inside mb-4 space-y-1">
+                                <li>Following **PEMDAS/BODMAS**, multiplication is performed first.</li>
+                                <li>$909 \times 81 = 73629$</li>
+                                <li>Now the equation is: $56 + 45 - 73629$</li>
+                                <li>$56 + 45 = 101$</li>
+                                <li>$101 - 73629 = -73528$</li>
+                            </ol>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python"># Python correctly follows the order of operations
+result = 56 + 45 - 909 * 81
+print(f"Result: {result}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Result: -73528</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q1.2: Arithmetic (Exponent) -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q1b')">
+                        <span class="text-lg font-semibold">Q1.2: Solve $(50.50)^2 + 2^3$</span>
+                        <span id="m1q1b-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1q1b-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Problem:</h4>
+                            <p class="mb-4">Solve the following arithmetic question: $(50.50)^2 + 2^3$</p>
+                            
+                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
+                            <ol class="list-decimal list-inside mb-4 space-y-1">
+                                <li>Following **PEMDAS/BODMAS**, exponents are calculated first.</li>
+                                <li>$(50.50)^2 = 50.50 \times 50.50 = 2550.25$</li>
+                                <li>$2^3 = 2 \times 2 \times 2 = 8$</li>
+                                <li>Now the equation is: $2550.25 + 8$</li>
+                                <li>$2550.25 + 8 = 2558.25$</li>
+                            </ol>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python"># The ** operator is used for exponentiation
+result = (50.50)**2 + (2**3)
+print(f"Result: {result}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Result: 2558.25</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q1.3: Modulus Check -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q1c')">
+                        <span class="text-lg font-semibold">Q1.3: Check $99 \pmod{3}$ vs $33 \pmod{3}$</span>
+                        <span id="m1q1c-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1q1c-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Problem:</h4>
+                            <p class="mb-4">Check if 99 modulus 3 is equal to 33 modulus 3.</p>
+                            
+                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
+                            <ol class="list-decimal list-inside mb-4 space-y-1">
+                                <li>The modulus operator ($\%$) finds the remainder of a division.</li>
+                                <li>$99 \div 3 = 33$ with a remainder of **0**.</li>
+                                <li>$33 \div 3 = 11$ with a remainder of **0**.</li>
+                                <li>The check is $0 == 0$, which is **True**.</li>
+                            </ol>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python"># The % operator is used for modulus
+result = (99 % 3) == (33 % 3)
+print(f"Is 99 % 3 equal to 33 % 3? {result}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Is 99 % 3 equal to 33 % 3? True</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q1.4: Greater Than Check -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q1d')">
+                        <span class="text-lg font-semibold">Q1.4: Check $900 \times 45 > 500 \times 55$</span>
+                        <span id="m1q1d-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1q1d-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Problem:</h4>
+                            <p class="mb-4">Find if $900 \times 45$ is greater than $500 \times 55$.</p>
+                            
+                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
+                            <ol class="list-decimal list-inside mb-4 space-y-1">
+                                <li>Calculate the left side: $900 \times 45 = 40500$</li>
+                                <li>Calculate the right side: $500 \times 55 = 27500$</li>
+                                <li>The check is $40500 > 27500$, which is **True**.</li>
+                            </ol>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python"># The > operator is used for "greater than"
+result = (900 * 45) > (500 * 55)
+print(f"Is 900*45 greater than 500*55? {result}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Is 900*45 greater than 500*55? True</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2: Math Module -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q2')">
+                        <span class="text-lg font-semibold">Q2: Find $\sin(90)$, $\cos(45)$, $\sin(45)+\cos(30)$, $\log_{10}(50)$</span>
+                        <span id="m1q2-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1q2-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Problem:</h4>
+                            <p class="mb-4">Find the answers for: $\sin(90)$, $\cos(45)$, $\sin(45)+\cos(30)$, and $\log_{10}(50)$.</p>
+                            
+                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
+                            <ol class="list-decimal list-inside mb-4 space-y-1">
+                                <li>These operations require Python's built-in `math` module.</li>
+                                <li>**Important:** Python's trigonometric functions (`sin`, `cos`) expect angles in **radians**, not degrees.</li>
+                                <li>We must first convert degrees to radians using `math.radians(degrees)`.</li>
+                                <li>$\sin(90^{\circ})$: `math.sin(math.radians(90))` $\rightarrow$ $1.0$</li>
+                                <li>$\cos(45^{\circ})$: `math.cos(math.radians(45))` $\rightarrow$ $\approx 0.7071$</li>
+                                <li>$\sin(45^{\circ}) + \cos(30^{\circ})$: `math.sin(math.radians(45)) + math.cos(math.radians(30))` $\rightarrow$ $\approx 0.7071 + 0.8660 = 1.5731$</li>
+                                <li>$\log_{10}(50)$: Use `math.log10(50)` $\rightarrow$ $\approx 1.699$</li>
+                            </ol>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python">import math
+
+# 1. sin(90)
+# Convert 90 degrees to radians first
+sin_90 = math.sin(math.radians(90))
+
+# 2. cos(45)
+# Convert 45 degrees to radians first
+cos_45 = math.cos(math.radians(45))
+
+# 3. sin(45) + cos(30)
+sin_45_cos_30 = math.sin(math.radians(45)) + math.cos(math.radians(30))
+
+# 4. Log of 50 to the base 10
+log_50_base_10 = math.log10(50)
+
+print(f"sin(90°): {sin_90}")
+print(f"cos(45°): {cos_45:.4f}")
+print(f"sin(45°) + cos(30°): {sin_45_cos_30:.4f}")
+print(f"Log10(50): {log_50_base_10:.4f}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">sin(90°): 1.0
+cos(45°): 0.7071
+sin(45°) + cos(30°): 1.5731
+Log10(50): 1.6990</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3: Area of Trapezoid -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q3')">
+                        <span class="text-lg font-semibold">Q3: Function to find area of Trapezoid</span>
+                        <span id="m1q3-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1q3-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Problem:</h4>
+                            <p class="mb-4">Write a function to find area of Trapezoid: $height=10cm$, $base1=20cm$, $base2=15cm$.</p>
+                            
+                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
+                            <ol class="list-decimal list-inside mb-4 space-y-1">
+                                <li>The formula for the area of a trapezoid is: $Area = \frac{base1 + base2}{2} \times height$.</li>
+                                <li>Define a function `find_trapezoid_area` that accepts `height`, `base1`, and `base2` as arguments.</li>
+                                <li>Inside the function, implement the formula and return the result.</li>
+                                <li>Call the function with the given values: $Area = \frac{20 + 15}{2} \times 10 = \frac{35}{2} \times 10 = 17.5 \times 10 = 175.0$.</li>
+                            </ol>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python">def find_trapezoid_area(height, base1, base2):
+    """Calculates the area of a trapezoid."""
+    area = ((base1 + base2) / 2) * height
+    return area
+
+# Given values
+h = 10
+b1 = 20
+b2 = 15
+
+# Calculate and print the area
+area = find_trapezoid_area(h, b1, b2)
+print(f"The area of the trapezoid is: {area} cm²")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">The area of the trapezoid is: 175.0 cm²</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4: Volume of Cone -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q4')">
+                        <span class="text-lg font-semibold">Q4: Function to find Volume of Cone (Unit Conversion)</span>
+                        <span id="m1q4-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1q4-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Problem:</h4>
+                            <p class="mb-4">Write a function to find Volume of Cone: $height=0.5m$, $radius=21.45cm$.</p>
+                            
+                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
+                            <ol class="list-decimal list-inside mb-4 space-y-1">
+                                <li>The formula for the volume of a cone is: $V = \frac{1}{3} \pi r^2 h$.</li>
+                                <li>**Crucial:** The units are mixed (meters and centimeters). We must convert them to be consistent. Let's convert everything to meters.</li>
+                                <li>$height = 0.5m$ (already in meters)</li>
+                                <li>$radius = 21.45cm = 0.2145m$ (divide by 100)</li>
+                                <li>We need `math.pi` for $\pi$.</li>
+                                <li>$V = \frac{1}{3} \times \pi \times (0.2145)^2 \times 0.5 \approx 0.02419 m^3$.</li>
+                            </ol>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python">import math
+
+def find_cone_volume(height_m, radius_cm):
+    """Calculates the volume of a cone, converting cm to m."""
     
-    <!-- Results Modal -->
-    <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
-        <div class="glass-container p-8 rounded-2xl w-full max-w-md text-center transform transition-all scale-95 opacity-0">
-            <h2 class="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">Quiz Completed!</h2>
-            <p class="text-xl mb-2">Your Score:</p>
-            <p id="final-score" class="text-5xl font-bold mb-6"></p>
-            <p id="score-message" class="text-lg mb-8"></p>
-            <button id="restart-quiz-btn" class="btn-primary text-white font-bold py-3 px-6 rounded-xl w-full">
-                Try Again
-            </button>
+    # Convert radius from cm to meters
+    radius_m = radius_cm / 100
+    
+    # Calculate volume
+    volume = (1/3) * math.pi * (radius_m ** 2) * height_m
+    return volume
+
+# Given values
+h = 0.5
+r = 21.45
+
+# Calculate and print the volume
+volume = find_cone_volume(h, r)
+print(f"The volume of the cone is: {volume:.5f} m³")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">The volume of the cone is: 0.02419 m³</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q5: String Operations -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q5')">
+                        <span class="text-lg font-semibold">Q5: String Operations (Whitespace, Capitalize, Uppercase, Replace)</span>
+                        <span id="m1q5-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1q5-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Problem 1:</h4>
+                            <p class="mb-4">Remove whitespaces and Capitalize the string: " europe is the second smallest continent by landmass. "</p>
+                            
+                            <h4 class="font-semibold mb-2">Solution 1:</h4>
+                            <ol class="list-decimal list-inside mb-4 space-y-1">
+                                <li>First, use `.strip()` to remove leading/trailing whitespace.</li>
+                                <li>Then, use `.replace(" ", "")` to remove all *internal* spaces.</li>
+                                <li>Finally, use `.capitalize()` to capitalize the first letter of the *new* string.</li>
+                            </ol>
+<pre><code class="language-python">s1 = " europe is the second smallest continent by landmass. "
+s1_stripped = s1.strip() # "europe is the second smallest continent by landmass."
+s1_no_spaces = s1_stripped.replace(" ", "") # "europeisthesecondsmallestcontinentbylandmass."
+s1_final = s1_no_spaces.capitalize() # "Europeisthesecondsmallestcontinentbylandmass."
+print(f"String 1 Result: {s1_final}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output 1:</h4>
+                            <pre class="code-output">String 1 Result: Europeisthesecondsmallestcontinentbylandmass.</pre>
+                            
+                            <hr class="my-6 border-gray-300 dark:border-gray-600">
+
+                            <h4 class="font-semibold mb-2">Problem 2:</h4>
+                            <p class="mb-4">Make the string Uppercase and replace the "O" with zero(0): "omg! what a lovely day. I found two pounds on the road "</p>
+                            
+                            <h4 class="font-semibold mb-2">Solution 2:</h4>
+                            <ol class="list-decimal list-inside mb-4 space-y-1">
+                                <li>First, use `.upper()` to make the entire string uppercase.</li>
+                                <li>Then, use `.replace("O", "0")` to replace all capital "O"s with "0".</li>
+                            </ol>
+<pre><code class="language-python">s2 = "omg! what a lovely day. I found two pounds on the road "
+s2_upper = s2.upper() # "OMG! WHAT A LOVELY DAY. I FOUND TWO POUNDS ON THE ROAD "
+s2_final = s2_upper.replace("O", "0") # "0MG! WHAT A L0VELY DAY. I F0UND TW0 P0UNDS 0N THE R0AD "
+print(f"String 2 Result: {s2_final}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output 2:</h4>
+                            <pre class="code-output">String 2 Result: 0MG! WHAT A L0VELY DAY. I F0UND TW0 P0UNDS 0N THE R0AD </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Topic: Lists and Tuples -->
+            <h3 class="text-2xl font-semibold mt-12 mb-6 text-indigo-600 dark:text-indigo-400">Questions Based on Lists and Tuples</h3>
+            <div class="space-y-6">
+
+                <!-- Q1: List Operations -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1L1')">
+                        <span class="text-lg font-semibold">Q1: List Operations (Create, Insert, Merge, Delete)</span>
+                        <span id="m1L1-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1L1-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+<pre><code class="language-python"># 1. Create a list with 4 cartoon characters
+cartoons = ["Mickey", "Donald", "Goofy", "Pluto"]
+print(f"Step 1: {cartoons}")
+
+# 2. Add "Jerry" and "Tom" in 2nd and last position
+cartoons.insert(1, "Jerry") # 2nd position is index 1
+cartoons.append("Tom")
+print(f"Step 2: {cartoons}")
+
+# 3. Create another list of even numbers from 0 to 10
+evens = [0, 2, 4, 6, 8, 10]
+print(f"Step 3: {evens}")
+
+# 4. Merge the two lists
+merged_list = cartoons + evens
+print(f"Step 4: {merged_list}")
+
+# 5. Delete elements on 2nd, 5th, and last position
+# Initial: ['Mickey', 'Jerry', 'Donald', 'Goofy', 'Pluto', 'Tom', 0, 2, 4, 6, 8, 10]
+# Indices: 1, 4, -1
+# To avoid index shifting, delete from the highest index first.
+del merged_list[-1]   # Deletes '10' (last position)
+del merged_list[4]    # Deletes 'Pluto' (5th position)
+del merged_list[1]    # Deletes 'Jerry' (2nd position)
+print(f"Step 5: {merged_list}")
+
+# 6. Finally, print the list
+print(f"Final List: {merged_list}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Final Output:</h4>
+                            <pre class="code-output">Final List: ['Mickey', 'Donald', 'Goofy', 'Tom', 0, 2, 4, 6, 8]</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2: Tuple Operations -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1L2')">
+                        <span class="text-lg font-semibold">Q2: Tuple Operations (Insert, Sum, Insert Sum)</span>
+                        <span id="m1L2-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1L2-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Key Concept:</h4>
+                            <p class="mb-4">Tuples are **immutable**, meaning they cannot be changed after creation. To "insert" items, you must convert the tuple to a list, perform the operations, and convert it back to a tuple.</p>
+<pre><code class="language-python">import random
+
+# 1. Create a tuple with 10 random numbers
+# We use a fixed list for a reproducible example
+my_tuple = (5, 18, 23, 41, 55, 6, 72, 80, 91, 10)
+print(f"Step 1 (Original Tuple): {my_tuple}")
+
+# 2. Insert 500 (first) and 1001 (last)
+# Convert to list first
+my_list = list(my_tuple)
+my_list.insert(0, 500)
+my_list.append(1001)
+print(f"Step 2 (Converted to List): {my_list}")
+
+# 3. Perform addition of all items (X)
+X = sum(my_list)
+print(f"Step 3 (Sum 'X'): {X}")
+
+# 4. Insert X to the first position
+my_list.insert(0, X)
+print(f"Step 4 (List with X): {my_list}")
+
+# 5. Print the tuple
+final_tuple = tuple(my_list)
+print(f"Step 5 (Final Tuple): {final_tuple}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Step 1 (Original Tuple): (5, 18, 23, 41, 55, 6, 72, 80, 91, 10)
+Step 2 (Converted to List): [500, 5, 18, 23, 41, 55, 6, 72, 80, 91, 10, 1001]
+Step 3 (Sum 'X'): 1902
+Step 4 (List with X): [1902, 500, 5, 18, 23, 41, 55, 6, 72, 80, 91, 10, 1001]
+Step 5 (Final Tuple): (1902, 500, 5, 18, 23, 41, 55, 6, 72, 80, 91, 10, 1001)</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3: Function to Replace in List -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1L3')">
+                        <span class="text-lg font-semibold">Q3: Function to replace "A" or "a" with "XX"</span>
+                        <span id="m1L3-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1L3-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Note:</h4>
+                            <p class="mb-4">This function replaces elements that are *exactly* "A" or "a". It does not replace substrings, so "AA" and "aa" will be unchanged.</p>
+<pre><code class="language-python">def replace_A_with_XX(input_list):
+    """
+    Replaces all list elements that are exactly "A" or "a" with "XX".
+    Iterates in-place and returns the modified list.
+    """
+    # We iterate over the *indices* so we can modify the list
+    for i in range(len(input_list)):
+        if input_list[i] == "A" or input_list[i] == "a":
+            input_list[i] = "XX"
+    return input_list
+
+# Given List
+Lst = ["A", "Z", "W", "AA", "A", "G", "a", "aa", "aa", "T", "P", "Q", "Z"]
+print(f"Original List: {Lst}")
+
+# Run the function
+modified_list = replace_A_with_XX(Lst)
+print(f"Modified List: {modified_list}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Original List: ['A', 'Z', 'W', 'AA', 'A', 'G', 'a', 'aa', 'aa', 'T', 'P', 'Q', 'Z']
+Modified List: ['XX', 'Z', 'W', 'AA', 'XX', 'G', 'XX', 'aa', 'aa', 'T', 'P', 'Q', 'Z']</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic: Regex -->
+            <h3 class="text-2xl font-semibold mt-12 mb-6 text-indigo-600 dark:text-indigo-400">Questions Based on Regex</h3>
+            <div class="space-y-6">
+                <!-- Q: All Regex -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1R')">
+                        <span class="text-lg font-semibold">All Regex Questions (Start set, Capital start, etc.)</span>
+                        <span id="m1R-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1R-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+<pre><code class="language-python">import re
+
+# --- Test Strings ---
+s1 = "I am a test string."
+s2 = "She is also a test."
+s3 = "we are not."
+s4 = "This starts with a capital."
+s5 = "this does not."
+s6 = "This ends with a period."
+s7 = "This does not"
+s8 = "   This string has   lots of   whitespace.   "
+s9 = "My email is example.user@alienxedu.com, contact me!"
+s10 = "Yes, I agree."
+s11 = "Yes, I agree"
+
+# 1. Check for a set of characters at the beginning
+pattern1 = r"^(I am|You are|He is|She is|They are)"
+print(f"Q1: '{s1}' -> {bool(re.match(pattern1, s1))}")
+print(f"Q1: '{s3}' -> {bool(re.match(pattern1, s3))}")
+
+# 2. Match a capital letter at the beginning
+pattern2 = r"^[A-Z]"
+print(f"\nQ2: '{s4}' -> {bool(re.match(pattern2, s4))}")
+print(f"\nQ2: '{s5}' -> {bool(re.match(pattern2, s5))}")
+
+# 3. Match a "." (full stop) at the end
+# We must escape the dot \. so it's not a wildcard
+# We use re.search() which can find a match anywhere
+pattern3 = r"\.$" 
+print(f"\nQ3: '{s6}' -> {bool(re.search(pattern3, s6))}")
+print(f"Q3: '{s7}' -> {bool(re.search(pattern3, s7))}")
+
+# 4. Remove all whitespaces
+# \s matches any whitespace character (space, tab, newline)
+pattern4 = r"\s"
+print(f"\nQ4: Original: '{s8}'")
+print(f"Q4: Removed:  '{re.sub(pattern4, '', s8)}'")
+
+# 5. Find email in a string
+# A robust, common email regex
+pattern5 = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
+print(f"\nQ5: '{s9}' -> {re.findall(pattern5, s9)}")
+
+# 6. Check if string begins with "Yes" and ends with "."
+# ^ = start, .* = any character, \.$ = ends with literal dot
+pattern6 = r"^Yes.*\.$"
+print(f"\nQ6: '{s10}' -> {bool(re.match(pattern6, s10))}")
+print(f"Q6: '{s11}' -> {bool(re.match(pattern6, s11))}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Q1: 'I am a test string.' -> True
+Q1: 'we are not.' -> False
+
+Q2: 'This starts with a capital.' -> True
+
+Q2: 'this does not.' -> False
+
+Q3: 'This ends with a period.' -> True
+Q3: 'This does not' -> False
+
+Q4: Original: '   This string has   lots of   whitespace.   '
+Q4: Removed:  'Thisstringhaslotsofwhitespace.'
+
+Q5: 'My email is example.user@alienxedu.com, contact me!' -> ['example.user@alienxedu.com']
+
+Q6: 'Yes, I agree.' -> True
+Q6: 'Yes, I agree' -> False</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic: DateTime -->
+            <h3 class="text-2xl font-semibold mt-12 mb-6 text-indigo-600 dark:text-indigo-400">Questions Based on DateTime</h3>
+            <div class="space-y-6">
+
+                <!-- Q: All DateTime -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1D')">
+                        <span class="text-lg font-semibold">All DateTime Questions (Age, Compare, Format)</span>
+                        <span id="m1D-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1D-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+<pre><code class="language-python">from datetime import datetime, date
+
+# --- 1. Calculate Age ---
+print("--- Q1: Calculate Age ---")
+dob = date(1995, 5, 20)
+today = date.today()
+# Check if birthday has passed this year
+age_adjustment = (today.month, today.day) < (dob.month, dob.day)
+age = today.year - dob.year - age_adjustment
+print(f"Date of Birth: {dob}")
+print(f"Today's Date: {today}")
+print(f"Calculated Age: {age} years")
+
+
+# --- 2. Compare Two Dates ---
+print("\n--- Q2: Compare Two Dates ---")
+date1 = date(2025, 12, 25)
+date2 = date(2026, 1, 1)
+print(f"Date 1: {date1}, Date 2: {date2}")
+if date1 < date2:
+    print("Date 1 is earlier than Date 2")
+elif date1 > date2:
+    print("Date 1 is later than Date 2")
+else:
+    print("Dates are the same")
+
+# --- 3. Print Current Date Time in Specified Format ---
+print("\n--- Q3: Format Current Date Time ---")
+
+def get_ordinal_suffix(day):
+    """Returns the ordinal suffix (st, nd, rd, th) for a given day."""
+    if 11 <= day <= 13:
+        return 'th'
+    suffixes = {1: 'st', 2: 'nd', 3: 'rd'}
+    return suffixes.get(day % 10, 'th')
+
+# Get current time
+now = datetime.now()
+
+# Create the formatted string
+day = now.day
+suffix = get_ordinal_suffix(day)
+# Example: 15th August 2025 – Wednesday – 15:30:45
+formatted_date = now.strftime(f"{day}{suffix} %B %Y – %A – %H:%M:%S")
+print(f"Specified Format: {formatted_date}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Example Output (will vary based on current date):</h4>
+                            <pre class="code-output">--- Q1: Calculate Age ---
+Date of Birth: 1995-05-20
+Today's Date: 2025-10-30
+Calculated Age: 30 years
+
+--- Q2: Compare Two Dates ---
+Date 1: 2025-12-25, Date 2: 2026-01-01
+Date 1 is earlier than Date 2
+
+--- Q3: Format Current Date Time ---
+Specified Format: 30th October 2025 – Thursday – 20:40:00</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Topic: BeautifulSoup -->
+            <h3 class="text-2xl font-semibold mt-12 mb-6 text-indigo-600 dark:text-indigo-400">Questions Based on BeautifulSoup</h3>
+            <div class="space-y-6">
+                <!-- Q: BeautifulSoup -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1BS')">
+                        <span class="text-lg font-semibold">Extract contents from an HTML file</span>
+                        <span id="m1BS-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="m1BS-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Explanation:</h4>
+                            <p class="mb-4">To use BeautifulSoup, you first need to install it: `pip install beautifulsoup4`. Then you import it, provide it with HTML content, and use methods like `.find()` (finds first) and `.find_all()` (finds all) to navigate the HTML structure.</p>
+<pre><code class="language-python">from bs4 import BeautifulSoup
+
+# This is the sample HTML content.
+# In a real script, you might read this from a file:
+# with open('myfile.html', 'r') as f:
+#     html_content = f.read()
+
+html_content = """
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Sample Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1 id="header"&gt;Welcome to the Site!&lt;/h1&gt;
+    &lt;p class="content"&gt;This is the first paragraph.&lt;/p&gt;
+    &lt;p class="content"&gt;This is the second paragraph.&lt;/p&gt;
+    &lt;div id="footer"&gt;
+        &lt;a href="/about"&gt;About Us&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"""
+
+# 1. Create the BeautifulSoup object (or "soup")
+# 'html.parser' is Python's built-in parser
+soup = BeautifulSoup(html_content, 'html.parser')
+
+# 2. Extract the title
+title = soup.title.string
+print(f"Title: {title}")
+
+# 3. Extract the main heading (H1)
+heading = soup.find('h1').text
+print(f"Heading: {heading}")
+
+# 4. Extract all paragraphs with class "content"
+print("\nParagraphs:")
+paragraphs = soup.find_all('p', class_='content')
+for p in paragraphs:
+    print(f"- {p.text}")
+
+# 5. Extract a link (a tag) from the footer
+footer_link = soup.find('div', id='footer').find('a')
+print(f"\nFooter Link Text: {footer_link.text}")
+print(f"Footer Link Href: {footer_link['href']}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Title: My Sample Page
+Heading: Welcome to the Site!
+
+Paragraphs:
+- This is the first paragraph.
+- This is the second paragraph.
+
+Footer Link Text: About Us
+Footer Link Href: /about</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Module 2 -->
+        <section id="module2" class="mb-16">
+            <h2 class="text-3xl font-bold border-b border-green-500 pb-3 mb-8">Module 2: NumPy, Pandas & Matplotlib</h2>
+
+            <!-- Topic: NumPy -->
+            <h3 class="text-2xl font-semibold mb-6 text-green-600 dark:text-green-400">Questions Based on NumPy</h3>
+            <div class="space-y-6">
+
+                <!-- Q1-2: NumPy Create & Basic Ops -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2q1')">
+                        <span class="text-lg font-semibold">Q1 & Q2: Create NumPy Array & Basic Operations</span>
+                        <span id="m2q1-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="m2q1-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Explanation:</h4>
+                            <p class="mb-4">NumPy's power comes from **vectorization**. This means operations are applied to every element in the array at once, which is much faster than a standard Python `for` loop.</p>
+<pre><code class="language-python">import numpy as np
+
+# 1. Create a NumPy Array
+arr = np.array([10, 20, 30, 40, 50])
+print(f"Original Array: {arr}")
+print(f"Type: {type(arr)}")
+
+# 2. Demonstrate basic operations
+# Add 5 to every element (Vectorized Addition)
+arr_add = arr + 5
+print(f"Add 5: {arr_add}")
+
+# Multiply every element by 2 (Vectorized Multiplication)
+arr_mul = arr * 2
+print(f"Multiply by 2: {arr_mul}")
+
+# Square every element
+arr_sq = arr ** 2
+print(f"Squared: {arr_sq}")
+
+# Universal Functions (ufunc)
+print(f"Sum of all elements: {np.sum(arr)}")
+print(f"Mean of all elements: {np.mean(arr)}")
+print(f"Square root of all elements: {np.sqrt(arr)}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Original Array: [10 20 30 40 50]
+Type: &lt;class 'numpy.ndarray'&gt;
+Add 5: [15 25 35 45 55]
+Multiply by 2: [ 20  40  60  80 100]
+Squared: [ 100  400  900 1600 2500]
+Sum of all elements: 150
+Mean of all elements: 30.0
+Square root of all elements: [3.162 4.472 5.477 6.325 7.071]</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3: NumPy 50 Primes -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2q3')">
+                        <span class="text-lg font-semibold">Q3: Create NumPy array with first 50 prime numbers</span>
+                        <span id="m2q3-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="m2q3-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Explanation:</h4>
+                            <p class="mb-4">NumPy doesn't have a built-in prime generator. We must first generate the primes using standard Python logic, then create a NumPy array from that list.</p>
+<pre><code class="language-python">import numpy as np
+
+def get_first_n_primes(n):
+    """Generates a list of the first n prime numbers."""
+    primes = []
+    num = 2  # Start checking from 2
+    while len(primes) < n:
+        is_prime = True
+        # Check for factors from 2 up to the square root of num
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
+                is_prime = False
+                break
+        
+        if is_prime:
+            primes.append(num)
+        
+        num += 1 # Move to the next number
+    return primes
+
+# 1. Get the list of the first 50 primes
+prime_list = get_first_n_primes(50)
+
+# 2. Create a NumPy array from the list
+prime_array = np.array(prime_list)
+
+print(f"Found {len(prime_array)} prime numbers.")
+print("NumPy Array of first 50 Primes:")
+print(prime_array)
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Found 50 prime numbers.
+NumPy Array of first 50 Primes:
+[  2   3   5   7  11  13  17  19  23  29  31  37  41  43  47  53  59  61
+  67  71  73  79  83  89  97 101 103 107 109 113 127 131 137 139 149 151
+ 157 163 167 173 179 181 191 193 197 199 211 223 227 229]</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4-5: NumPy Sort & Filter -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2q4')">
+                        <span class="text-lg font-semibold">Q4 & Q5: Sort array alphabetically & Filter for maximum values</span>
+                        <span id="m2q4-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="m2q4-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+<pre><code class="language-python">import numpy as np
+
+# --- 4. Sort array alphabetically ---
+print("--- Q4: Sort Alphabetically ---")
+str_arr = np.array(["Pandas", "NumPy", "Matplotlib", "AlienXEdu", "Python"])
+print(f"Original: {str_arr}")
+sorted_arr = np.sort(str_arr)
+print(f"Sorted:   {sorted_arr}")
+
+
+# --- 5. Filter array for maximum values ---
+print("\n--- Q5: Filter for Max Values ---")
+num_arr = np.array([10, 5, 30, 22, 15, 30, 29, 30])
+print(f"Original: {num_arr}")
+
+# Find the single maximum value
+max_val = np.max(num_arr)
+print(f"Maximum value: {max_val}")
+
+# Create a boolean "filter array" (or "mask")
+# This will be [False, False, True, False, ..., True, ..., True]
+filter_mask = (num_arr == max_val)
+
+# Use the mask to select only the elements where the mask is True
+filtered_array = num_arr[filter_mask]
+print(f"Array of all maximum values: {filtered_array}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">--- Q4: Sort Alphabetically ---
+Original: ['Pandas' 'NumPy' 'Matplotlib' 'AlienXEdu' 'Python']
+Sorted:   ['AlienXEdu' 'Matplotlib' 'NumPy' 'Pandas' 'Python']
+
+--- Q5: Filter for Max Values ---
+Original: [10  5 30 22 15 30 29 30]
+Maximum value: 30
+Array of all maximum values: [30 30 30]</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic: Pandas -->
+            <h3 class="text-2xl font-semibold mt-12 mb-6 text-green-600 dark:text-green-400">Questions Based on Pandas</h3>
+            <div class="space-y-6">
+                <!-- Q: All Pandas -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2P')">
+                        <span class="text-lg font-semibold">All Pandas Questions (DataFrame, Stats, Series)</span>
+                        <span id="m2P-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="m2P-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+<pre><code class="language-python">import pandas as pd
+
+# --- 1. Import Pandas and create a DataFrame ---
+print("--- Q1: Create DataFrame ---")
+# Data is typically a dictionary of lists
+data = {
+    'StudentName': ['Alice', 'Bob', 'Charlie', 'David'],
+    'Score': [85, 92, 78, 95],
+    'HoursStudied': [10, 15, 8, 12]
+}
+df = pd.DataFrame(data)
+print(df)
+
+
+# --- 2. Show statistical information ---
+print("\n--- Q2: Statistical Information ---")
+# .describe() gives stats for all numerical columns
+stats = df.describe()
+print(stats)
+
+
+# --- 3. Create Pandas Series from dictionaries ---
+print("\n--- Q3: Create Series from Dictionary ---")
+# The dictionary keys become the Series index
+city_populations = {
+    'Tokyo': 37_000_000,
+    'Delhi': 31_000_000,
+    'Shanghai': 27_000_000,
+    'Mumbai': 20_000_000
+}
+pop_series = pd.Series(city_populations)
+print(pop_series)
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">--- Q1: Create DataFrame ---
+  StudentName  Score  HoursStudied
+0       Alice     85            10
+1         Bob     92            15
+2     Charlie     78             8
+3       David     95            12
+
+--- Q2: Statistical Information ---
+           Score  HoursStudied
+count   4.000000      4.000000
+mean   87.500000     11.250000
+std     7.393691      2.986079
+min    78.000000      8.000000
+25%    83.250000      9.500000
+50%    88.500000     11.000000
+75%    92.750000     12.750000
+max    95.000000     15.000000
+
+--- Q3: Create Series from Dictionary ---
+Tokyo       37000000
+Delhi       31000000
+Shanghai    27000000
+Mumbai      20000000
+dtype: int64</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic: Matplotlib -->
+            <h3 class="text-2xl font-semibold mt-12 mb-6 text-green-600 dark:text-green-400">Questions Based on Matplotlib</h3>
+            <div class="space-y-6">
+
+                <!-- Q1-2: Scatter & Line Plots -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2M1')">
+                        <span class="text-lg font-semibold">Q1 & Q2: Create Scatter Plot and Line Plot</span>
+                        <span id="m2M1-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="m2M1-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <p class="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 rounded-md text-yellow-800 dark:text-yellow-200">
+                                **Note:** Matplotlib code does not run in this simple HTML viewer. The code is provided, and a placeholder image shows where the plot would appear.
+                            </p>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+
+# Data for plots
+x = [1, 2, 3, 4, 56, 6]
+y = [5, 6, 7, 4, 2, 3]
+
+# --- Q1: Scatter Plot ---
+plt.figure(1) # Create figure 1
+plt.scatter(x, y, color='blue', marker='x')
+plt.title("Q1: Scatter Plot")
+plt.xlabel("X-Axis")
+plt.ylabel("Y-Axis")
+plt.grid(True)
+# plt.show() # This would display the plot
+
+# --- Q2: Line Plot ---
+plt.figure(2) # Create figure 2
+plt.plot(x, y, color='red', linestyle='--', marker='o')
+plt.title("Q2: Line Plot")
+plt.xlabel("X-Axis")
+plt.ylabel("Y-Axis")
+plt.grid(True)
+# plt.show() # This would display the plot
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Example Output (Placeholder):</h4>
+                            <img src="assets/Figure_2.png" alt="Plot Output Placeholder" class="plot-image w-full max-w-lg mx-auto" onclick="openModal(this.src, 'Line Plot')">
+                            <img src="assets/Figure_1.png" alt="Plot Output Placeholder" class="plot-image w-full max-w-lg mx-auto" onclick="openModal(this.src, 'Scatter Plot')">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3: Pie Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2M3')">
+                        <span class="text-lg font-semibold">Q3: Create a Pie Chart</span>
+                        <span id="m2M3-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="m2M3-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+<pre><code class="language-python">import matplotlib.pyplot as plt
+
+values = [17, 30, 45, 10]
+labels = ['A', 'B', 'C', 'D']
+explode = (0, 0, 0.1, 0) # Explode the 3rd slice (C)
+
+plt.pie(values, 
+        labels=labels, 
+        explode=explode, 
+        autopct='%1.1f%%', # Show percentage
+        shadow=True, 
+        startangle=90)
+
+plt.title("Q3: Pie Chart")
+plt.axis('equal') # Ensures the pie chart is circular
+# plt.show()
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Example Output (Placeholder):</h4>
+                            <img src="assets/Figure_3.png" alt="Pie Chart Placeholder" class="plot-image rounded-full w-full max-w-sm mx-auto" onclick="openModal(this.src, 'Pie Chart')">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4: Bar Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2M4')">
+                        <span class="text-lg font-semibold">Q4: Create a Bar Chart with random values</span>
+                        <span id="m2M4-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="m2M4-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+<pre><code class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+categories = ['A', 'B', 'C', 'D']
+# Generate 4 random integer values between 10 and 50
+random_values = np.random.randint(10, 51, size=len(categories))
+
+plt.bar(categories, random_values, color=['skyblue', 'salmon', 'lightgreen', 'plum'])
+plt.title("Q4: Bar Chart (Random Values)")
+plt.xlabel("Categories")
+plt.ylabel("Values")
+# plt.show()
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Example Output (Placeholder):</h4>
+                            <img src="assets/Figure_4.png" alt="Bar Chart Placeholder" class="plot-image w-full max-w-lg mx-auto" onclick="openModal(this.src, 'Bar Chart')">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q5: Sine/Cosine/Tan Waves -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2M5')">
+                        <span class="text-lg font-semibold">Q5: Create sine, cosine, and tangent waves</span>
+                        <span id="m2M5-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="m2M5-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+<pre><code class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+# Create an array of x-values from 0 to 4*pi
+x = np.linspace(0, 4 * np.pi, 400)
+
+y_sin = np.sin(x)
+y_cos = np.cos(x)
+y_tan = np.tan(x)
+
+# Create a figure with 3 subplots
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 10))
+
+# Sine Wave
+ax1.plot(x, y_sin, color='blue')
+ax1.set_title("Sine Wave")
+ax1.grid(True)
+
+# Cosine Wave
+ax2.plot(x, y_cos, color='red')
+ax2.set_title("Cosine Wave")
+ax2.grid(True)
+
+# Tangent Wave
+# Set y-limits to avoid showing extreme values at asymptotes
+ax3.plot(x, y_tan, color='green')
+ax3.set_title("Tangent Wave")
+ax3.set_ylim(-5, 5) # Important for tan wave readability
+ax3.grid(True)
+
+plt.tight_layout() # Prevents plots from overlapping
+# plt.show()
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Example Output (Placeholder):</h4>
+                            <img src="assets/Figure_5.png" alt="Trig Waves Placeholder" class="plot-image w-full max-w-lg mx-auto" onclick="openModal(this.src, 'Trig Waves')">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500 dark:text-gray-400">
+            &copy; 2025 AlienXEdu. All rights reserved. Python Practice Hub.
         </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <div id="caption" style="text-align: center; padding: 10px 0; color: white; font-size: 18px;"></div>
     </div>
 
-
+    <!-- Accordion JavaScript -->
     <script>
-        // --- DATA ---
-        const mcqData = [
-            {
-                topic: "हिंदी भाषा : सामान्य परिचय",
-                questions: [
-                    { question: "हिंदी भाषा __________ भाषा परिवार से सम्बन्ध रखती है।", options: ["द्रविड़", "इंडो-आर्यन", "चीनी-तिब्बती", "अफ्रीकी"], answer: "इंडो-आर्यन" },
-                    { question: "हिंदी का मानक रूप __________ है।", options: ["ब्रजभाषा", "अवधी", "खड़ीबोली", "भोजपुरी"], answer: "खड़ीबोली" },
-                    { question: "हिंदी भाषा की लिपि रूप __________ है।", options: ["रोमन", "देवनागरी", "गुरुमुखी", "कन्नड़"], answer: "देवनागरी" },
-                    { question: "हिंदी दिवस हर साल __________ को मनाया जाता है।", options: ["14 सितंबर", "15 अगस्त", "26 जनवरी", "2 अक्टूबर"], answer: "14 सितंबर" },
-                    { question: "भारत में हिंदी बोलनेवालों की संख्या लगभग __________ करोड़ है।", options: ["15", "30", "60", "40"], answer: "60" }
-                ]
-            },
-            {
-                topic: "राजभाषा हिंदी : संवैधानिक महत्व",
-                questions: [
-                    { question: "भारत की राजभाषा __________ है।", options: ["अंग्रेज़ी", "हिंदी", "संस्कृत", "तमिल"], answer: "हिंदी" },
-                    { question: "भारतीय संविधान के अनुच्छेद __________ में राजभाषा का उल्लेख है।", options: ["340", "343", "370", "356"], answer: "343" },
-                    { question: "हिंदी भाषा __________ लिपि में लिखी जाती है।", options: ["रोमन", "देवनागरी", "तमिल", "उर्दू"], answer: "देवनागरी" },
-                    { question: "भारत में सह-राजभाषा __________ है।", options: ["तमिल", "मराठी", "अंग्रेज़ी", "संस्कृत"], answer: "अंग्रेज़ी" },
-                    { question: "राजभाषा संबंधी प्रावधान संविधान के __________ अध्याय भाग में हैं।", options: ["पंचम", "सत्रहवें", "पंद्रहवें", "बीसवें"], answer: "सत्रहवें" }
-                ]
-            },
-            {
-                topic: "वर्णमाला : स्वर एवं व्यंजन",
-                questions: [
-                    { question: "हिंदी में स्वर की संख्या __________ है।", options: ["11", "12", "14", "20"], answer: "11" },
-                    { question: "हिंदी वर्णमाला में व्यंजन की संख्या __________ है।", options: ["33", "35", "36", "40"], answer: "35" },
-                    { question: "“अ” से “औ” तक सभी वर्ण __________ हैं।", options: ["स्वर", "व्यंजन", "संज्ञा", "कारक"], answer: "स्वर" },
-                    { question: "“क, ख, ग, घ” किस वर्ग में आते हैं?", options: ["तालव्य", "मूर्धन्य", "कंठ्य", "दन्त्य"], answer: "कंठ्य" },
-                    { question: "स्वर और व्यंजन मिलकर __________ बनाते हैं।", options: ["वाक्य", "शब्द", "कारक", "भाषा"], answer: "शब्द" }
-                ]
-            },
-            {
-                topic: "शब्द भेद : सामान्य परिचय",
-                questions: [
-                    { question: "जिस शब्द से किसी वस्तु, व्यक्ति या स्थान का बोध हो, उसे __________ कहते हैं।", options: ["सर्वनाम", "संज्ञा", "क्रिया", "विशेषण"], answer: "संज्ञा" },
-                    { question: "जो शब्द संज्ञा के स्थान पर प्रयोग होते हैं वे __________ कहलाते हैं।", options: ["सर्वनाम", "विशेषण", "क्रिया", "अव्यय"], answer: "सर्वनाम" },
-                    { question: "“राम दौड़ता है” – “दौड़ता है” किस भेद का है?", options: ["संज्ञा", "क्रिया", "विशेषण", "सर्वनाम"], answer: "क्रिया" },
-                    { question: "जो शब्द संज्ञा या सर्वनाम की विशेषता बताते हैं वे __________ कहलाते हैं।", options: ["क्रिया", "विशेषण", "सर्वनाम", "संज्ञा"], answer: "विशेषण" },
-                    { question: "“लाल फूल” में “लाल” __________ है।", options: ["संज्ञा", "सर्वनाम", "विशेषण", "क्रिया"], answer: "विशेषण" }
-                ]
-            },
-            {
-                topic: "वाक्य : सामान्य परिचय",
-                questions: [
-                    { question: "शब्दों का समूह जो पूर्ण अर्थ दे, उसे __________ कहते हैं।", options: ["पद", "वाक्य", "कारक", "संधि"], answer: "वाक्य" },
-                    { question: "“राम खेल रहा है” – यह एक __________ वाक्य है।", options: ["सरल", "मिश्र", "संयुक्त", "विस्मयादिबोधक"], answer: "सरल" },
-                    { question: "“यदि बारिश होगी तो हम घर में रहेंगे।” यह __________ वाक्य है।", options: ["मिश्र", "सरल", "प्रश्नवाचक", "संयुक्त"], answer: "मिश्र" },
-                    { question: "प्रश्न पूछनेवाला वाक्य __________ कहलाता है।", options: ["विस्मयादिबोधक", "वर्णनात्मक", "प्रश्नवाचक", "आज्ञावाचक"], answer: "प्रश्नवाचक" },
-                    { question: "“वाह! कितना सुंदर है” – यह __________ वाक्य है।", options: ["प्रश्नवाचक", "आज्ञावाचक", "वर्णनात्मक", "विस्मयादिबोधक"], answer: "विस्मयादिबोधक" }
-                ]
-            },
-            {
-                topic: "वर्तनी : शुद्धता का प्रयोग एवं सावधानियाँ",
-                questions: [
-                    { question: "शब्दों को सही रूप में लिखने को __________ कहते हैं।", options: ["व्याकरण", "वर्तनी", "संधि", "कारक"], answer: "वर्तनी" },
-                    { question: "शुद्ध वर्तनी से भाषा की __________ बनी रहती है।", options: ["स्पष्टता", "कठिनाई", "त्रुटि", "समस्या"], answer: "स्पष्टता" },
-                    { question: "“आँगन” शब्द में __________ का प्रयोग हुआ है।", options: ["विसर्ग", "अनुस्वार", "अनुनासिक", "दीर्घस्वर"], answer: "अनुस्वार" },
-                    { question: "गलत वर्तनी का प्रयोग अर्थ को __________ सकता है।", options: ["सुंदर बना", "बदल", "सही कर", "लुप्त कर"], answer: "बदल" },
-                    { question: "शब्दों को सही लिखने के लिए __________ का सहारा लिया जा सकता है।", options: ["संधि", "शब्दकोश", "कारक", "क्रिया"], answer: "शब्दकोश" }
-                ]
-            },
-            {
-                topic: "कारक एवं विराम",
-                questions: [
-                    { question: "जो काम करता है उसे __________ कहते हैं।", options: ["कर्म", "कर्ता", "करण", "अधिकरण"], answer: "कर्ता" },
-                    { question: "जिस पर काम होता है वह __________ कारक है।", options: ["कर्म", "कर्ता", "सम्बन्ध", "अपादान"], answer: "कर्म" },
-                    { question: "वाक्य में ठहराव और स्पष्टता लाने हेतु __________ का प्रयोग होता है।", options: ["कारक", "विराम चिह्न", "विशेषण", "शब्द"], answer: "विराम चिह्न" },
-                    { question: "“कितने सुंदर फूल हैं!” – यहाँ __________ चिह्न का प्रयोग हुआ है।", options: ["पूर्णविराम", "विस्मयादिबोधक", "प्रश्नवाचक", "अल्पविराम"], answer: "विस्मयादिबोधक" },
-                    { question: "“तुम कहाँ जा रहे हो?” – इसमें __________ चिह्न प्रयुक्त है।", options: ["प्रश्नवाचक", "पूर्णविराम", "अल्पविराम", "उद्धरण"], answer: "प्रश्नवाचक" }
-                ]
-            },
-            {
-                topic: "पत्र-लेखन",
-                questions: [
-                    { question: "औपचारिक पत्र मुख्यतः __________ कार्यों के लिए लिखे जाते हैं।", options: ["निजी", "पारिवारिक", "आधिकारिक", "मनोरंजन"], answer: "आधिकारिक" },
-                    { question: "अनौपचारिक पत्र में भाषा __________ और अपनापन भरी होती है।", options: ["गंभीर", "भावनात्मक", "शुद्ध", "कठोर"], answer: "भावनात्मक" },
-                    { question: "प्रधानाचार्य को लिखा जानेवाला पत्र __________ पत्र है।", options: ["अनौपचारिक", "औपचारिक", "पारिवारिक", "निजी"], answer: "औपचारिक" },
-                    { question: "मित्र को जन्मदिन की बधाई देना एक __________ पत्र है।", options: ["औपचारिक", "अनौपचारिक", "सरकारी", "व्यापारिक"], answer: "अनौपचारिक" },
-                    { question: "औपचारिक पत्र में __________ और शुद्धता का ध्यान रखा जाता है।", options: ["भावनाएँ", "नियम", "अपनापन", "अनुभव"], answer: "नियम" }
-                ]
-            }
-        ];
-
-        const trueFalseData = [
-            {
-                topic: "हिंदी भाषा : सामान्य परिचय",
-                questions: [
-                    { question: "हिंदी आर्यभाषा परिवार की भाषा है।", answer: true },
-                    { question: "हिंदी की लिपि कन्नड़ है।", answer: false },
-                    { question: "हिंदी दिवस 14 सितंबर को मनाया जाता है।", answer: true },
-                    { question: "खड़ीबोली हिंदी का मानक रूप है।", answer: true },
-                    { question: "हिंदी विश्व की सबसे कम बोली जानेवाली भाषाओं में है।", answer: false }
-                ]
-            },
-            {
-                topic: "राजभाषा हिंदी : संवैधानिक महत्व",
-                questions: [
-                    { question: "संविधान के अनुच्छेद 343 में हिंदी को राजभाषा घोषित किया गया।", answer: true },
-                    { question: "हिंदी की लिपि उर्दू है।", answer: false },
-                    { question: "अंग्रेज़ी को सहायक राजभाषा माना गया।", answer: true },
-                    { question: "भारत में केवल हिंदी ही राजभाषा है।", answer: false },
-                    { question: "राजभाषा के नियम संविधान में दिए गए हैं।", answer: true }
-                ]
-            },
-            {
-                topic: "वर्णमाला : स्वर एवं व्यंजन",
-                questions: [
-                    { question: "हिंदी में 11 स्वर और 35 व्यंजन हैं।", answer: true },
-                    { question: "व्यंजन बिना स्वर उच्चारित नहीं हो सकते।", answer: false },
-                    { question: "“ए” और “ऐ” स्वर हैं।", answer: true },
-                    { question: "“श, ष, स” सभी दन्त्य व्यंजन हैं।", answer: false },
-                    { question: "स्वर वर्ण स्वतः उच्चारित होते हैं।", answer: true }
-                ]
-            },
-             {
-                topic: "शब्द भेद : सामान्य परिचय",
-                questions: [
-                    { question: "संज्ञा केवल व्यक्ति का नाम है।", answer: false },
-                    { question: "सर्वनाम संज्ञा के स्थान पर आता है।", answer: true },
-                    { question: "क्रिया से कार्य का बोध होता है।", answer: true },
-                    { question: "विशेषण संज्ञा और सर्वनाम की विशेषता बताते हैं।", answer: true },
-                    { question: "“मीठा फल” – यहाँ “फल” विशेषण है।", answer: false }
-                ]
-            },
-            {
-                topic: "वाक्य : सामान्य परिचय",
-                questions: [
-                    { question: "हर वाक्य में कर्ता और क्रिया होना जरूरी है।", answer: true },
-                    { question: "संयुक्त वाक्य केवल एक ही विचार प्रकट करता है।", answer: false },
-                    { question: "विस्मयादिबोधक वाक्य आश्चर्य या भाव व्यक्त करता है।", answer: true },
-                    { question: "वर्णनात्मक वाक्य सूचना या तथ्य बताते हैं।", answer: true },
-                    { question: "“दरवाजा बंद करो” – यह प्रश्नवाचक वाक्य है।", answer: false }
-                ]
-            },
-            {
-                topic: "वर्तनी : शुद्धता का प्रयोग एवं सावधानियाँ",
-                questions: [
-                    { question: "वर्तनी की शुद्धता से भाषा की सुंदरता बढ़ती है।", answer: true },
-                    { question: "“दिपक” शुद्ध वर्तनी है।", answer: false },
-                    { question: "उच्चारण पर ध्यान देने से वर्तनी सही लिखी जा सकती है।", answer: true },
-                    { question: "वर्तनी की शुद्धता शिक्षा और साहित्य में जरूरी नहीं है।", answer: false },
-                    { question: "अनुस्वार और अनुनासिक का भ्रम अक्सर वर्तनी की गलती कराता है।", answer: true }
-                ]
-            },
-            {
-                topic: "कारक एवं विराम",
-                questions: [
-                    { question: "कर्ता वही होता है जो काम करता है।", answer: true },
-                    { question: "“फल खाया गया” – यहाँ “फल” कर्ता है।", answer: false },
-                    { question: "विराम चिह्न वाक्य को स्पष्ट बनाते हैं।", answer: true },
-                    { question: "पूर्णविराम का प्रयोग प्रश्नवाचक वाक्य के अंत में होता है।", answer: false },
-                    { question: "अल्पविराम को कॉमा भी कहते हैं।", answer: true }
-                ]
-            },
-            {
-                topic: "पत्र-लेखन",
-                questions: [
-                    { question: "औपचारिक पत्र में व्यक्तिगत भावनाएँ ज्यादा होती हैं।", answer: false },
-                    { question: "अनौपचारिक पत्र स्वतंत्र और स्वाभाविक शैली में लिखे जाते हैं।", answer: true },
-                    { question: "शिकायत पत्र अनौपचारिक पत्र है।", answer: false },
-                    { question: "परिवार को लिखा गया पत्र अनौपचारिक पत्र है।", answer: true },
-                    { question: "औपचारिक पत्र में संक्षिप्त और स्पष्ट भाषा का प्रयोग होता है।", answer: true }
-                ]
-            }
-        ];
-
-        // --- GLOBAL STATE ---
-        let currentQuizType = 'mcq';
-        let currentTopicIndex = 0;
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let questions = [];
-
-        // --- DOM ELEMENTS ---
-        const mainContent = document.getElementById('main-content');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const resultsModal = document.getElementById('results-modal');
-        const modalContent = resultsModal.querySelector('div');
-        const finalScoreEl = document.getElementById('final-score');
-        const scoreMessageEl = document.getElementById('score-message');
-        const restartQuizBtn = document.getElementById('restart-quiz-btn');
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-
-        // --- FUNCTIONS ---
-        
-        // Function to shuffle an array
-        const shuffleArray = (array) => {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        const renderMCQTopics = () => {
-            currentQuizType = 'mcq';
-            mainContent.innerHTML = `
-                <h2 class="text-3xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">MCQ Practice</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    ${mcqData.map((topic, index) => `
-                        <button class="topic-btn p-6 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300" data-topic-index="${index}">
-                            <h3 class="text-xl font-semibold text-gray-200">${topic.topic}</h3>
-                        </button>
-                    `).join('')}
-                </div>
-            `;
-            addTopicButtonListeners();
-        };
-
-        const renderTrueFalseTopics = () => {
-            currentQuizType = 'true-false';
-            mainContent.innerHTML = `
-                <h2 class="text-3xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">True / False Practice</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    ${trueFalseData.map((topic, index) => `
-                        <button class="topic-btn p-6 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300" data-topic-index="${index}">
-                            <h3 class="text-xl font-semibold text-gray-200">${topic.topic}</h3>
-                        </button>
-                    `).join('')}
-                </div>
-            `;
-            addTopicButtonListeners();
-        };
-        
-        const renderLetterFormat = () => {
-             mainContent.innerHTML = `
-                <h2 class="text-3xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">Easy Informal Letter Format</h2>
-                <div class="space-y-8 text-gray-300">
-                    <div class="p-6 rounded-xl bg-white/5 border border-white/10">
-                        <h3 class="text-xl font-semibold mb-4 text-gray-100">Format for Informal Letter (Any Topic)</h3>
-                        <p class="mb-4 text-gray-400">(Use this for friends, family, etc. - Keep it simple and personal)</p>
-                        <pre class="bg-black/20 p-4 rounded-lg whitespace-pre-wrap font-mono text-sm">
-सेवा में
-[Receiver's Name, e.g., प्रिय मित्र/भाई/बहन]
-[Address, if needed, e.g., दिल्ली, भारत]
-
-दिनांक
-[e.g., 14 अक्टूबर 2025]
-
-प्रिय [Name/Relation],
-
-शुभेच्छा
-(Optional greeting, e.g., नमस्ते/हाय, कैसे हो?)
-
-शरीर (Body)
-शुरूआत: हालचाल पूछें (e.g., तुम कैसे हो? मैं ठीक हूँ।)
-मुख्य बात: अपना संदेश लिखें (e.g., मैं तुम्हें अपने जन्मदिन की पार्टी के लिए बुलाना चाहता हूँ। यह 20 अक्टूबर को होगी।)
-अंत: मिलने की इच्छा (e.g., जल्दी मिलते हैं।)
-
-निवेदन/अंत में
-(e.g., अपना ख्याल रखना।)
-
-तुम्हारा/तुम्हारी,
-[Your Name]
-                        </pre>
-                    </div>
-                     <div class="p-6 rounded-xl bg-white/5 border border-white/10">
-                        <h3 class="text-xl font-semibold mb-4 text-gray-100">Example</h3>
-                        <pre class="bg-black/20 p-4 rounded-lg whitespace-pre-wrap font-mono text-sm">
-सेवा में
-प्रिय राहुल,
-
-दिनांक: 14 अक्टूबर 2025
-
-प्रिय राहुल,
-
-नमस्ते! तुम कैसे हो? मैं ठीक हूँ। मैं तुम्हें अपने जन्मदिन की पार्टी के लिए बुलाना चाहता हूँ, जो 20 अक्टूबर को होगी। कृपया आना।
-
-जल्दी मिलते हैं।
-
-तुम्हारा,
-अमित
-                        </pre>
-                    </div>
-                </div>
-            `;
-        }
-
-        const renderAbout = () => {
-            mainContent.innerHTML = `
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">About & Contact</h2>
-                    <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-10">This platform is designed to provide a simple and effective way for students to practice Hindi concepts. Created with a modern UI for an engaging user experience.</p>
-                    <h3 class="text-2xl font-semibold mb-6 text-gray-100">Connect with the Developer</h3>
-                    <div class="flex justify-center items-center flex-wrap gap-4">
-                        <a href="https://github.com/aryankahar31" target="_blank" class="flex items-center gap-2 p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                            GitHub
-                        </a>
-                        <a href="https://instagram.com/aryankahar31" target="_blank" class="flex items-center gap-2 p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                            Instagram
-                        </a>
-                        <a href="https://twitter.com/aryankahar31" target="_blank" class="flex items-center gap-2 p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="currentColor" class="w-6 h-6"><path d="M9.294 6.928L14.357 1h-1.2L8.762 6.147 5.25 1H1.2l5.31 7.643L1.143 15h1.2l4.892-5.486L11.75 15h4.05l-5.632-8.072zM7.651 8.852l-.538-.77-4.26-6.043h1.825l3.42 4.856.538.77 4.527 6.423h-1.825l-3.682-5.23z"></path></svg>
-                            X (Twitter)
-                        </a>
-                         <a href="mailto:aryankahar3000@gmail.com" class="flex items-center gap-2 p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                           Email
-                        </a>
-                    </div>
-                </div>
-            `;
-        }
-
-        const addTopicButtonListeners = () => {
-            document.querySelectorAll('.topic-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const topicIndex = parseInt(e.currentTarget.dataset.topicIndex);
-                    startQuiz(topicIndex);
-                });
-            });
-        };
-
-        const startQuiz = (topicIndex) => {
-            currentTopicIndex = topicIndex;
-            currentQuestionIndex = 0;
-            score = 0;
-            const data = currentQuizType === 'mcq' ? mcqData : trueFalseData;
-            questions = shuffleArray([...data[topicIndex].questions]);
-            displayQuestion();
-        };
-
-        const displayQuestion = () => {
-            if (currentQuestionIndex >= questions.length) {
-                showResults();
-                return;
-            }
-
-            const questionData = questions[currentQuestionIndex];
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            let optionsHTML;
-
-            if (currentQuizType === 'mcq') {
-                 const shuffledOptions = shuffleArray([...questionData.options]);
-                 optionsHTML = `
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-                        ${shuffledOptions.map(option => `
-                            <button class="option-btn p-4 rounded-lg text-lg">
-                                ${option}
-                            </button>
-                        `).join('')}
-                    </div>
-                `;
-            } else { // true-false
-                optionsHTML = `
-                    <div class="flex justify-center gap-4 mt-8">
-                        <button class="option-btn p-4 rounded-lg text-lg w-32">सही</button>
-                        <button class="option-btn p-4 rounded-lg text-lg w-32">गलत</button>
-                    </div>
-                `;
-            }
-
-            mainContent.innerHTML = `
-                <div class="w-full bg-white/10 rounded-full h-2.5 mb-6">
-                    <div class="bg-gradient-to-r from-purple-500 to-blue-500 h-2.5 rounded-full" style="width: ${progress}%"></div>
-                </div>
-                <div class="text-center">
-                     <p class="text-gray-400 mb-2">Question ${currentQuestionIndex + 1} of ${questions.length}</p>
-                     <h2 class="text-2xl md:text-3xl font-semibold">${questionData.question}</h2>
-                </div>
-                ${optionsHTML}
-            `;
-
-            addOptionListeners();
-        };
-        
-        const addOptionListeners = () => {
-             document.querySelectorAll('.option-btn').forEach(button => {
-                button.addEventListener('click', handleAnswer);
-            });
-        }
-        
-        const handleAnswer = (e) => {
-            const selectedButton = e.currentTarget;
-            const selectedAnswer = selectedButton.textContent.trim();
-            const questionData = questions[currentQuestionIndex];
-            let isCorrect;
-
-            if (currentQuizType === 'mcq') {
-                isCorrect = selectedAnswer === questionData.answer;
-            } else { // true-false
-                const selectedBool = selectedAnswer === 'सही';
-                isCorrect = selectedBool === questionData.answer;
-            }
-
-            // Provide visual feedback
-            document.querySelectorAll('.option-btn').forEach(btn => {
-                btn.disabled = true; // Disable all buttons
-                
-                let btnAnswer = btn.textContent.trim();
-                let correctOriginalAnswer;
-                if(currentQuizType === 'mcq'){
-                   correctOriginalAnswer = questionData.answer;
-                } else {
-                   correctOriginalAnswer = questionData.answer ? 'सही' : 'गलत';
-                }
-
-                if (btnAnswer === correctOriginalAnswer) {
-                    btn.classList.add('correct');
-                }
-            });
-
-            if (isCorrect) {
-                score++;
-                selectedButton.classList.add('correct');
-            } else {
-                selectedButton.classList.add('incorrect');
-            }
-
-            setTimeout(() => {
-                currentQuestionIndex++;
-                displayQuestion();
-            }, 1200); // Wait a moment before showing the next question
-        }
-        
-        const showResults = () => {
-            const percentage = Math.round((score / questions.length) * 100);
-            finalScoreEl.textContent = `${percentage}%`;
+        function toggleAnswer(id) {
+            const answer = document.getElementById(id + '-answer');
+            const icon = document.getElementById(id + '-icon');
             
-            let message = "";
-            if (percentage === 100) message = "Perfect! Excellent work!";
-            else if (percentage >= 80) message = "Great job! You know this topic well.";
-            else if (percentage >= 60) message = "Good effort! A little more practice will help.";
-            else message = "Keep practicing! You can do it.";
-            
-            scoreMessageEl.textContent = message;
-
-            resultsModal.classList.remove('hidden');
-            setTimeout(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-            }, 10);
-        }
-        
-        const restartQuiz = () => {
-            resultsModal.classList.add('hidden');
-            modalContent.classList.add('scale-95', 'opacity-0');
-
-            if (currentQuizType === 'mcq') {
-                renderMCQTopics();
+            if (answer.style.maxHeight) {
+                // Collapse
+                answer.style.maxHeight = null;
+                icon.textContent = '[+]';
             } else {
-                renderTrueFalseTopics();
+                // Expand
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                icon.textContent = '[-]';
             }
         }
 
+        // Modal functions
+        function openModal(src, captionText) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const caption = document.getElementById('caption');
+            modal.style.display = 'block';
+            modalImg.src = src;
+            caption.innerHTML = captionText;
+        }
 
-        // --- EVENT LISTENERS ---
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // For mobile menu, close it on click
-                if (!mobileMenu.classList.contains('hidden')) {
-                     mobileMenu.classList.add('hidden');
-                }
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
 
-                const section = e.target.dataset.section;
-                navLinks.forEach(l => l.classList.remove('active'));
-                
-                // Add active class to all links with the same data-section (for mobile + desktop)
-                document.querySelectorAll(`.nav-link[data-section="${section}"]`).forEach(activeLink => {
-                   activeLink.classList.add('active');
-                });
-
-
-                if (section === 'mcq') renderMCQTopics();
-                else if (section === 'true-false') renderTrueFalseTopics();
-                else if (section === 'letter') renderLetterFormat();
-                else if (section === 'about') renderAbout();
-            });
-        });
-        
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        restartQuizBtn.addEventListener('click', restartQuiz);
-        
-        // Initial load
-        renderMCQTopics();
+        // Close modal when clicking outside the image
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
