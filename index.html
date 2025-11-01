@@ -1,115 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlienXEdu - Python Practice Hub</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Prism.js for Code Highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
-    
-    <!-- Google Font: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Custom class for the code output block */
-        .code-output {
-            background-color: #f3f4f6; /* gray-100 */
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            font-family: monospace;
-            font-size: 0.875rem;
-            color: #111827; /* gray-900 */
-            white-space: pre-wrap;
-        }
-        .dark .code-output {
-            background-color: #374151; /* dark:gray-700 */
-            color: #f9fafb; /* dark:gray-50 */
-        }
-        /* Smooth transition for accordion */
-        .answer-content {
-            transition: max-height 0.3s ease-out;
-            overflow: hidden;
-        }
-        /* Image styles for better look */
-        .plot-image {
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            max-width: 100%;
-            height: auto;
-        }
-        .plot-image:hover {
-            transform: scale(1.02);
-        }
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            max-height: 80%;
-            padding-top: 60px;
-        }
-        .modal img {
-            width: 100%;
-            height: auto;
-            border-radius: 0.5rem;
-        }
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .close:hover {
-            color: #bbb;
-        }
-        @media only screen and (max-width: 700px) {
-            .modal-content {
-                width: 100%;
-                padding-top: 40px;
-            }
-        }
-    </style>
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AlienXEdu - Java Practice Hub</title>
 
-    <!-- Header -->
-    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-10">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-                AlienXEdu
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Prism.js for Java Highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" defer></script>
+
+  <!-- Google Font: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom CSS for the Student Hub style (light theme, Indigo accent) */
+    body { font-family: 'Inter', sans-serif; }
+    
+    /* Global Container Padding */
+    .container {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Custom class for the code output block (Terminal Look) */
+    .code-output {
+        background-color: #f3f4f6; /* light gray background */
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        font-family: monospace;
+        font-size: 0.875rem;
+        color: #16a34a; /* Green output text for clarity */
+        white-space: pre-wrap;
+        border: 1px dashed #3b82f6; /* Blue dashed border */
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    /* Smooth transition for accordion */
+    .answer-content {
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+    }
+    .answer-content.max-h-0 {
+        max-height: 0 !important;
+    }
+
+    /* Style the detailed list items */
+    .detail-list { list-style: none; padding-left: 0; }
+    .detail-list li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+    .detail-list li::before {
+        content: '▸';
+        color: #3b82f6; /* Indigo bullet */
+        position: absolute;
+        left: 0;
+        font-weight: 800;
+    }
+    .detail-list strong { color: #dc2626; /* Red for key concepts */ }
+
+    /* Copy Button */
+    .copy-btn {
+        @apply absolute top-4 right-4 bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1 rounded-full font-semibold transition-all duration-200 shadow-md;
+    }
+    .copy-btn.copied { 
+        @apply bg-green-600 shadow-lg; 
+    }
+
+    /* Code Block Formatting (Prism.js overrides) */
+    pre[class*="language-"] {
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Section Header Styles */
+    .section-title {
+        @apply text-3xl font-extrabold text-gray-700 border-b-4 border-indigo-500 pb-2 mb-6;
+    }
+    /* Accordion Button Styles */
+    .accordion-button {
+        @apply w-full text-left p-5 flex justify-between items-center bg-indigo-100 hover:bg-indigo-200 transition-colors duration-200 border-b border-indigo-300;
+    }
+    .accordion-button span {
+        @apply text-xl font-bold text-indigo-800;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Header / Navigation -->
+    <nav class="bg-white shadow-xl sticky top-0 z-10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center flex-wrap">
+            <div class="text-2xl font-extrabold text-indigo-600 tracking-wider">
+                AlienXEdu // Java
             </div>
-            <div class="flex space-x-6">
-                <a href="#module1" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium">Module 1</a>
-                <a href="#module2" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium">Module 2</a>
+            <div class="flex space-x-3 md:space-x-6 text-sm md:text-base mt-2 md:mt-0">
+                <a href="#p1" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P1</a>
+                <a href="#p2" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P2</a>
+                <a href="#p3" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P3</a>
+                <a href="#p4" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P4</a>
+                <a href="#p5" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P5</a>
+                <a href="#p6" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P6</a>
+                <a href="#p7" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P7</a>
             </div>
         </div>
     </nav>
@@ -119,1131 +120,593 @@
         
         <!-- Hero Section -->
         <header class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Python Practice Hub</h1>
-            <p class="text-lg text-gray-600 dark:text-gray-400">Your complete guide to Modules 1 & 2 Python questions, with detailed solutions and code examples.</p>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-indigo-800">Java Practical Exam Hub</h1>
+            <p class="text-xl text-gray-600 font-medium">All 7 core Java Practicals explained in a simple, step-by-step format.</p>
         </header>
 
-        <!-- Module 1 -->
-        <section id="module1" class="mb-16">
-            <h2 class="text-3xl font-bold border-b border-indigo-500 pb-3 mb-8">Module 1: Python Basics, Lists, Regex & More</h2>
+        <!-- PRACTICAL 1 -->
+        <section id="p1" class="mb-12">
+            <h2 class="section-title">P1: Data Types, Operators, & Ternary</h2>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                <button class="accordion-button" onclick="toggleAnswer('p1')">
+                    <span class="text-xl font-bold text-indigo-700">Practical 1: Fundamentals & Inline Logic</span>
+                    <span id="p1-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                </button>
+                <div id="p1-answer" class="answer-content max-h-0">
+                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
+                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
+                        <p class="mb-4 text-gray-700">This covers the absolute basics: how to store data using **Data Types** and how to use the **Ternary Operator** (a one-line `if-else` shortcut) for simple conditional logic.</p>
+                        
+                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
+                        <ul class="detail-list mb-4 space-y-1">
+                            <li>**Data Types**: You must know the difference between <code>int</code> (whole numbers), <code>double</code> (decimals), <code>boolean</code> (true/false), and <code>String</code> (text).</li>
+                            <li>**Ternary**: Structure is <code>(Condition ? Value_If_True : Value_If_False)</code>. It's concise but limit nesting.</li>
+                            <li>**Classes**: Defines the blueprint for objects, demonstrated by the <code>Student</code> class structure.</li>
+                        </ul>
+                        
+                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                        <pre><code class="language-java">
+package prac1;
 
-            <!-- Topic: Basic Python -->
-            <h3 class="text-2xl font-semibold mb-6 text-indigo-600 dark:text-indigo-400">Basic Python Questions</h3>
-            <div class="space-y-6">
-                
-                <!-- Q1.1: Arithmetic -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q1a')">
-                        <span class="text-lg font-semibold">Q1.1: Solve $56 + 45 - 909 \times 81$</span>
-                        <span id="m1q1a-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1q1a-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Problem:</h4>
-                            <p class="mb-4">Solve the following arithmetic question: $56 + 45 - 909 \times 81$</p>
-                            
-                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
-                            <ol class="list-decimal list-inside mb-4 space-y-1">
-                                <li>Following **PEMDAS/BODMAS**, multiplication is performed first.</li>
-                                <li>$909 \times 81 = 73629$</li>
-                                <li>Now the equation is: $56 + 45 - 73629$</li>
-                                <li>$56 + 45 = 101$</li>
-                                <li>$101 - 73629 = -73528$</li>
-                            </ol>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python"># Python correctly follows the order of operations
-result = 56 + 45 - 909 * 81
-print(f"Result: {result}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Result: -73528</pre>
-                        </div>
-                    </div>
-                </div>
+public class Main {
+    public static void main(String[] args) {
+        // Data Types Demonstration
+        int age = 25;
+        String name = "Alice";
+        double price = 19.99;
 
-                <!-- Q1.2: Arithmetic (Exponent) -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q1b')">
-                        <span class="text-lg font-semibold">Q1.2: Solve $(50.50)^2 + 2^3$</span>
-                        <span id="m1q1b-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1q1b-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Problem:</h4>
-                            <p class="mb-4">Solve the following arithmetic question: $(50.50)^2 + 2^3$</p>
-                            
-                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
-                            <ol class="list-decimal list-inside mb-4 space-y-1">
-                                <li>Following **PEMDAS/BODMAS**, exponents are calculated first.</li>
-                                <li>$(50.50)^2 = 50.50 \times 50.50 = 2550.25$</li>
-                                <li>$2^3 = 2 \times 2 \times 2 = 8$</li>
-                                <li>Now the equation is: $2550.25 + 8$</li>
-                                <li>$2550.25 + 8 = 2558.25$</li>
-                            </ol>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python"># The ** operator is used for exponentiation
-result = (50.50)**2 + (2**3)
-print(f"Result: {result}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Result: 2558.25</pre>
-                        </div>
-                    </div>
-                </div>
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        
+        // Ternary Operator Example: Check Even/Odd
+        int number = 10;
+        String result = (number % 2 == 0) ? "Even" : "Odd";
+        System.out.println("Number " + number + " is " + result);
 
-                <!-- Q1.3: Modulus Check -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q1c')">
-                        <span class="text-lg font-semibold">Q1.3: Check $99 \pmod{3}$ vs $33 \pmod{3}$</span>
-                        <span id="m1q1c-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1q1c-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Problem:</h4>
-                            <p class="mb-4">Check if 99 modulus 3 is equal to 33 modulus 3.</p>
-                            
-                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
-                            <ol class="list-decimal list-inside mb-4 space-y-1">
-                                <li>The modulus operator ($\%$) finds the remainder of a division.</li>
-                                <li>$99 \div 3 = 33$ with a remainder of **0**.</li>
-                                <li>$33 \div 3 = 11$ with a remainder of **0**.</li>
-                                <li>The check is $0 == 0$, which is **True**.</li>
-                            </ol>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python"># The % operator is used for modulus
-result = (99 % 3) == (33 % 3)
-print(f"Is 99 % 3 equal to 33 % 3? {result}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Is 99 % 3 equal to 33 % 3? True</pre>
-                        </div>
-                    </div>
-                </div>
+        // Nested Ternary
+        int x = 5;
+        int z = (x > 0) ? ((x < 10) ? 1 : 2) : 3;
+        System.out.println("Value of z: " + z);
+    }
+}
 
-                <!-- Q1.4: Greater Than Check -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q1d')">
-                        <span class="text-lg font-semibold">Q1.4: Check $900 \times 45 > 500 \times 55$</span>
-                        <span id="m1q1d-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1q1d-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Problem:</h4>
-                            <p class="mb-4">Find if $900 \times 45$ is greater than $500 \times 55$.</p>
-                            
-                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
-                            <ol class="list-decimal list-inside mb-4 space-y-1">
-                                <li>Calculate the left side: $900 \times 45 = 40500$</li>
-                                <li>Calculate the right side: $500 \times 55 = 27500$</li>
-                                <li>The check is $40500 > 27500$, which is **True**.</li>
-                            </ol>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python"># The > operator is used for "greater than"
-result = (900 * 45) > (500 * 55)
-print(f"Is 900*45 greater than 500*55? {result}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Is 900*45 greater than 500*55? True</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q2: Math Module -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q2')">
-                        <span class="text-lg font-semibold">Q2: Find $\sin(90)$, $\cos(45)$, $\sin(45)+\cos(30)$, $\log_{10}(50)$</span>
-                        <span id="m1q2-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1q2-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Problem:</h4>
-                            <p class="mb-4">Find the answers for: $\sin(90)$, $\cos(45)$, $\sin(45)+\cos(30)$, and $\log_{10}(50)$.</p>
-                            
-                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
-                            <ol class="list-decimal list-inside mb-4 space-y-1">
-                                <li>These operations require Python's built-in `math` module.</li>
-                                <li>**Important:** Python's trigonometric functions (`sin`, `cos`) expect angles in **radians**, not degrees.</li>
-                                <li>We must first convert degrees to radians using `math.radians(degrees)`.</li>
-                                <li>$\sin(90^{\circ})$: `math.sin(math.radians(90))` $\rightarrow$ $1.0$</li>
-                                <li>$\cos(45^{\circ})$: `math.cos(math.radians(45))` $\rightarrow$ $\approx 0.7071$</li>
-                                <li>$\sin(45^{\circ}) + \cos(30^{\circ})$: `math.sin(math.radians(45)) + math.cos(math.radians(30))` $\rightarrow$ $\approx 0.7071 + 0.8660 = 1.5731$</li>
-                                <li>$\log_{10}(50)$: Use `math.log10(50)` $\rightarrow$ $\approx 1.699$</li>
-                            </ol>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python">import math
-
-# 1. sin(90)
-# Convert 90 degrees to radians first
-sin_90 = math.sin(math.radians(90))
-
-# 2. cos(45)
-# Convert 45 degrees to radians first
-cos_45 = math.cos(math.radians(45))
-
-# 3. sin(45) + cos(30)
-sin_45_cos_30 = math.sin(math.radians(45)) + math.cos(math.radians(30))
-
-# 4. Log of 50 to the base 10
-log_50_base_10 = math.log10(50)
-
-print(f"sin(90°): {sin_90}")
-print(f"cos(45°): {cos_45:.4f}")
-print(f"sin(45°) + cos(30°): {sin_45_cos_30:.4f}")
-print(f"Log10(50): {log_50_base_10:.4f}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">sin(90°): 1.0
-cos(45°): 0.7071
-sin(45°) + cos(30°): 1.5731
-Log10(50): 1.6990</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q3: Area of Trapezoid -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q3')">
-                        <span class="text-lg font-semibold">Q3: Function to find area of Trapezoid</span>
-                        <span id="m1q3-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1q3-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Problem:</h4>
-                            <p class="mb-4">Write a function to find area of Trapezoid: $height=10cm$, $base1=20cm$, $base2=15cm$.</p>
-                            
-                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
-                            <ol class="list-decimal list-inside mb-4 space-y-1">
-                                <li>The formula for the area of a trapezoid is: $Area = \frac{base1 + base2}{2} \times height$.</li>
-                                <li>Define a function `find_trapezoid_area` that accepts `height`, `base1`, and `base2` as arguments.</li>
-                                <li>Inside the function, implement the formula and return the result.</li>
-                                <li>Call the function with the given values: $Area = \frac{20 + 15}{2} \times 10 = \frac{35}{2} \times 10 = 17.5 \times 10 = 175.0$.</li>
-                            </ol>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python">def find_trapezoid_area(height, base1, base2):
-    """Calculates the area of a trapezoid."""
-    area = ((base1 + base2) / 2) * height
-    return area
-
-# Given values
-h = 10
-b1 = 20
-b2 = 15
-
-# Calculate and print the area
-area = find_trapezoid_area(h, b1, b2)
-print(f"The area of the trapezoid is: {area} cm²")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">The area of the trapezoid is: 175.0 cm²</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q4: Volume of Cone -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q4')">
-                        <span class="text-lg font-semibold">Q4: Function to find Volume of Cone (Unit Conversion)</span>
-                        <span id="m1q4-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1q4-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Problem:</h4>
-                            <p class="mb-4">Write a function to find Volume of Cone: $height=0.5m$, $radius=21.45cm$.</p>
-                            
-                            <h4 class="font-semibold mb-2">Step-by-Step Solution:</h4>
-                            <ol class="list-decimal list-inside mb-4 space-y-1">
-                                <li>The formula for the volume of a cone is: $V = \frac{1}{3} \pi r^2 h$.</li>
-                                <li>**Crucial:** The units are mixed (meters and centimeters). We must convert them to be consistent. Let's convert everything to meters.</li>
-                                <li>$height = 0.5m$ (already in meters)</li>
-                                <li>$radius = 21.45cm = 0.2145m$ (divide by 100)</li>
-                                <li>We need `math.pi` for $\pi$.</li>
-                                <li>$V = \frac{1}{3} \times \pi \times (0.2145)^2 \times 0.5 \approx 0.02419 m^3$.</li>
-                            </ol>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python">import math
-
-def find_cone_volume(height_m, radius_cm):
-    """Calculates the volume of a cone, converting cm to m."""
-    
-    # Convert radius from cm to meters
-    radius_m = radius_cm / 100
-    
-    # Calculate volume
-    volume = (1/3) * math.pi * (radius_m ** 2) * height_m
-    return volume
-
-# Given values
-h = 0.5
-r = 21.45
-
-# Calculate and print the volume
-volume = find_cone_volume(h, r)
-print(f"The volume of the cone is: {volume:.5f} m³")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">The volume of the cone is: 0.02419 m³</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q5: String Operations -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1q5')">
-                        <span class="text-lg font-semibold">Q5: String Operations (Whitespace, Capitalize, Uppercase, Replace)</span>
-                        <span id="m1q5-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1q5-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Problem 1:</h4>
-                            <p class="mb-4">Remove whitespaces and Capitalize the string: " europe is the second smallest continent by landmass. "</p>
-                            
-                            <h4 class="font-semibold mb-2">Solution 1:</h4>
-                            <ol class="list-decimal list-inside mb-4 space-y-1">
-                                <li>First, use `.strip()` to remove leading/trailing whitespace.</li>
-                                <li>Then, use `.replace(" ", "")` to remove all *internal* spaces.</li>
-                                <li>Finally, use `.capitalize()` to capitalize the first letter of the *new* string.</li>
-                            </ol>
-<pre><code class="language-python">s1 = " europe is the second smallest continent by landmass. "
-s1_stripped = s1.strip() # "europe is the second smallest continent by landmass."
-s1_no_spaces = s1_stripped.replace(" ", "") # "europeisthesecondsmallestcontinentbylandmass."
-s1_final = s1_no_spaces.capitalize() # "Europeisthesecondsmallestcontinentbylandmass."
-print(f"String 1 Result: {s1_final}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output 1:</h4>
-                            <pre class="code-output">String 1 Result: Europeisthesecondsmallestcontinentbylandmass.</pre>
-                            
-                            <hr class="my-6 border-gray-300 dark:border-gray-600">
-
-                            <h4 class="font-semibold mb-2">Problem 2:</h4>
-                            <p class="mb-4">Make the string Uppercase and replace the "O" with zero(0): "omg! what a lovely day. I found two pounds on the road "</p>
-                            
-                            <h4 class="font-semibold mb-2">Solution 2:</h4>
-                            <ol class="list-decimal list-inside mb-4 space-y-1">
-                                <li>First, use `.upper()` to make the entire string uppercase.</li>
-                                <li>Then, use `.replace("O", "0")` to replace all capital "O"s with "0".</li>
-                            </ol>
-<pre><code class="language-python">s2 = "omg! what a lovely day. I found two pounds on the road "
-s2_upper = s2.upper() # "OMG! WHAT A LOVELY DAY. I FOUND TWO POUNDS ON THE ROAD "
-s2_final = s2_upper.replace("O", "0") # "0MG! WHAT A L0VELY DAY. I F0UND TW0 P0UNDS 0N THE R0AD "
-print(f"String 2 Result: {s2_final}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output 2:</h4>
-                            <pre class="code-output">String 2 Result: 0MG! WHAT A L0VELY DAY. I F0UND TW0 P0UNDS 0N THE R0AD </pre>
-                        </div>
+class Student {
+    String name = "Tom";
+    int id = 202503054;
+    public void displayInfo() {
+        System.out.println(name + " " + id);
+    }
+}
+                        </code></pre>
+                        
+                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
+                        <pre class="code-output">Name: Alice
+Age: 25
+Number 10 is Even
+Value of z: 1</pre>
                     </div>
                 </div>
             </div>
-            
-            <!-- Topic: Lists and Tuples -->
-            <h3 class="text-2xl font-semibold mt-12 mb-6 text-indigo-600 dark:text-indigo-400">Questions Based on Lists and Tuples</h3>
-            <div class="space-y-6">
-
-                <!-- Q1: List Operations -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1L1')">
-                        <span class="text-lg font-semibold">Q1: List Operations (Create, Insert, Merge, Delete)</span>
-                        <span id="m1L1-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1L1-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-<pre><code class="language-python"># 1. Create a list with 4 cartoon characters
-cartoons = ["Mickey", "Donald", "Goofy", "Pluto"]
-print(f"Step 1: {cartoons}")
-
-# 2. Add "Jerry" and "Tom" in 2nd and last position
-cartoons.insert(1, "Jerry") # 2nd position is index 1
-cartoons.append("Tom")
-print(f"Step 2: {cartoons}")
-
-# 3. Create another list of even numbers from 0 to 10
-evens = [0, 2, 4, 6, 8, 10]
-print(f"Step 3: {evens}")
-
-# 4. Merge the two lists
-merged_list = cartoons + evens
-print(f"Step 4: {merged_list}")
-
-# 5. Delete elements on 2nd, 5th, and last position
-# Initial: ['Mickey', 'Jerry', 'Donald', 'Goofy', 'Pluto', 'Tom', 0, 2, 4, 6, 8, 10]
-# Indices: 1, 4, -1
-# To avoid index shifting, delete from the highest index first.
-del merged_list[-1]   # Deletes '10' (last position)
-del merged_list[4]    # Deletes 'Pluto' (5th position)
-del merged_list[1]    # Deletes 'Jerry' (2nd position)
-print(f"Step 5: {merged_list}")
-
-# 6. Finally, print the list
-print(f"Final List: {merged_list}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Final Output:</h4>
-                            <pre class="code-output">Final List: ['Mickey', 'Donald', 'Goofy', 'Tom', 0, 2, 4, 6, 8]</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q2: Tuple Operations -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1L2')">
-                        <span class="text-lg font-semibold">Q2: Tuple Operations (Insert, Sum, Insert Sum)</span>
-                        <span id="m1L2-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1L2-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Key Concept:</h4>
-                            <p class="mb-4">Tuples are **immutable**, meaning they cannot be changed after creation. To "insert" items, you must convert the tuple to a list, perform the operations, and convert it back to a tuple.</p>
-<pre><code class="language-python">import random
-
-# 1. Create a tuple with 10 random numbers
-# We use a fixed list for a reproducible example
-my_tuple = (5, 18, 23, 41, 55, 6, 72, 80, 91, 10)
-print(f"Step 1 (Original Tuple): {my_tuple}")
-
-# 2. Insert 500 (first) and 1001 (last)
-# Convert to list first
-my_list = list(my_tuple)
-my_list.insert(0, 500)
-my_list.append(1001)
-print(f"Step 2 (Converted to List): {my_list}")
-
-# 3. Perform addition of all items (X)
-X = sum(my_list)
-print(f"Step 3 (Sum 'X'): {X}")
-
-# 4. Insert X to the first position
-my_list.insert(0, X)
-print(f"Step 4 (List with X): {my_list}")
-
-# 5. Print the tuple
-final_tuple = tuple(my_list)
-print(f"Step 5 (Final Tuple): {final_tuple}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Step 1 (Original Tuple): (5, 18, 23, 41, 55, 6, 72, 80, 91, 10)
-Step 2 (Converted to List): [500, 5, 18, 23, 41, 55, 6, 72, 80, 91, 10, 1001]
-Step 3 (Sum 'X'): 1902
-Step 4 (List with X): [1902, 500, 5, 18, 23, 41, 55, 6, 72, 80, 91, 10, 1001]
-Step 5 (Final Tuple): (1902, 500, 5, 18, 23, 41, 55, 6, 72, 80, 91, 10, 1001)</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q3: Function to Replace in List -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1L3')">
-                        <span class="text-lg font-semibold">Q3: Function to replace "A" or "a" with "XX"</span>
-                        <span id="m1L3-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1L3-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Note:</h4>
-                            <p class="mb-4">This function replaces elements that are *exactly* "A" or "a". It does not replace substrings, so "AA" and "aa" will be unchanged.</p>
-<pre><code class="language-python">def replace_A_with_XX(input_list):
-    """
-    Replaces all list elements that are exactly "A" or "a" with "XX".
-    Iterates in-place and returns the modified list.
-    """
-    # We iterate over the *indices* so we can modify the list
-    for i in range(len(input_list)):
-        if input_list[i] == "A" or input_list[i] == "a":
-            input_list[i] = "XX"
-    return input_list
-
-# Given List
-Lst = ["A", "Z", "W", "AA", "A", "G", "a", "aa", "aa", "T", "P", "Q", "Z"]
-print(f"Original List: {Lst}")
-
-# Run the function
-modified_list = replace_A_with_XX(Lst)
-print(f"Modified List: {modified_list}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Original List: ['A', 'Z', 'W', 'AA', 'A', 'G', 'a', 'aa', 'aa', 'T', 'P', 'Q', 'Z']
-Modified List: ['XX', 'Z', 'W', 'AA', 'XX', 'G', 'XX', 'aa', 'aa', 'T', 'P', 'Q', 'Z']</pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Topic: Regex -->
-            <h3 class="text-2xl font-semibold mt-12 mb-6 text-indigo-600 dark:text-indigo-400">Questions Based on Regex</h3>
-            <div class="space-y-6">
-                <!-- Q: All Regex -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1R')">
-                        <span class="text-lg font-semibold">All Regex Questions (Start set, Capital start, etc.)</span>
-                        <span id="m1R-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1R-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-<pre><code class="language-python">import re
-
-# --- Test Strings ---
-s1 = "I am a test string."
-s2 = "She is also a test."
-s3 = "we are not."
-s4 = "This starts with a capital."
-s5 = "this does not."
-s6 = "This ends with a period."
-s7 = "This does not"
-s8 = "   This string has   lots of   whitespace.   "
-s9 = "My email is example.user@alienxedu.com, contact me!"
-s10 = "Yes, I agree."
-s11 = "Yes, I agree"
-
-# 1. Check for a set of characters at the beginning
-pattern1 = r"^(I am|You are|He is|She is|They are)"
-print(f"Q1: '{s1}' -> {bool(re.match(pattern1, s1))}")
-print(f"Q1: '{s3}' -> {bool(re.match(pattern1, s3))}")
-
-# 2. Match a capital letter at the beginning
-pattern2 = r"^[A-Z]"
-print(f"\nQ2: '{s4}' -> {bool(re.match(pattern2, s4))}")
-print(f"\nQ2: '{s5}' -> {bool(re.match(pattern2, s5))}")
-
-# 3. Match a "." (full stop) at the end
-# We must escape the dot \. so it's not a wildcard
-# We use re.search() which can find a match anywhere
-pattern3 = r"\.$" 
-print(f"\nQ3: '{s6}' -> {bool(re.search(pattern3, s6))}")
-print(f"Q3: '{s7}' -> {bool(re.search(pattern3, s7))}")
-
-# 4. Remove all whitespaces
-# \s matches any whitespace character (space, tab, newline)
-pattern4 = r"\s"
-print(f"\nQ4: Original: '{s8}'")
-print(f"Q4: Removed:  '{re.sub(pattern4, '', s8)}'")
-
-# 5. Find email in a string
-# A robust, common email regex
-pattern5 = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
-print(f"\nQ5: '{s9}' -> {re.findall(pattern5, s9)}")
-
-# 6. Check if string begins with "Yes" and ends with "."
-# ^ = start, .* = any character, \.$ = ends with literal dot
-pattern6 = r"^Yes.*\.$"
-print(f"\nQ6: '{s10}' -> {bool(re.match(pattern6, s10))}")
-print(f"Q6: '{s11}' -> {bool(re.match(pattern6, s11))}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Q1: 'I am a test string.' -> True
-Q1: 'we are not.' -> False
-
-Q2: 'This starts with a capital.' -> True
-
-Q2: 'this does not.' -> False
-
-Q3: 'This ends with a period.' -> True
-Q3: 'This does not' -> False
-
-Q4: Original: '   This string has   lots of   whitespace.   '
-Q4: Removed:  'Thisstringhaslotsofwhitespace.'
-
-Q5: 'My email is example.user@alienxedu.com, contact me!' -> ['example.user@alienxedu.com']
-
-Q6: 'Yes, I agree.' -> True
-Q6: 'Yes, I agree' -> False</pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Topic: DateTime -->
-            <h3 class="text-2xl font-semibold mt-12 mb-6 text-indigo-600 dark:text-indigo-400">Questions Based on DateTime</h3>
-            <div class="space-y-6">
-
-                <!-- Q: All DateTime -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1D')">
-                        <span class="text-lg font-semibold">All DateTime Questions (Age, Compare, Format)</span>
-                        <span id="m1D-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1D-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-<pre><code class="language-python">from datetime import datetime, date
-
-# --- 1. Calculate Age ---
-print("--- Q1: Calculate Age ---")
-dob = date(1995, 5, 20)
-today = date.today()
-# Check if birthday has passed this year
-age_adjustment = (today.month, today.day) < (dob.month, dob.day)
-age = today.year - dob.year - age_adjustment
-print(f"Date of Birth: {dob}")
-print(f"Today's Date: {today}")
-print(f"Calculated Age: {age} years")
-
-
-# --- 2. Compare Two Dates ---
-print("\n--- Q2: Compare Two Dates ---")
-date1 = date(2025, 12, 25)
-date2 = date(2026, 1, 1)
-print(f"Date 1: {date1}, Date 2: {date2}")
-if date1 < date2:
-    print("Date 1 is earlier than Date 2")
-elif date1 > date2:
-    print("Date 1 is later than Date 2")
-else:
-    print("Dates are the same")
-
-# --- 3. Print Current Date Time in Specified Format ---
-print("\n--- Q3: Format Current Date Time ---")
-
-def get_ordinal_suffix(day):
-    """Returns the ordinal suffix (st, nd, rd, th) for a given day."""
-    if 11 <= day <= 13:
-        return 'th'
-    suffixes = {1: 'st', 2: 'nd', 3: 'rd'}
-    return suffixes.get(day % 10, 'th')
-
-# Get current time
-now = datetime.now()
-
-# Create the formatted string
-day = now.day
-suffix = get_ordinal_suffix(day)
-# Example: 15th August 2025 – Wednesday – 15:30:45
-formatted_date = now.strftime(f"{day}{suffix} %B %Y – %A – %H:%M:%S")
-print(f"Specified Format: {formatted_date}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Example Output (will vary based on current date):</h4>
-                            <pre class="code-output">--- Q1: Calculate Age ---
-Date of Birth: 1995-05-20
-Today's Date: 2025-10-30
-Calculated Age: 30 years
-
---- Q2: Compare Two Dates ---
-Date 1: 2025-12-25, Date 2: 2026-01-01
-Date 1 is earlier than Date 2
-
---- Q3: Format Current Date Time ---
-Specified Format: 30th October 2025 – Thursday – 20:40:00</pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Topic: BeautifulSoup -->
-            <h3 class="text-2xl font-semibold mt-12 mb-6 text-indigo-600 dark:text-indigo-400">Questions Based on BeautifulSoup</h3>
-            <div class="space-y-6">
-                <!-- Q: BeautifulSoup -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m1BS')">
-                        <span class="text-lg font-semibold">Extract contents from an HTML file</span>
-                        <span id="m1BS-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="m1BS-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Explanation:</h4>
-                            <p class="mb-4">To use BeautifulSoup, you first need to install it: `pip install beautifulsoup4`. Then you import it, provide it with HTML content, and use methods like `.find()` (finds first) and `.find_all()` (finds all) to navigate the HTML structure.</p>
-<pre><code class="language-python">from bs4 import BeautifulSoup
-
-# This is the sample HTML content.
-# In a real script, you might read this from a file:
-# with open('myfile.html', 'r') as f:
-#     html_content = f.read()
-
-html_content = """
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;My Sample Page&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h1 id="header"&gt;Welcome to the Site!&lt;/h1&gt;
-    &lt;p class="content"&gt;This is the first paragraph.&lt;/p&gt;
-    &lt;p class="content"&gt;This is the second paragraph.&lt;/p&gt;
-    &lt;div id="footer"&gt;
-        &lt;a href="/about"&gt;About Us&lt;/a&gt;
-    &lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-"""
-
-# 1. Create the BeautifulSoup object (or "soup")
-# 'html.parser' is Python's built-in parser
-soup = BeautifulSoup(html_content, 'html.parser')
-
-# 2. Extract the title
-title = soup.title.string
-print(f"Title: {title}")
-
-# 3. Extract the main heading (H1)
-heading = soup.find('h1').text
-print(f"Heading: {heading}")
-
-# 4. Extract all paragraphs with class "content"
-print("\nParagraphs:")
-paragraphs = soup.find_all('p', class_='content')
-for p in paragraphs:
-    print(f"- {p.text}")
-
-# 5. Extract a link (a tag) from the footer
-footer_link = soup.find('div', id='footer').find('a')
-print(f"\nFooter Link Text: {footer_link.text}")
-print(f"Footer Link Href: {footer_link['href']}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Title: My Sample Page
-Heading: Welcome to the Site!
-
-Paragraphs:
-- This is the first paragraph.
-- This is the second paragraph.
-
-Footer Link Text: About Us
-Footer Link Href: /about</pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </section>
 
-        <!-- Module 2 -->
-        <section id="module2" class="mb-16">
-            <h2 class="text-3xl font-bold border-b border-green-500 pb-3 mb-8">Module 2: NumPy, Pandas & Matplotlib</h2>
+        <!-- PRACTICAL 2 -->
+        <section id="p2" class="mb-12">
+            <h2 class="section-title">P2: Control Flow (If-Else, Loops, Switch)</h2>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                <button class="accordion-button" onclick="toggleAnswer('p2')">
+                    <span class="text-xl font-bold text-indigo-700">Practical 2: Decision Making & Repetition</span>
+                    <span id="p2-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                </button>
+                <div id="p2-answer" class="answer-content max-h-0">
+                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
+                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
+                        <p class="mb-4 text-gray-700">Control Flow dictates program order. Use **If/Else** for decisions and **Loops** (`for`/`while`) for repeating a block of code.</p>
+                        
+                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
+                        <ul class="detail-list mb-4 space-y-1">
+                            <li>**If/Else**: Used for branching logic based on complex conditions (e.g., scoring grades).</li>
+                            <li>**For Loop**: Use when you **know** the number of repetitions (fixed iteration).</li>
+                            <li>**Switch**: A clean way to handle one variable checked against many **fixed values**.</li>
+                        </ul>
+                        
+                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                        <pre><code class="language-java">
+package p2;
 
-            <!-- Topic: NumPy -->
-            <h3 class="text-2xl font-semibold mb-6 text-green-600 dark:text-green-400">Questions Based on NumPy</h3>
-            <div class="space-y-6">
+public class Main {
+    public static void main(String[] args) {
+        // 1. If-Else Control Flow
+        int score = 75;
+        System.out.print("Grade Check: ");
+        if (score >= 90) {
+            System.out.println("A");
+        } else if (score >= 70) {
+            System.out.println("B"); 
+        } else {
+            System.out.println("C");
+        }
 
-                <!-- Q1-2: NumPy Create & Basic Ops -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2q1')">
-                        <span class="text-lg font-semibold">Q1 & Q2: Create NumPy Array & Basic Operations</span>
-                        <span id="m2q1-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="m2q1-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Explanation:</h4>
-                            <p class="mb-4">NumPy's power comes from **vectorization**. This means operations are applied to every element in the array at once, which is much faster than a standard Python `for` loop.</p>
-<pre><code class="language-python">import numpy as np
+        // 2. For Loop
+        System.out.print("For Loop (1-3): ");
+        for (int i = 1; i <= 3; i++) {
+            System.out.print(i + " ");
+        }
 
-# 1. Create a NumPy Array
-arr = np.array([10, 20, 30, 40, 50])
-print(f"Original Array: {arr}")
-print(f"Type: {type(arr)}")
-
-# 2. Demonstrate basic operations
-# Add 5 to every element (Vectorized Addition)
-arr_add = arr + 5
-print(f"Add 5: {arr_add}")
-
-# Multiply every element by 2 (Vectorized Multiplication)
-arr_mul = arr * 2
-print(f"Multiply by 2: {arr_mul}")
-
-# Square every element
-arr_sq = arr ** 2
-print(f"Squared: {arr_sq}")
-
-# Universal Functions (ufunc)
-print(f"Sum of all elements: {np.sum(arr)}")
-print(f"Mean of all elements: {np.mean(arr)}")
-print(f"Square root of all elements: {np.sqrt(arr)}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Original Array: [10 20 30 40 50]
-Type: &lt;class 'numpy.ndarray'&gt;
-Add 5: [15 25 35 45 55]
-Multiply by 2: [ 20  40  60  80 100]
-Squared: [ 100  400  900 1600 2500]
-Sum of all elements: 150
-Mean of all elements: 30.0
-Square root of all elements: [3.162 4.472 5.477 6.325 7.071]</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q3: NumPy 50 Primes -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2q3')">
-                        <span class="text-lg font-semibold">Q3: Create NumPy array with first 50 prime numbers</span>
-                        <span id="m2q3-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="m2q3-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Explanation:</h4>
-                            <p class="mb-4">NumPy doesn't have a built-in prime generator. We must first generate the primes using standard Python logic, then create a NumPy array from that list.</p>
-<pre><code class="language-python">import numpy as np
-
-def get_first_n_primes(n):
-    """Generates a list of the first n prime numbers."""
-    primes = []
-    num = 2  # Start checking from 2
-    while len(primes) < n:
-        is_prime = True
-        # Check for factors from 2 up to the square root of num
-        for i in range(2, int(num**0.5) + 1):
-            if num % i == 0:
-                is_prime = False
-                break
-        
-        if is_prime:
-            primes.append(num)
-        
-        num += 1 # Move to the next number
-    return primes
-
-# 1. Get the list of the first 50 primes
-prime_list = get_first_n_primes(50)
-
-# 2. Create a NumPy array from the list
-prime_array = np.array(prime_list)
-
-print(f"Found {len(prime_array)} prime numbers.")
-print("NumPy Array of first 50 Primes:")
-print(prime_array)
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Found 50 prime numbers.
-NumPy Array of first 50 Primes:
-[  2   3   5   7  11  13  17  19  23  29  31  37  41  43  47  53  59  61
-  67  71  73  79  83  89  97 101 103 107 109 113 127 131 137 139 149 151
- 157 163 167 173 179 181 191 193 197 199 211 223 227 229]</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q4-5: NumPy Sort & Filter -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2q4')">
-                        <span class="text-lg font-semibold">Q4 & Q5: Sort array alphabetically & Filter for maximum values</span>
-                        <span id="m2q4-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="m2q4-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-<pre><code class="language-python">import numpy as np
-
-# --- 4. Sort array alphabetically ---
-print("--- Q4: Sort Alphabetically ---")
-str_arr = np.array(["Pandas", "NumPy", "Matplotlib", "AlienXEdu", "Python"])
-print(f"Original: {str_arr}")
-sorted_arr = np.sort(str_arr)
-print(f"Sorted:   {sorted_arr}")
-
-
-# --- 5. Filter array for maximum values ---
-print("\n--- Q5: Filter for Max Values ---")
-num_arr = np.array([10, 5, 30, 22, 15, 30, 29, 30])
-print(f"Original: {num_arr}")
-
-# Find the single maximum value
-max_val = np.max(num_arr)
-print(f"Maximum value: {max_val}")
-
-# Create a boolean "filter array" (or "mask")
-# This will be [False, False, True, False, ..., True, ..., True]
-filter_mask = (num_arr == max_val)
-
-# Use the mask to select only the elements where the mask is True
-filtered_array = num_arr[filter_mask]
-print(f"Array of all maximum values: {filtered_array}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">--- Q4: Sort Alphabetically ---
-Original: ['Pandas' 'NumPy' 'Matplotlib' 'AlienXEdu' 'Python']
-Sorted:   ['AlienXEdu' 'Matplotlib' 'NumPy' 'Pandas' 'Python']
-
---- Q5: Filter for Max Values ---
-Original: [10  5 30 22 15 30 29 30]
-Maximum value: 30
-Array of all maximum values: [30 30 30]</pre>
-                        </div>
+        // 3. Switch Statement
+        int day = 3;
+        String dayName;
+        switch (day) {
+            case 1: dayName = "Monday"; break;
+            case 3: dayName = "Wednesday"; break;
+            default: dayName = "Weekend"; break;
+        }
+        System.out.println("\nSelected Day: " + dayName);
+    }
+}
+                        </code></pre>
+                        
+                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
+                        <pre class="code-output">Grade Check: B
+For Loop (1-3): 1 2 3 
+Selected Day: Wednesday</pre>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Topic: Pandas -->
-            <h3 class="text-2xl font-semibold mt-12 mb-6 text-green-600 dark:text-green-400">Questions Based on Pandas</h3>
-            <div class="space-y-6">
-                <!-- Q: All Pandas -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2P')">
-                        <span class="text-lg font-semibold">All Pandas Questions (DataFrame, Stats, Series)</span>
-                        <span id="m2P-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="m2P-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-<pre><code class="language-python">import pandas as pd
+        <!-- PRACTICAL 3 -->
+        <section id="p3" class="mb-12">
+            <h2 class="section-title">P3: Polymorphism (Overloading, Overriding)</h2>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                <button class="accordion-button" onclick="toggleAnswer('p3')">
+                    <span class="text-xl font-bold text-indigo-700">Practical 3: Many Forms - Compile-Time vs Runtime</span>
+                    <span id="p3-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                </button>
+                <div id="p3-answer" class="answer-content max-h-0">
+                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
+                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
+                        <p class="mb-4 text-gray-700">Polymorphism means "many forms." **Overloading** happens in the same class (different inputs). **Overriding** happens across classes (child redefines parent method).</p>
+                        
+                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
+                        <ul class="detail-list mb-4 space-y-1">
+                            <li>**Overloading (Compile-Time)**: Java chooses the correct method based on the parameters at compilation.</li>
+                            <li>**Overriding (Runtime)**: Java chooses the method based on the actual *object* type (e.g., <code>SBI</code>) at runtime. Use <code>@Override</code>.</li>
+                            <li>**Example**: The <code>Bank</code> parent class is used as a generic reference, but the specific bank's rate is returned.</li>
+                        </ul>
+                        
+                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                        <pre><code class="language-java">
+package p3;
 
-# --- 1. Import Pandas and create a DataFrame ---
-print("--- Q1: Create DataFrame ---")
-# Data is typically a dictionary of lists
-data = {
-    'StudentName': ['Alice', 'Bob', 'Charlie', 'David'],
-    'Score': [85, 92, 78, 95],
-    'HoursStudied': [10, 15, 8, 12]
+// Method Overloading
+class Volume {
+    public float volume(float l) { return l*l*l; } // Cube (1 arg)
+    public double volume(float r, float h) { return Math.PI*r*r*h; } // Cylinder (2 args)
 }
-df = pd.DataFrame(data)
-print(df)
 
+// Runtime Polymorphism (Overriding)
+class Bank { float getRateOfInterest() { return 0; } }
+class SBI extends Bank { @Override float getRateOfInterest() { return 8.5f; } }
+class HDFC extends Bank { @Override float getRateOfInterest() { return 5.2f; } }
 
-# --- 2. Show statistical information ---
-print("\n--- Q2: Statistical Information ---")
-# .describe() gives stats for all numerical columns
-stats = df.describe()
-print(stats)
+public class Main {
+    public static void main(String[] args) {
+        Volume v = new Volume();
+        System.out.println("Cube: " + v.volume(5));
+        System.out.println("Cylinder: " + v.volume(5,5));
 
-
-# --- 3. Create Pandas Series from dictionaries ---
-print("\n--- Q3: Create Series from Dictionary ---")
-# The dictionary keys become the Series index
-city_populations = {
-    'Tokyo': 37_000_000,
-    'Delhi': 31_000_000,
-    'Shanghai': 27_000_000,
-    'Mumbai': 20_000_000
+        Bank b; // Parent reference
+        b = new SBI(); 
+        System.out.println("SBI Rate: " + b.getRateOfInterest());
+        b = new HDFC();
+        System.out.println("HDFC Rate: " + b.getRateOfInterest());
+    }
 }
-pop_series = pd.Series(city_populations)
-print(pop_series)
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">--- Q1: Create DataFrame ---
-  StudentName  Score  HoursStudied
-0       Alice     85            10
-1         Bob     92            15
-2     Charlie     78             8
-3       David     95            12
-
---- Q2: Statistical Information ---
-           Score  HoursStudied
-count   4.000000      4.000000
-mean   87.500000     11.250000
-std     7.393691      2.986079
-min    78.000000      8.000000
-25%    83.250000      9.500000
-50%    88.500000     11.000000
-75%    92.750000     12.750000
-max    95.000000     15.000000
-
---- Q3: Create Series from Dictionary ---
-Tokyo       37000000
-Delhi       31000000
-Shanghai    27000000
-Mumbai      20000000
-dtype: int64</pre>
-                        </div>
+                        </code></pre>
+                        
+                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
+                        <pre class="code-output">Cube: 125.0
+Cylinder: 392.69908169872417
+SBI Rate: 8.5
+HDFC Rate: 5.2</pre>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Topic: Matplotlib -->
-            <h3 class="text-2xl font-semibold mt-12 mb-6 text-green-600 dark:text-green-400">Questions Based on Matplotlib</h3>
-            <div class="space-y-6">
+        <!-- PRACTICAL 4 -->
+        <section id="p4" class="mb-12">
+            <h2 class="section-title">P4: Abstract Class & Method</h2>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                <button class="accordion-button" onclick="toggleAnswer('p4')">
+                    <span class="text-xl font-bold text-indigo-700">Practical 4: Enforcing Contracts and Blueprints</span>
+                    <span id="p4-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                </button>
+                <div id="p4-answer" class="answer-content max-h-0">
+                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
+                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
+                        <p class="mb-4 text-gray-700">An **abstract class** is a template that cannot be instantiated. An **abstract method** has no body and **forces** any non-abstract subclass to implement it.</p>
+                        
+                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
+                        <ul class="detail-list mb-4 space-y-1">
+                            <li>**`abstract` method**: Used to define a contract. The method signature exists, but the implementation is left blank (no `{}`).</li>
+                            <li>**`abstract` class**: Used to group related classes (e.g., <code>Sphere</code> and <code>HemiSphere</code>) under a common required method (<code>calVolume</code>).</li>
+                            <li>**Rule**: You cannot create an object of an abstract class.</li>
+                        </ul>
+                        
+                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                        <pre><code class="language-java">
+package p04;
 
-                <!-- Q1-2: Scatter & Line Plots -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2M1')">
-                        <span class="text-lg font-semibold">Q1 & Q2: Create Scatter Plot and Line Plot</span>
-                        <span id="m2M1-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="m2M1-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-         <p class="dark:border-yellow-700 rounded-md text-yellow-800 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-900/30 p-3                         border-l-4 border-yellow-500 italic">
-             <strong>Note:</strong> Matplotlib code cannot be executed directly in this HTML preview. 
-             The code is provided here for learning purposes, and placeholder images are shown to represent the expected plots. 
-             To actually view the plots, remove the <code>#</code> symbol before each <code>plt.show()</code> line and run the code in your IDE (e.g., VS Code, Jupyter Notebook, or PyCharm).
-         </p>
-<pre><code class="language-python">import matplotlib.pyplot as plt
+abstract class Volume {
+    abstract void calVolume(); // Abstract: no body, must be implemented
+    void printIntro() { System.out.println("--- Volume Calculation Started ---"); }
+}
+class Sphere extends Volume {
+    double r;
+    Sphere(double r) { this.r = r; }
+    @Override 
+    void calVolume() { // Forced implementation for Sphere
+        double result = (4.0/3.0)*Math.PI*r*r*r;
+        System.out.println("Volume of Sphere: " + result);
+    }
+}
+class HemiSphere extends Volume {
+    double r;
+    HemiSphere(double r) { this.r = r; }
+    @Override 
+    void calVolume() { // Forced implementation for HemiSphere
+        double result = (2.0/3)*Math.PI*r*r*r;
+        System.out.println("Volume of Hemi-Sphere: " + result);
+    }
+}
 
-# Data for plots
-x = [1, 2, 3, 4, 56, 6]
-y = [5, 6, 7, 4, 2, 3]
+public class Main {
+    public static void main(String[] args) {
+        Sphere s = new Sphere(2);
+        s.printIntro(); 
+        s.calVolume();
 
-# --- Q1: Scatter Plot ---
-plt.figure(1) # Create figure 1
-plt.scatter(x, y, color='blue', marker='x')
-plt.title("Q1: Scatter Plot")
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-plt.grid(True)
-# plt.show() # This would display the plot
-
-# --- Q2: Line Plot ---
-plt.figure(2) # Create figure 2
-plt.plot(x, y, color='red', linestyle='--', marker='o')
-plt.title("Q2: Line Plot")
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-plt.grid(True)
-# plt.show() # This would display the plot
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Example Output (Placeholder):</h4>
-                            <img src="assets/Figure_1.png" class="plot-image w-full max-w-lg mx-auto" onclick="openModal(this.src, 'Line Plot')">
-                            <img src="assets/Figure_2.png" alt="Plot Output Placeholder" class="plot-image w-full max-w-lg mx-auto" onclick="openModal(this.src, 'Scatter Plot')">
-                        </div>
+        new HemiSphere(2).calVolume();
+    }
+}
+                        </code></pre>
+                        
+                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
+                        <pre class="code-output">--- Volume Calculation Started ---
+Volume of Sphere: 33.510321638291124
+Volume of Hemi-Sphere: 16.755160819145562</pre>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- Q3: Pie Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2M3')">
-                        <span class="text-lg font-semibold">Q3: Create a Pie Chart</span>
-                        <span id="m2M3-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="m2M3-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-<pre><code class="language-python">import matplotlib.pyplot as plt
+        <!-- PRACTICAL 5 -->
+        <section id="p5" class="mb-12">
+            <h2 class="section-title">P5: Access Specifiers & Inner Class</h2>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                <button class="accordion-button" onclick="toggleAnswer('p5')">
+                    <span class="text-xl font-bold text-indigo-700">Practical 5: Visibility (Scope) & Nested Classes</span>
+                    <span id="p5-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                </button>
+                <div id="p5-answer" class="answer-content max-h-0">
+                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
+                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
+                        <p class="mb-4 text-gray-700">**Access Specifiers** (`private`, `public`) control which parts of the code can see your variables/methods. **Inner Classes** are classes nested inside others for better structure.</p>
+                        
+                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
+                        <ul class="detail-list mb-4 space-y-1">
+                            <li>**`private`**: Strongest restriction. Data can only be accessed within its own class (demonstrated by <code>Person.age</code>).</li>
+                            <li>**Inner Class (Non-Static)**: Tied to an outer object and can access **all** members (even private ones) of that outer object.</li>
+                            <li>**Static Nested Class**: Independent of the outer object but grouped logically. Can **only** access **static** members of the outer class.</li>
+                        </ul>
+                        
+                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                        <pre><code class="language-java">
+package p5;
 
-values = [17, 30, 45, 10]
-labels = ['A', 'B', 'C', 'D']
-explode = (0, 0, 0.1, 0) # Explode the 3rd slice (C)
+// Access Specifiers Demo
+class Person {
+    public String name = "Alice";
+    private int age = 30; // Hidden data
+    
+    public void accessPrivate() { showAge(); } // Accesses private helper method
+    private void showAge() { System.out.println("Age: " + age); }
+}
 
-plt.pie(values, 
-        labels=labels, 
-        explode=explode, 
-        autopct='%1.1f%%', # Show percentage
-        shadow=True, 
-        startangle=90)
+// Inner Class Demo
+public class Outer {
+    String message = "Hello from Outer class!";
+    private static String staticMessage = "Static Outer Message";
+    
+    // A) Member Inner Class (Accesses 'message')
+    class Inner {
+        void display() { System.out.println("Inner class says: " + message); }
+    }
+    
+    // B) Static Nested Class (Accesses 'staticMessage')
+    static class StaticNested {
+        void display() { System.out.println(staticMessage); }
+    }
 
-plt.title("Q3: Pie Chart")
-plt.axis('equal') # Ensures the pie chart is circular
-# plt.show()
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Example Output (Placeholder):</h4>
-                            <img src="assets/Figure_3.png" alt="Pie Chart Placeholder" class="plot-image rounded-full w-full max-w-sm mx-auto" onclick="openModal(this.src, 'Pie Chart')">
-                        </div>
+    public static void main(String[] args) {
+        // Inner Class Call
+        Outer o = new Outer();
+        Outer.Inner i = o.new Inner();
+        i.display();
+        
+        // Static Nested Class Call
+        Outer.StaticNested nested = new Outer.StaticNested();
+        nested.display();
+        
+        // Access Private Demo
+        Person p = new Person();
+        p.accessPrivate();
+    }
+}
+                        </code></pre>
+                        
+                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
+                        <pre class="code-output">Inner class says: Hello from Outer class!
+Static Outer Message
+Age: 30</pre>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- Q4: Bar Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2M4')">
-                        <span class="text-lg font-semibold">Q4: Create a Bar Chart with random values</span>
-                        <span id="m2M4-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="m2M4-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-<pre><code class="language-python">import matplotlib.pyplot as plt
-import numpy as np
+        <!-- PRACTICAL 6 -->
+        <section id="p6" class="mb-12">
+            <h2 class="section-title">P6: Exception Handling</h2>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                <button class="accordion-button" onclick="toggleAnswer('p6')">
+                    <span class="text-xl font-bold text-indigo-700">Practical 6: Graceful Error Management (Try, Catch, Finally)</span>
+                    <span id="p6-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                </button>
+                <div id="p6-answer" class="answer-content max-h-0">
+                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
+                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
+                        <p class="mb-4 text-gray-700">Exception handling prevents crashes. You **try** risky code, **catch** the error, and the **finally** block runs no matter what.</p>
+                        
+                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
+                        <ul class="detail-list mb-4 space-y-1">
+                            <li>**`try`**: Block containing code that might throw a runtime exception (e.g., division by zero).</li>
+                            <li>**`catch`**: Executes if the specified exception type is thrown. It allows the program to continue.</li>
+                            <li>**`finally`**: Essential for cleanup operations (closing file streams, database connections). **It always executes**.</li>
+                            <li>**User-defined**: We create a custom error by extending the <code>Exception</code> class and use <code>throw new MyException()</code>.</li>
+                        </ul>
+                        
+                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                        <pre><code class="language-java">
+package p6;
 
-categories = ['A', 'B', 'C', 'D']
-# Generate 4 random integer values between 10 and 50
-random_values = np.random.randint(10, 51, size=len(categories))
+class VoteException extends Exception {
+    public VoteException(String s) { super(s); }
+}
 
-plt.bar(categories, random_values, color=['skyblue', 'salmon', 'lightgreen', 'plum'])
-plt.title("Q4: Bar Chart (Random Values)")
-plt.xlabel("Categories")
-plt.ylabel("Values")
-# plt.show()
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Example Output (Placeholder):</h4>
-                            <img src="assets/Figure_4.png" alt="Bar Chart Placeholder" class="plot-image w-full max-w-lg mx-auto" onclick="openModal(this.src, 'Bar Chart')">
-                        </div>
+public class Main {
+    public static void main(String[] args) {
+        // try-catch-finally
+        try {
+            int a = 100/0; // Causes ArithmeticException
+        } catch (Exception e) {
+            System.out.println("Caught Error: " + e.getMessage());
+        } finally {
+            System.out.println("FINALLY: Cleanup code executed.");
+        }
+
+        // Multiple exceptions example
+        try { 
+            String str = null; 
+            System.out.println(str.length()); // NullPointerException
+        }
+        catch (Exception e) { 
+            System.out.println("Caught another error: " + e.getClass().getSimpleName()); 
+        }
+
+        // User-defined Exception
+        try {
+            if (15 < 18) throw new VoteException("You r not eligible...");
+        } catch (VoteException e) {
+            System.out.println("\nCustom Error: " + e.getMessage());
+        }
+    }
+}
+                        </code></pre>
+                        
+                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
+                        <pre class="code-output">Caught Error: / by zero
+FINALLY: Cleanup code executed.
+Caught another error: NullPointerException
+
+Custom Error: You r not eligible...</pre>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- Q5: Sine/Cosine/Tan Waves -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('m2M5')">
-                        <span class="text-lg font-semibold">Q5: Create sine, cosine, and tangent waves</span>
-                        <span id="m2M5-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="m2M5-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-<pre><code class="language-python">import matplotlib.pyplot as plt
-import numpy as np
+        <!-- PRACTICAL 7 -->
+        <section id="p7" class="mb-12">
+            <h2 class="section-title">P7: Multithreading (Odd & Even)</h2>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                <button class="accordion-button" onclick="toggleAnswer('p7')">
+                    <span class="text-xl font-bold text-indigo-700">Practical 7: Concurrent Execution - Odd & Even</span>
+                    <span id="p7-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                </button>
+                <div id="p7-answer" class="answer-content max-h-0">
+                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
+                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
+                        <p class="mb-4 text-gray-700">Multithreading allows multiple parts of the program to run **concurrently** (at the same time). You create threads by **Extending `Thread`** or **Implementing `Runnable`**.</p>
+                        
+                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
+                        <ul class="detail-list mb-4 space-y-1">
+                            <li>**Key Method**: You **MUST** call <code>t.start()</code>. This creates a new execution path. Calling <code>t.run()</code> just executes the code sequentially.</li>
+                            <li>**Interleaving**: We use <code>Thread.sleep()</code> to pause the threads at different rates (0.5s vs 1.0s), demonstrating how the operating system mixes their outputs.</li>
+                            <li>**Runnable**: Preferred because it allows your class to extend another class later (Java only allows single inheritance).</li>
+                        </ul>
+                        
+                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                        <pre><code class="language-java">
+package p7;
 
-# Create an array of x-values from 0 to 4*pi
-x = np.linspace(0, 4 * np.pi, 400)
+class ThreadOne extends Thread { // Method 1: Extend Thread (Odds)
+    public void run() {
+        for (int i = 1; i <= 10; i += 2) {
+            System.out.println("ThreadOne - Count (Odd): " + i);
+            try { Thread.sleep(500); } 
+            catch (InterruptedException e) { e.printStackTrace(); }
+        }
+    }
+}
 
-y_sin = np.sin(x)
-y_cos = np.cos(x)
-y_tan = np.tan(x)
+class ThreadTwo implements Runnable { // Method 2: Implement Runnable (Evens)
+    public void run() {
+        for (int i = 2; i <= 10; i += 2) {
+            System.out.println("ThreadTwo - Count (Even): " + i);
+            try { Thread.sleep(1000); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+        }
+    }
+}
 
-# Create a figure with 3 subplots
-fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 10))
-
-# Sine Wave
-ax1.plot(x, y_sin, color='blue')
-ax1.set_title("Sine Wave")
-ax1.grid(True)
-
-# Cosine Wave
-ax2.plot(x, y_cos, color='red')
-ax2.set_title("Cosine Wave")
-ax2.grid(True)
-
-# Tangent Wave
-# Set y-limits to avoid showing extreme values at asymptotes
-ax3.plot(x, y_tan, color='green')
-ax3.set_title("Tangent Wave")
-ax3.set_ylim(-5, 5) # Important for tan wave readability
-ax3.grid(True)
-
-plt.tight_layout() # Prevents plots from overlapping
-# plt.show()
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Example Output (Placeholder):</h4>
-                            <img src="assets/Figure_5.png" alt="Trig Waves Placeholder" class="plot-image w-full max-w-lg mx-auto" onclick="openModal(this.src, 'Trig Waves')">
-                        </div>
+public class Main {
+    public static void main(String[] args) {
+        ThreadOne t1 = new ThreadOne();
+        Thread t2 = new Thread(new ThreadTwo()); // Wrap Runnable
+        t1.start(); // Start threads
+        t2.start(); 
+        System.out.println("Main thread finished setting up.");
+    }
+}
+                        </code></pre>
+                        
+                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output (Interleaved/Mixed):</h4>
+                        <pre class="code-output">Main thread finished setting up.
+ThreadOne - Count (Odd): 1
+ThreadTwo - Count (Even): 2
+ThreadOne - Count (Odd): 3
+ThreadOne - Count (Odd): 5
+ThreadTwo - Count (Even): 4
+ThreadOne - Count (Odd): 7
+ThreadOne - Count (Odd): 9
+ThreadTwo - Count (Even): 6
+ThreadTwo - Count (Even): 8
+ThreadTwo - Count (Even): 10</pre>
                     </div>
                 </div>
-
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
-        <div class="container mx-auto px-6 py-8 text-center text-gray-500 dark:text-gray-400">
-            &copy; 2025 AlienXEdu. All rights reserved. Python Practice Hub.
+    <footer class="bg-gray-200 border-t border-gray-300 mt-16">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-600">
+            &copy; 2025 AlienXEdu. All rights reserved. Java Practical Exam Hub.
         </div>
     </footer>
 
-    <!-- Image Modal -->
-    <div id="imageModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImg">
-        <div id="caption" style="text-align: center; padding: 10px 0; color: white; font-size: 18px;"></div>
-    </div>
-
-    <!-- Accordion JavaScript -->
+    <!-- Accordion and Copy JavaScript -->
     <script>
         function toggleAnswer(id) {
             const answer = document.getElementById(id + '-answer');
             const icon = document.getElementById(id + '-icon');
             
-            if (answer.style.maxHeight) {
-                // Collapse
-                answer.style.maxHeight = null;
-                icon.textContent = '[+]';
-            } else {
-                // Expand
-                answer.style.maxHeight = answer.scrollHeight + 'px';
+            // If currently collapsed (max-height is likely 0 or null)
+            if (answer.classList.contains('max-h-0')) {
+                answer.classList.remove('max-h-0');
+                // Calculate and set max-height dynamically (content height + padding/buffer)
+                // We add a small buffer to ensure space for content that might exceed scrollHeight slightly
+                answer.style.maxHeight = (answer.scrollHeight + 50) + 'px'; 
                 icon.textContent = '[-]';
+            } else {
+                // If currently expanded
+                // Set max-height back to its scrollHeight before starting transition to 0
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                
+                // Use requestAnimationFrame to ensure the browser registers the change before collapsing
+                requestAnimationFrame(() => {
+                    answer.style.maxHeight = '0px';
+                    icon.textContent = '[+]';
+                    // After transition finishes, add the class back
+                    setTimeout(() => answer.classList.add('max-h-0'), 400); 
+                });
             }
         }
 
-        // Modal functions
-        function openModal(src, captionText) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImg');
-            const caption = document.getElementById('caption');
-            modal.style.display = 'block';
-            modalImg.src = src;
-            caption.innerHTML = captionText;
-        }
-
-        function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-
-        // Close modal when clicking outside the image
-        window.onclick = function(event) {
-            const modal = document.getElementById('imageModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
+        function copyCode(btn) {
+            const codeBlock = btn.parentElement.querySelector('pre code');
+            const text = codeBlock ? codeBlock.innerText.trim() : ''; 
+            
+            // Use modern clipboard API
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    btn.textContent = "Copied!";
+                    btn.classList.add('copied');
+                    setTimeout(() => {
+                        btn.textContent = "Copy Code";
+                        btn.classList.remove('copied');
+                    }, 2000);
+                }).catch(() => {
+                    // Fallback attempt if modern API fails (e.g., due to permission/security)
+                    fallbackCopyTextToClipboard(text, btn);
+                });
+            } else {
+                // Fallback for older browsers
+                fallbackCopyTextToClipboard(text, btn);
             }
         }
+
+        // Separate fallback function to use deprecated execCommand
+        function fallbackCopyTextToClipboard(text, btn) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed'; // Prevents scrolling to bottom
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                btn.textContent = "Copied!";
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = "Copy Code";
+                    btn.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                console.error('Fallback copy failed', err);
+            }
+            document.body.removeChild(textarea);
+        }
+
+
+        // Initialize all sections to be collapsed upon load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.answer-content').forEach(el => {
+                el.classList.add('max-h-0');
+                el.style.maxHeight = '0';
+            });
+        });
+        
+        // Smooth scroll for nav links (Adjusted for fixed nav)
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80, // Offset by nav height
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>
