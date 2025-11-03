@@ -1,116 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AlienXEdu - Java Practice Hub</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Prism.js for Java Highlighting -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" defer></script>
-
-  <!-- Google Font: Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    /* Custom CSS for the Student Hub style (light theme, Indigo accent) */
-    body { font-family: 'Inter', sans-serif; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlienXEdu - Advanced Python Concepts</title>
     
-    /* Global Container Padding */
-    .container {
-        max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    /* Custom class for the code output block (Terminal Look) */
-    .code-output {
-        background-color: #f3f4f6; /* light gray background */
-        padding: 0.75rem;
-        border-radius: 0.375rem;
-        font-family: monospace;
-        font-size: 0.875rem;
-        color: #16a34a; /* Green output text for clarity */
-        white-space: pre-wrap;
-        border: 1px dashed #3b82f6; /* Blue dashed border */
-        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-    }
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    /* Smooth transition for accordion */
-    .answer-content {
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        overflow: hidden;
-    }
-    .answer-content.max-h-0 {
-        max-height: 0 !important;
-    }
-
-    /* Style the detailed list items */
-    .detail-list { list-style: none; padding-left: 0; }
-    .detail-list li {
-        position: relative;
-        padding-left: 1.5rem;
-        margin-bottom: 0.5rem;
-        font-size: 0.95rem;
-    }
-    .detail-list li::before {
-        content: '▸';
-        color: #3b82f6; /* Indigo bullet */
-        position: absolute;
-        left: 0;
-        font-weight: 800;
-    }
-    .detail-list strong { color: #dc2626; /* Red for key concepts */ }
-
-    /* Copy Button */
-    .copy-btn {
-        @apply absolute top-4 right-4 bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1 rounded-full font-semibold transition-all duration-200 shadow-md;
-    }
-    .copy-btn.copied { 
-        @apply bg-green-600 shadow-lg; 
-    }
-
-    /* Code Block Formatting (Prism.js overrides) */
-    pre[class*="language-"] {
-        margin-top: 1rem !important;
-        margin-bottom: 1rem !important;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-    }
-
-    /* Section Header Styles */
-    .section-title {
-        @apply text-3xl font-extrabold text-gray-700 border-b-4 border-indigo-500 pb-2 mb-6;
-    }
-    /* Accordion Button Styles */
-    .accordion-button {
-        @apply w-full text-left p-5 flex justify-between items-center bg-indigo-100 hover:bg-indigo-200 transition-colors duration-200 border-b border-indigo-300;
-    }
-    .accordion-button span {
-        @apply text-xl font-bold text-indigo-800;
-    }
-  </style>
+    <!-- Prism.js for Code Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+    
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom class for the code output block */
+        .code-output {
+            background-color: #f3f4f6; /* gray-100 */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: #111827; /* gray-900 */
+            white-space: pre-wrap;
+            border: 1px solid #e5e7eb; /* gray-200 */
+        }
+        .dark .code-output {
+            background-color: #374151; /* dark:gray-700 */
+            color: #f9fafb; /* dark:gray-50 */
+            border-color: #4b5563; /* dark:gray-600 */
+        }
+        /* Smooth transition for accordion */
+        .answer-content {
+            transition: max-height 0.3s ease-out;
+            overflow: hidden;
+        }
+        /* Custom list styles */
+        .theory-list {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .theory-list li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 
-    <!-- Header / Navigation -->
-    <nav class="bg-white shadow-xl sticky top-0 z-10">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center flex-wrap">
-            <div class="text-2xl font-extrabold text-indigo-600 tracking-wider">
-                AlienXEdu // Java
+    <!-- Header -->
+    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-2 md:mb-0">
+                AlienXEdu - Advanced Concepts
             </div>
-            <div class="flex space-x-3 md:space-x-6 text-sm md:text-base mt-2 md:mt-0">
-                <a href="#p1" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P1</a>
-                <a href="#p2" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P2</a>
-                <a href="#p3" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P3</a>
-                <a href="#p4" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P4</a>
-                <a href="#p5" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P5</a>
-                <a href="#p6" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P6</a>
-                <a href="#p7" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">P7</a>
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+                <a href="#adt" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium">ADTs</a>
+                <a href="#pos" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium">Concurrency (POS)</a>
             </div>
         </div>
     </nav>
@@ -120,593 +74,624 @@
         
         <!-- Hero Section -->
         <header class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-indigo-800">Java Practical Exam Hub</h1>
-            <p class="text-xl text-gray-600 font-medium">All 7 core Java Practicals explained in a simple, step-by-step format.</p>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Advanced Python Concepts</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400">In-depth explanations and Python code for Abstract Data Types (ADTs) and Process Synchronization (Concurrency).</p>
         </header>
 
-        <!-- PRACTICAL 1 -->
-        <section id="p1" class="mb-12">
-            <h2 class="section-title">P1: Data Types, Operators, & Ternary</h2>
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                <button class="accordion-button" onclick="toggleAnswer('p1')">
-                    <span class="text-xl font-bold text-indigo-700">Practical 1: Fundamentals & Inline Logic</span>
-                    <span id="p1-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                </button>
-                <div id="p1-answer" class="answer-content max-h-0">
-                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
-                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
-                        <p class="mb-4 text-gray-700">This covers the absolute basics: how to store data using **Data Types** and how to use the **Ternary Operator** (a one-line `if-else` shortcut) for simple conditional logic.</p>
-                        
-                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
-                        <ul class="detail-list mb-4 space-y-1">
-                            <li>**Data Types**: You must know the difference between <code>int</code> (whole numbers), <code>double</code> (decimals), <code>boolean</code> (true/false), and <code>String</code> (text).</li>
-                            <li>**Ternary**: Structure is <code>(Condition ? Value_If_True : Value_If_False)</code>. It's concise but limit nesting.</li>
-                            <li>**Classes**: Defines the blueprint for objects, demonstrated by the <code>Student</code> class structure.</li>
-                        </ul>
-                        
-                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
-                        <pre><code class="language-java">
-package prac1;
+        <!-- Section 1: Abstract Data Types (ADTs) -->
+        <section id="adt" class="mb-16">
+            <h2 class="text-3xl font-bold border-b border-indigo-500 pb-3 mb-8">Part 1: Abstract Data Types (ADTs)</h2>
+            <div class="space-y-6">
+                
+                <!-- Q1: What is an ADT? -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('adt1')">
+                        <span class="text-lg font-semibold">Q1: What is an Abstract Data Type (ADT) and its types?</span>
+                        <span id="adt1-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="adt1-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold text-xl mb-3">What is an ADT?</h4>
+                            <p class="mb-4">An Abstract Data Type (ADT) is a **theoretical model** or a **blueprint** for a data structure. It defines:</p>
+                            <ul class="theory-list">
+                                <li><strong>Data:</strong> A set of values (e.g., a collection of items).</li>
+                                <li><strong>Operations:</strong> A set of operations that can be performed on that data (e.g., `add_item`, `remove_item`, `find_item`).</li>
+                            </ul>
+                            <p class="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 rounded-md text-yellow-800 dark:text-yellow-200">
+                                <strong>Key Idea:</strong> The ADT specifies **WHAT** the data structure does, but not **HOW** it does it.
+                            </p>
+                            <p class="mb-4">For example, the "List" ADT defines operations like `add(item)`, `remove(index)`, `get(index)`. The **implementation** (the "how") could be a Python List (which is a dynamic array) or a Linked List. Both are valid implementations of the "List" ADT.</p>
 
-public class Main {
-    public static void main(String[] args) {
-        // Data Types Demonstration
-        int age = 25;
-        String name = "Alice";
-        double price = 19.99;
-
-        System.out.println("Name: " + name);
-        System.out.println("Age: " + age);
-        
-        // Ternary Operator Example: Check Even/Odd
-        int number = 10;
-        String result = (number % 2 == 0) ? "Even" : "Odd";
-        System.out.println("Number " + number + " is " + result);
-
-        // Nested Ternary
-        int x = 5;
-        int z = (x > 0) ? ((x < 10) ? 1 : 2) : 3;
-        System.out.println("Value of z: " + z);
-    }
-}
-
-class Student {
-    String name = "Tom";
-    int id = 202503054;
-    public void displayInfo() {
-        System.out.println(name + " " + id);
-    }
-}
-                        </code></pre>
-                        
-                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
-                        <pre class="code-output">Name: Alice
-Age: 25
-Number 10 is Even
-Value of z: 1</pre>
+                            <h4 class="font-semibold text-xl mt-6 mb-3">Common Types of ADTs:</h4>
+                            <ul class="theory-list">
+                                <li><strong>List ADT:</strong> A collection of ordered items. (e.g., `list`, `array`).</li>
+                                <li><strong>Stack ADT:</strong> A "Last-In, First-Out" (LIFO) collection. Operations: `push`, `pop`, `peek`.</li>
+                                <li><strong>Queue ADT:</strong> A "First-In, First-Out" (FIFO) collection. Operations: `enqueue`, `dequeue`, `peek`.</li>
+                                <li><strong>Priority Queue ADT:</strong> A collection where each item has a priority. The `dequeue` operation always removes the item with the highest priority. (Often implemented with a Heap).</li>
+                                <li><strong>Map / Dictionary ADT:</strong> A collection of unique key-value pairs. Operations: `put(key, value)`, `get(key)`, `remove(key)`.</li>
+                                <li><strong>Set ADT:</strong> A collection of unique, unordered items. Operations: `add`, `remove`, `contains`.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- PRACTICAL 2 -->
-        <section id="p2" class="mb-12">
-            <h2 class="section-title">P2: Control Flow (If-Else, Loops, Switch)</h2>
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                <button class="accordion-button" onclick="toggleAnswer('p2')">
-                    <span class="text-xl font-bold text-indigo-700">Practical 2: Decision Making & Repetition</span>
-                    <span id="p2-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                </button>
-                <div id="p2-answer" class="answer-content max-h-0">
-                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
-                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
-                        <p class="mb-4 text-gray-700">Control Flow dictates program order. Use **If/Else** for decisions and **Loops** (`for`/`while`) for repeating a block of code.</p>
-                        
-                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
-                        <ul class="detail-list mb-4 space-y-1">
-                            <li>**If/Else**: Used for branching logic based on complex conditions (e.g., scoring grades).</li>
-                            <li>**For Loop**: Use when you **know** the number of repetitions (fixed iteration).</li>
-                            <li>**Switch**: A clean way to handle one variable checked against many **fixed values**.</li>
-                        </ul>
-                        
-                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
-                        <pre><code class="language-java">
-package p2;
-
-public class Main {
-    public static void main(String[] args) {
-        // 1. If-Else Control Flow
-        int score = 75;
-        System.out.print("Grade Check: ");
-        if (score >= 90) {
-            System.out.println("A");
-        } else if (score >= 70) {
-            System.out.println("B"); 
-        } else {
-            System.out.println("C");
-        }
-
-        // 2. For Loop
-        System.out.print("For Loop (1-3): ");
-        for (int i = 1; i <= 3; i++) {
-            System.out.print(i + " ");
-        }
-
-        // 3. Switch Statement
-        int day = 3;
-        String dayName;
-        switch (day) {
-            case 1: dayName = "Monday"; break;
-            case 3: dayName = "Wednesday"; break;
-            default: dayName = "Weekend"; break;
-        }
-        System.out.println("\nSelected Day: " + dayName);
-    }
-}
-                        </code></pre>
-                        
-                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
-                        <pre class="code-output">Grade Check: B
-For Loop (1-3): 1 2 3 
-Selected Day: Wednesday</pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PRACTICAL 3 -->
-        <section id="p3" class="mb-12">
-            <h2 class="section-title">P3: Polymorphism (Overloading, Overriding)</h2>
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                <button class="accordion-button" onclick="toggleAnswer('p3')">
-                    <span class="text-xl font-bold text-indigo-700">Practical 3: Many Forms - Compile-Time vs Runtime</span>
-                    <span id="p3-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                </button>
-                <div id="p3-answer" class="answer-content max-h-0">
-                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
-                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
-                        <p class="mb-4 text-gray-700">Polymorphism means "many forms." **Overloading** happens in the same class (different inputs). **Overriding** happens across classes (child redefines parent method).</p>
-                        
-                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
-                        <ul class="detail-list mb-4 space-y-1">
-                            <li>**Overloading (Compile-Time)**: Java chooses the correct method based on the parameters at compilation.</li>
-                            <li>**Overriding (Runtime)**: Java chooses the method based on the actual *object* type (e.g., <code>SBI</code>) at runtime. Use <code>@Override</code>.</li>
-                            <li>**Example**: The <code>Bank</code> parent class is used as a generic reference, but the specific bank's rate is returned.</li>
-                        </ul>
-                        
-                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
-                        <pre><code class="language-java">
-package p3;
-
-// Method Overloading
-class Volume {
-    public float volume(float l) { return l*l*l; } // Cube (1 arg)
-    public double volume(float r, float h) { return Math.PI*r*r*h; } // Cylinder (2 args)
-}
-
-// Runtime Polymorphism (Overriding)
-class Bank { float getRateOfInterest() { return 0; } }
-class SBI extends Bank { @Override float getRateOfInterest() { return 8.5f; } }
-class HDFC extends Bank { @Override float getRateOfInterest() { return 5.2f; } }
-
-public class Main {
-    public static void main(String[] args) {
-        Volume v = new Volume();
-        System.out.println("Cube: " + v.volume(5));
-        System.out.println("Cylinder: " + v.volume(5,5));
-
-        Bank b; // Parent reference
-        b = new SBI(); 
-        System.out.println("SBI Rate: " + b.getRateOfInterest());
-        b = new HDFC();
-        System.out.println("HDFC Rate: " + b.getRateOfInterest());
-    }
-}
-                        </code></pre>
-                        
-                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
-                        <pre class="code-output">Cube: 125.0
-Cylinder: 392.69908169872417
-SBI Rate: 8.5
-HDFC Rate: 5.2</pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PRACTICAL 4 -->
-        <section id="p4" class="mb-12">
-            <h2 class="section-title">P4: Abstract Class & Method</h2>
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                <button class="accordion-button" onclick="toggleAnswer('p4')">
-                    <span class="text-xl font-bold text-indigo-700">Practical 4: Enforcing Contracts and Blueprints</span>
-                    <span id="p4-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                </button>
-                <div id="p4-answer" class="answer-content max-h-0">
-                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
-                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
-                        <p class="mb-4 text-gray-700">An **abstract class** is a template that cannot be instantiated. An **abstract method** has no body and **forces** any non-abstract subclass to implement it.</p>
-                        
-                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
-                        <ul class="detail-list mb-4 space-y-1">
-                            <li>**`abstract` method**: Used to define a contract. The method signature exists, but the implementation is left blank (no `{}`).</li>
-                            <li>**`abstract` class**: Used to group related classes (e.g., <code>Sphere</code> and <code>HemiSphere</code>) under a common required method (<code>calVolume</code>).</li>
-                            <li>**Rule**: You cannot create an object of an abstract class.</li>
-                        </ul>
-                        
-                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
-                        <pre><code class="language-java">
-package p04;
-
-abstract class Volume {
-    abstract void calVolume(); // Abstract: no body, must be implemented
-    void printIntro() { System.out.println("--- Volume Calculation Started ---"); }
-}
-class Sphere extends Volume {
-    double r;
-    Sphere(double r) { this.r = r; }
-    @Override 
-    void calVolume() { // Forced implementation for Sphere
-        double result = (4.0/3.0)*Math.PI*r*r*r;
-        System.out.println("Volume of Sphere: " + result);
-    }
-}
-class HemiSphere extends Volume {
-    double r;
-    HemiSphere(double r) { this.r = r; }
-    @Override 
-    void calVolume() { // Forced implementation for HemiSphere
-        double result = (2.0/3)*Math.PI*r*r*r;
-        System.out.println("Volume of Hemi-Sphere: " + result);
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Sphere s = new Sphere(2);
-        s.printIntro(); 
-        s.calVolume();
-
-        new HemiSphere(2).calVolume();
-    }
-}
-                        </code></pre>
-                        
-                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
-                        <pre class="code-output">--- Volume Calculation Started ---
-Volume of Sphere: 33.510321638291124
-Volume of Hemi-Sphere: 16.755160819145562</pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PRACTICAL 5 -->
-        <section id="p5" class="mb-12">
-            <h2 class="section-title">P5: Access Specifiers & Inner Class</h2>
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                <button class="accordion-button" onclick="toggleAnswer('p5')">
-                    <span class="text-xl font-bold text-indigo-700">Practical 5: Visibility (Scope) & Nested Classes</span>
-                    <span id="p5-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                </button>
-                <div id="p5-answer" class="answer-content max-h-0">
-                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
-                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
-                        <p class="mb-4 text-gray-700">**Access Specifiers** (`private`, `public`) control which parts of the code can see your variables/methods. **Inner Classes** are classes nested inside others for better structure.</p>
-                        
-                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
-                        <ul class="detail-list mb-4 space-y-1">
-                            <li>**`private`**: Strongest restriction. Data can only be accessed within its own class (demonstrated by <code>Person.age</code>).</li>
-                            <li>**Inner Class (Non-Static)**: Tied to an outer object and can access **all** members (even private ones) of that outer object.</li>
-                            <li>**Static Nested Class**: Independent of the outer object but grouped logically. Can **only** access **static** members of the outer class.</li>
-                        </ul>
-                        
-                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
-                        <pre><code class="language-java">
-package p5;
-
-// Access Specifiers Demo
-class Person {
-    public String name = "Alice";
-    private int age = 30; // Hidden data
+                <!-- Q2: ADT Code (Student) -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('adt2')">
+                        <span class="text-lg font-semibold">Q2: ADT Code (Model a "Student")</span>
+                        <span id="adt2-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="adt2-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Explanation:</h4>
+                            <p class="mb-4">In Python, a `class` is the perfect way to implement an ADT. We define the **data** in the `__init__` method (as attributes) and the **operations** as class methods.</p>
+                            <p class="mb-4">Here, we model a "Student" ADT. The data is `name`, `student_id`, and `grades`. The operations are `add_grade` and `get_gpa`.</p>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python">class Student:
+    """
+    Implements a Student ADT.
+    - Data: name, student_id, list of grades
+    - Operations: add_grade, get_gpa
+    """
     
-    public void accessPrivate() { showAge(); } // Accesses private helper method
-    private void showAge() { System.out.println("Age: " + age); }
-}
+    def __init__(self, name, student_id):
+        self.name = name
+        self.student_id = student_id
+        self.grades = []  # Data
+        print(f"Created student: {self.name} (ID: {self.student_id})")
 
-// Inner Class Demo
-public class Outer {
-    String message = "Hello from Outer class!";
-    private static String staticMessage = "Static Outer Message";
-    
-    // A) Member Inner Class (Accesses 'message')
-    class Inner {
-        void display() { System.out.println("Inner class says: " + message); }
-    }
-    
-    // B) Static Nested Class (Accesses 'staticMessage')
-    static class StaticNested {
-        void display() { System.out.println(staticMessage); }
-    }
+    def add_grade(self, grade):
+        """Operation to add a grade."""
+        self.grades.append(grade)
+        print(f"Added grade {grade} for {self.name}")
 
-    public static void main(String[] args) {
-        // Inner Class Call
-        Outer o = new Outer();
-        Outer.Inner i = o.new Inner();
-        i.display();
-        
-        // Static Nested Class Call
-        Outer.StaticNested nested = new Outer.StaticNested();
-        nested.display();
-        
-        // Access Private Demo
-        Person p = new Person();
-        p.accessPrivate();
-    }
-}
-                        </code></pre>
-                        
-                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
-                        <pre class="code-output">Inner class says: Hello from Outer class!
-Static Outer Message
-Age: 30</pre>
+    def get_gpa(self):
+        """Operation to calculate the GPA."""
+        if not self.grades:
+            return 0.0
+        return sum(self.grades) / len(self.grades)
+
+    def display_info(self):
+        """Operation to show student details."""
+        print(f"--- Student Info ---")
+        print(f"Name: {self.name}")
+        print(f"ID: {self.student_id}")
+        print(f"Grades: {self.grades}")
+        print(f"GPA: {self.get_gpa():.2f}")
+
+# --- Using the Student ADT ---
+s1 = Student("Alice", "S101")
+s1.add_grade(90)
+s1.add_grade(85)
+s1.add_grade(95)
+s1.display_info()
+
+s2 = Student("Bob", "S102")
+s2.add_grade(70)
+s2.display_info()
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Created student: Alice (ID: S101)
+Added grade 90 for Alice
+Added grade 85 for Alice
+Added grade 95 for Alice
+--- Student Info ---
+Name: Alice
+ID: S101
+Grades: [90, 85, 95]
+GPA: 90.00
+Created student: Bob (ID: S102)
+Added grade 70 for Bob
+--- Student Info ---
+Name: Bob
+ID: S102
+Grades: [70]
+GPA: 70.00</pre>
+                        </div>
                     </div>
                 </div>
+                
+                <!-- Q3: Polynomial Representation -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('adt3')">
+                        <span class="text-lg font-semibold">Q3: Represent Polynomial ADT</span>
+                        <span id="adt3-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="adt3-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Explanation:</h4>
+                            <p class="mb-4">A polynomial (like $3x^2 + 2x - 4$) can be represented as an ADT. The best way to store the data is a **dictionary**, where keys are the **exponents** and values are the **coefficients**.</p>
+                            <p class="mb-4">Example: $3x^2 + 2x - 4$ is stored as `{2: 3, 1: 2, 0: -4}`.</p>
+                            <p class="mb-4">This method makes operations like addition very efficient.</p>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python">class Polynomial:
+    """
+    Implements a Polynomial ADT using a dictionary.
+    Keys are exponents, values are coefficients.
+    e.g., 3x^2 + 2x is stored as {2: 3, 1: 2}
+    """
+    
+    def __init__(self):
+        self.terms = {} # Data: {exponent: coefficient}
+
+    def add_term(self, coeff, exp):
+        """Operation to add a single term."""
+        if exp in self.terms:
+            self.terms[exp] += coeff
+        else:
+            self.terms[exp] = coeff
+        
+        # Remove term if coefficient becomes zero
+        if self.terms[exp] == 0:
+            del self.terms[exp]
+
+    def add_poly(self, other_poly):
+        """Operation to add two polynomials together."""
+        new_poly = Polynomial()
+        
+        # Add terms from self
+        for exp, coeff in self.terms.items():
+            new_poly.add_term(coeff, exp)
+            
+        # Add terms from other_poly
+        for exp, coeff in other_poly.terms.items():
+            new_poly.add_term(coeff, exp)
+            
+        return new_poly
+
+    def __str__(self):
+        """Helper to print the polynomial nicely."""
+        if not self.terms:
+            return "0"
+        
+        # Sort terms by exponent, highest first
+        sorted_terms = sorted(self.terms.items(), key=lambda item: item[0], reverse=True)
+        
+        parts = []
+        for exp, coeff in sorted_terms:
+            if coeff == 0: continue
+            
+            part = str(abs(coeff))
+            if exp > 0:
+                part += "x"
+                if exp > 1:
+                    part += f"^{exp}"
+            
+            # Add sign
+            if coeff > 0:
+                parts.append(f"+ {part}")
+            else:
+                parts.append(f"- {part}")
+                
+        # Fix the first term's sign
+        result = " ".join(parts)
+        if result.startswith("+ "):
+            return result[2:]
+        elif result.startswith("- "):
+            return result
+        else:
+            return result
+
+# --- Using the Polynomial ADT ---
+# P1 = 3x^2 + 2x + 5
+P1 = Polynomial()
+P1.add_term(3, 2)
+P1.add_term(2, 1)
+P1.add_term(5, 0)
+print(f"P1 = {P1}")
+
+# P2 = 4x^3 - 2x + 1
+P2 = Polynomial()
+P2.add_term(4, 3)
+P2.add_term(-2, 1)
+P2.add_term(1, 0)
+print(f"P2 = {P2}")
+
+# P3 = P1 + P2
+P3 = P1.add_poly(P2)
+# Expected: 4x^3 + 3x^2 + 6
+print(f"P1 + P2 = {P3}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">P1 = 3x^2 + 2x + 5
+P2 = 4x^3 - 2x + 1
+P1 + P2 = 4x^3 + 3x^2 + 6</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4: Min/Max Heap (Priority Queue) -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('adt4')">
+                        <span class="text-lg font-semibold">Q4: Min Heap, Max Heap, and Priority Queue ADT</span>
+                        <span id="adt4-icon" class="font-mono text-xl text-indigo-500">[+]</span>
+                    </button>
+                    <div id="adt4-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Explanation:</h4>
+                            <p class="mb-4">A **Priority Queue** is an ADT where each item has a priority. When you remove an item, you always get the item with the highest priority (or lowest, depending on the type).</p>
+                            <p class="mb-4">A **Heap** is the perfect *data structure* to *implement* a Priority Queue. It's a tree-based structure that keeps the highest (or lowest) priority item at the root, allowing for very fast insertion and removal.</p>
+                            <ul class="theory-list">
+                                <li><strong>Min Heap:</strong> The parent node is always *smaller* than its children. The root is the smallest item. (e.g., for task scheduling, lowest number = highest priority).</li>
+                                <li><strong>Max Heap:</strong> The parent node is always *larger* than its children. The root is the largest item. (e.g., for patient triage, highest number = highest priority).</li>
+                            </ul>
+                            <p class="mb-4">Python's built-in `heapq` module is a **Min Heap**.</p>
+                            
+                            <h4 class="font-semibold mb-2">Python Code (using `heapq`):</h4>
+<pre><code class="language-python">import heapq
+
+# --- 1. Min Heap (Patient Triage - lower number is higher priority) ---
+print("--- Min Heap (Priority Queue) ---")
+# heapq operates on a standard Python list
+min_heap = []
+
+# Add items (push)
+heapq.heappush(min_heap, (5, "Patient with mild cold"))
+heapq.heappush(min_heap, (1, "Patient with chest pains"))
+heapq.heappush(min_heap, (3, "Patient with broken arm"))
+
+print(f"Heap state: {min_heap}")
+
+# Remove items (pop)
+# heapq.heappop() always removes and returns the SMALLEST item
+highest_priority = heapq.heappop(min_heap)
+print(f"Treating now: {highest_priority}")
+print(f"Heap state: {min_heap}")
+
+
+# --- 2. Max Heap (Job Scheduling - higher number is higher priority) ---
+print("\n--- Max Heap (Priority Queue) ---")
+# TRICK: To use heapq as a Max Heap, store NEGATIVE values.
+# Pushing -10, -8, -5. The Min Heap will see -10 as the "smallest".
+# When we pop -10, we multiply by -1 to get the true value, 10.
+
+max_heap = []
+jobs = [5, 10, 2, 8]
+
+for job_priority in jobs:
+    # Push the negative value
+    heapq.heappush(max_heap, (-job_priority, f"Job with priority {job_priority}"))
+
+print(f"Max Heap (negated): {max_heap}")
+
+# Pop the "highest" priority (which is the most negative number)
+highest_priority_job = heapq.heappop(max_heap)
+
+# Multiply by -1 to get the original value
+print(f"Running job: {highest_priority_job[1]} (Original Prio: {-highest_priority_job[0]})")
+print(f"Max Heap (negated): {max_heap}")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">--- Min Heap (Priority Queue) ---
+Heap state: [(1, 'Patient with chest pains'), (5, 'Patient with mild cold'), (3, 'Patient with broken arm')]
+Treating now: (1, 'Patient with chest pains')
+Heap state: [(3, 'Patient with broken arm'), (5, 'Patient with mild cold')]
+
+--- Max Heap (Priority Queue) ---
+Max Heap (negated): [(-10, 'Job with priority 10'), (-8, 'Job with priority 8'), (-2, 'Job with priority 2'), (-5, 'Job with priority 5')]
+Running job: Job with priority 10 (Original Prio: 10)
+Max Heap (negated): [(-8, 'Job with priority 8'), (-5, 'Job with priority 5'), (-2, 'Job with priority 2')]</pre>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- PRACTICAL 6 -->
-        <section id="p6" class="mb-12">
-            <h2 class="section-title">P6: Exception Handling</h2>
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                <button class="accordion-button" onclick="toggleAnswer('p6')">
-                    <span class="text-xl font-bold text-indigo-700">Practical 6: Graceful Error Management (Try, Catch, Finally)</span>
-                    <span id="p6-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                </button>
-                <div id="p6-answer" class="answer-content max-h-0">
-                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
-                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
-                        <p class="mb-4 text-gray-700">Exception handling prevents crashes. You **try** risky code, **catch** the error, and the **finally** block runs no matter what.</p>
-                        
-                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
-                        <ul class="detail-list mb-4 space-y-1">
-                            <li>**`try`**: Block containing code that might throw a runtime exception (e.g., division by zero).</li>
-                            <li>**`catch`**: Executes if the specified exception type is thrown. It allows the program to continue.</li>
-                            <li>**`finally`**: Essential for cleanup operations (closing file streams, database connections). **It always executes**.</li>
-                            <li>**User-defined**: We create a custom error by extending the <code>Exception</code> class and use <code>throw new MyException()</code>.</li>
-                        </ul>
-                        
-                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
-                        <pre><code class="language-java">
-package p6;
+        <!-- Section 2: Concurrency (POS) -->
+        <section id="pos" class="mb-16">
+            <h2 class="text-3xl font-bold border-b border-green-500 pb-3 mb-8">Part 2: Concurrency & OS Concepts (POS)</h2>
+            <div class="space-y-6">
 
-class VoteException extends Exception {
-    public VoteException(String s) { super(s); }
-}
+                <!-- Q5: Threading Basics -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('pos1')">
+                        <span class="text-lg font-semibold">Q5: Threading Basics</span>
+                        <span id="pos1-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="pos1-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Explanation:</h4>
+                            <p class="mb-4">A **Thread** is the smallest unit of execution within a process. A single process (like your running Python script) can have multiple threads running *concurrently* (at the same time), sharing the same memory space.</p>
+                            <p class="mb-4">This is useful for tasks that can run in parallel, like downloading multiple files at once or keeping a user interface responsive while doing a calculation in the background.</p>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python">import threading
+import time
 
-public class Main {
-    public static void main(String[] args) {
-        // try-catch-finally
-        try {
-            int a = 100/0; // Causes ArithmeticException
-        } catch (Exception e) {
-            System.out.println("Caught Error: " + e.getMessage());
-        } finally {
-            System.out.println("FINALLY: Cleanup code executed.");
-        }
+def task_1(name):
+    """A simple task for a thread."""
+    print(f"Thread '{name}' starting...")
+    for i in range(3):
+        print(f"Thread '{name}': working {i+1}/3")
+        time.sleep(1) # Simulate work
+    print(f"Thread '{name}' finishing.")
 
-        // Multiple exceptions example
-        try { 
-            String str = null; 
-            System.out.println(str.length()); // NullPointerException
-        }
-        catch (Exception e) { 
-            System.out.println("Caught another error: " + e.getClass().getSimpleName()); 
-        }
+def task_2(name, count):
+    """Another simple task with different args."""
+    print(f"Thread '{name}' starting...")
+    for i in range(count):
+        print(f"Thread '{name}': counting {i+1}/{count}")
+        time.sleep(0.5)
+    print(f"Thread '{name}' finishing.")
 
-        // User-defined Exception
-        try {
-            if (15 < 18) throw new VoteException("You r not eligible...");
-        } catch (VoteException e) {
-            System.out.println("\nCustom Error: " + e.getMessage());
-        }
-    }
-}
-                        </code></pre>
-                        
-                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output:</h4>
-                        <pre class="code-output">Caught Error: / by zero
-FINALLY: Cleanup code executed.
-Caught another error: NullPointerException
+# --- Using Threading ---
+print("Main: Starting threads...")
 
-Custom Error: You r not eligible...</pre>
+# Create the thread objects
+# target = the function to run
+# args = a tuple of arguments for that function
+t1 = threading.Thread(target=task_1, args=("Task-A",))
+t2 = threading.Thread(target=task_2, args=("Task-B", 5))
+
+# Start the threads (they now run in the background)
+t1.start()
+t2.start()
+
+print("Main: All threads started. Waiting for them to finish...")
+
+# .join() tells the main script to wait until the thread is complete
+t1.join()
+t2.join()
+
+print("Main: Both threads have finished. Exiting.")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output (order may vary slightly):</h4>
+                            <pre class="code-output">Main: Starting threads...
+Thread 'Task-A' starting...
+Thread 'Task-A': working 1/3
+Thread 'Task-B' starting...
+Thread 'Task-B': counting 1/5
+Main: All threads started. Waiting for them to finish...
+Thread 'Task-B': counting 2/5
+Thread 'Task-A': working 2/3
+Thread 'Task-B': counting 3/5
+Thread 'Task-B': counting 4/5
+Thread 'Task-A': working 3/3
+Thread 'Task-B': counting 5/5
+Thread 'Task-B' finishing.
+Thread 'Task-A' finishing.
+Main: Both threads have finished. Exiting.</pre>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- PRACTICAL 7 -->
-        <section id="p7" class="mb-12">
-            <h2 class="section-title">P7: Multithreading (Odd & Even)</h2>
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                <button class="accordion-button" onclick="toggleAnswer('p7')">
-                    <span class="text-xl font-bold text-indigo-700">Practical 7: Concurrent Execution - Odd & Even</span>
-                    <span id="p7-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                </button>
-                <div id="p7-answer" class="answer-content max-h-0">
-                    <div class="px-5 pb-6 pt-4 relative bg-gray-50">
-                        <h4 class="font-bold mb-2 text-xl text-indigo-600">Simple Explanation:</h4>
-                        <p class="mb-4 text-gray-700">Multithreading allows multiple parts of the program to run **concurrently** (at the same time). You create threads by **Extending `Thread`** or **Implementing `Runnable`**.</p>
-                        
-                        <h4 class="font-bold mt-4 mb-2 text-xl text-indigo-600">Detailed Breakdown:</h4>
-                        <ul class="detail-list mb-4 space-y-1">
-                            <li>**Key Method**: You **MUST** call <code>t.start()</code>. This creates a new execution path. Calling <code>t.run()</code> just executes the code sequentially.</li>
-                            <li>**Interleaving**: We use <code>Thread.sleep()</code> to pause the threads at different rates (0.5s vs 1.0s), demonstrating how the operating system mixes their outputs.</li>
-                            <li>**Runnable**: Preferred because it allows your class to extend another class later (Java only allows single inheritance).</li>
-                        </ul>
-                        
-                        <h4 class="font-semibold mb-2 mt-6 text-gray-700">Java Code:</h4>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
-                        <pre><code class="language-java">
-package p7;
+                <!-- Q6: Producer-Consumer (Bounded Buffer) -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('pos2')">
+                        <span class="text-lg font-semibold">Q6: Producer-Consumer Problem (Bounded Buffer)</span>
+                        <span id="pos2-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="pos2-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Explanation:</h4>
+                            <p class="mb-4">This is a classic concurrency problem. You have a **Producer** thread that creates items and a **Consumer** thread that uses them. They share a **Bounded Buffer** (a queue with a fixed size).</p>
+                            <p class="mb-4">Problems to solve:</p>
+                            <ul class="theory-list">
+                                <li>The Producer must not add items if the buffer is full (it must wait).</li>
+                                <li>The Consumer must not take items if the buffer is empty (it must wait).</li>
+                                <li>Only one thread can access the buffer at a time (a **Race Condition**).</li>
+                            </ul>
+                            <p class="mb-4">We solve this using **Semaphores**:</p>
+                            <ul class="theory-list">
+                                <li>`empty`: Counts empty slots. Producer waits on this.</li>
+                                <li>`full`: Counts filled slots. Consumer waits on this.</li>
+                                <li>`mutex`: A lock (value 1) to ensure only one thread accesses the buffer.</li>
+                            </ul>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python">import threading
+import time
+import random
 
-class ThreadOne extends Thread { // Method 1: Extend Thread (Odds)
-    public void run() {
-        for (int i = 1; i <= 10; i += 2) {
-            System.out.println("ThreadOne - Count (Odd): " + i);
-            try { Thread.sleep(500); } 
-            catch (InterruptedException e) { e.printStackTrace(); }
-        }
-    }
-}
+BUFFER_SIZE = 5
+buffer = [] # The shared bounded buffer
 
-class ThreadTwo implements Runnable { // Method 2: Implement Runnable (Evens)
-    public void run() {
-        for (int i = 2; i <= 10; i += 2) {
-            System.out.println("ThreadTwo - Count (Even): " + i);
-            try { Thread.sleep(1000); }
-            catch (InterruptedException e) { e.printStackTrace(); }
-        }
-    }
-}
+# Semaphores
+# Controls access to the buffer
+mutex = threading.Semaphore(1) 
+# Counts empty slots (starts full)
+empty = threading.Semaphore(BUFFER_SIZE)
+# Counts filled slots (starts empty)
+full = threading.Semaphore(0)
 
-public class Main {
-    public static void main(String[] args) {
-        ThreadOne t1 = new ThreadOne();
-        Thread t2 = new Thread(new ThreadTwo()); // Wrap Runnable
-        t1.start(); // Start threads
-        t2.start(); 
-        System.out.println("Main thread finished setting up.");
-    }
-}
-                        </code></pre>
-                        
-                        <h4 class="font-semibold mt-4 mb-2 text-gray-700">Console Output (Interleaved/Mixed):</h4>
-                        <pre class="code-output">Main thread finished setting up.
-ThreadOne - Count (Odd): 1
-ThreadTwo - Count (Even): 2
-ThreadOne - Count (Odd): 3
-ThreadOne - Count (Odd): 5
-ThreadTwo - Count (Even): 4
-ThreadOne - Count (Odd): 7
-ThreadOne - Count (Odd): 9
-ThreadTwo - Count (Even): 6
-ThreadTwo - Count (Even): 8
-ThreadTwo - Count (Even): 10</pre>
+class Producer(threading.Thread):
+    def run(self):
+        for i in range(10): # Produce 10 items
+            item = random.randint(1, 100)
+            
+            empty.acquire() # Wait for an empty slot
+            mutex.acquire() # Lock the buffer
+            
+            # --- Critical Section ---
+            buffer.append(item)
+            print(f"Producer produced {item}. Buffer: {buffer}")
+            # --- End Critical Section ---
+            
+            mutex.release() # Unlock the buffer
+            full.release()  # Signal that there is a full slot
+            
+            time.sleep(random.uniform(0.1, 0.5))
+
+class Consumer(threading.Thread):
+    def run(self):
+        for i in range(10): # Consume 10 items
+            
+            full.acquire()  # Wait for a full slot
+            mutex.acquire() # Lock the buffer
+            
+            # --- Critical Section ---
+            item = buffer.pop(0)
+            print(f"Consumer consumed {item}. Buffer: {buffer}")
+            # --- End Critical Section ---
+            
+            mutex.release() # Unlock the buffer
+            empty.release() # Signal that there is an empty slot
+            
+            time.sleep(random.uniform(0.5, 1.0))
+
+# --- Run the simulation ---
+producer_thread = Producer()
+consumer_thread = Consumer()
+
+print("Starting Producer-Consumer Simulation...")
+producer_thread.start()
+consumer_thread.start()
+
+producer_thread.join()
+consumer_thread.join()
+print("Simulation finished.")
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Example Output (will vary):</h4>
+                            <pre class="code-output">Starting Producer-Consumer Simulation...
+Producer produced 87. Buffer: [87]
+Producer produced 42. Buffer: [87, 42]
+Consumer consumed 87. Buffer: [42]
+Producer produced 15. Buffer: [42, 15]
+... (Threads will continue until 10 items are produced/consumed) ...
+Producer produced 76. Buffer: [55, 31, 76]
+Consumer consumed 55. Buffer: [31, 76]
+Consumer consumed 31. Buffer: [76]
+Consumer consumed 76. Buffer: []
+Simulation finished.</pre>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Q7: LRU Cache -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('pos3')">
+                        <span class="text-lg font-semibold">Q7: LRU (Least Recently Used) Cache</span>
+                        <span id="pos3-icon" class="font-mono text-xl text-green-500">[+]</span>
+                    </button>
+                    <div id="pos3-answer" class="answer-content max-h-0">
+                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <h4 class="font-semibold mb-2">Explanation:</h4>
+                            <p class="mb-4">An **LRU Cache** is a cache with a fixed size. When it gets full and a new item needs to be added, it evicts (removes) the **Least Recently Used** item to make space.</p>
+                            <p class="mb-4">This requires two things:</p>
+                            <ul class="theory-list">
+                                <li>A way to get items by key (like a Dictionary / Hash Map for $O(1)$ lookup).</li>
+                                <li>A way to know the order of use (like a Queue or Doubly Linked List).</li>
+                            </ul>
+                            <p class="mb-4">In Python, the `collections.OrderedDict` is a perfect fit. It's a dictionary that also remembers the order of insertion. We can use `move_to_end()` to mark an item as "recently used" and `popitem(last=False)` to remove the "least recently used" item.</p>
+                            
+                            <h4 class="font-semibold mb-2">Python Code:</h4>
+<pre><code class="language-python">from collections import OrderedDict
+
+class LRUCache:
+    """
+    Implements an LRU Cache using Python's OrderedDict.
+    """
+    
+    def __init__(self, capacity: int):
+        self.cache = OrderedDict()
+        self.capacity = capacity
+        print(f"Created LRU Cache with capacity {capacity}")
+
+    def get(self, key: int) -> int:
+        """
+        Get an item. If it exists, move it to the end (most recent).
+        """
+        if key not in self.cache:
+            print(f"GET {key}: Miss")
+            return -1
+        else:
+            # Move this key to the end to mark it as recently used
+            self.cache.move_to_end(key)
+            print(f"GET {key}: Hit (Value: {self.cache[key]})")
+            return self.cache[key]
+
+    def put(self, key: int, value: int) -> None:
+        """
+        Put an item in the cache.
+        """
+        if key in self.cache:
+            # Key already exists, just update value and move to end
+            self.cache[key] = value
+            self.cache.move_to_end(key)
+            print(f"PUT {key}: Updated value to {value}")
+        else:
+            # Key is new. Check capacity.
+            if len(self.cache) >= self.capacity:
+                # Evict the LRU item (the first item in OrderedDict)
+                # last=False makes it FIFO (which is LRU order)
+                lru_key, lru_val = self.cache.popitem(last=False)
+                print(f"PUT {key}: Cache full. Evicting LRU item {lru_key}.")
+            
+            # Add the new item
+            self.cache[key] = value
+            print(f"PUT {key}: Added value {value}")
+            
+        print(f"Cache state: {list(self.cache.keys())}")
+
+
+# --- Using the LRU Cache ---
+cache = LRUCache(3) # Capacity of 3
+
+cache.put(1, 100) # [1]
+cache.put(2, 200) # [1, 2]
+cache.put(3, 300) # [1, 2, 3]
+
+cache.get(1)      # [2, 3, 1] (1 becomes most recent)
+
+cache.put(4, 400) # [3, 1, 4] (Evicts 2, which is now LRU)
+
+cache.get(2)      # Miss, 2 was evicted
+
+cache.put(5, 500) # [1, 4, 5] (Evicts 3)
+</code></pre>
+                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
+                            <pre class="code-output">Created LRU Cache with capacity 3
+PUT 1: Added value 100
+Cache state: [1]
+PUT 2: Added value 200
+Cache state: [1, 2]
+PUT 3: Added value 300
+Cache state: [1, 2, 3]
+GET 1: Hit (Value: 100)
+Cache state: [2, 3, 1]
+PUT 4: Cache full. Evicting LRU item 2.
+PUT 4: Added value 400
+Cache state: [3, 1, 4]
+GET 2: Miss
+PUT 5: Cache full. Evicting LRU item 3.
+PUT 5: Added value 500
+Cache state: [1, 4, 5]</pre>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-200 border-t border-gray-300 mt-16">
-        <div class="container mx-auto px-6 py-8 text-center text-gray-600">
-            &copy; 2025 AlienXEdu. All rights reserved. Java Practical Exam Hub.
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500 dark:text-gray-400">
+            &copy; 2025 AlienXEdu. All rights reserved. Advanced Python Concepts.
         </div>
     </footer>
 
-    <!-- Accordion and Copy JavaScript -->
+    <!-- Accordion JavaScript -->
     <script>
         function toggleAnswer(id) {
             const answer = document.getElementById(id + '-answer');
             const icon = document.getElementById(id + '-icon');
             
-            // If currently collapsed (max-height is likely 0 or null)
-            if (answer.classList.contains('max-h-0')) {
-                answer.classList.remove('max-h-0');
-                // Calculate and set max-height dynamically (content height + padding/buffer)
-                // We add a small buffer to ensure space for content that might exceed scrollHeight slightly
-                answer.style.maxHeight = (answer.scrollHeight + 50) + 'px'; 
-                icon.textContent = '[-]';
+            if (answer.style.maxHeight) {
+                // Collapse
+                answer.style.maxHeight = null;
+                icon.textContent = '[+]';
             } else {
-                // If currently expanded
-                // Set max-height back to its scrollHeight before starting transition to 0
+                // Expand
                 answer.style.maxHeight = answer.scrollHeight + 'px';
-                
-                // Use requestAnimationFrame to ensure the browser registers the change before collapsing
-                requestAnimationFrame(() => {
-                    answer.style.maxHeight = '0px';
-                    icon.textContent = '[+]';
-                    // After transition finishes, add the class back
-                    setTimeout(() => answer.classList.add('max-h-0'), 400); 
-                });
+                icon.textContent = '[-]';
             }
         }
-
-        function copyCode(btn) {
-            const codeBlock = btn.parentElement.querySelector('pre code');
-            const text = codeBlock ? codeBlock.innerText.trim() : ''; 
-            
-            // Use modern clipboard API
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(text).then(() => {
-                    btn.textContent = "Copied!";
-                    btn.classList.add('copied');
-                    setTimeout(() => {
-                        btn.textContent = "Copy Code";
-                        btn.classList.remove('copied');
-                    }, 2000);
-                }).catch(() => {
-                    // Fallback attempt if modern API fails (e.g., due to permission/security)
-                    fallbackCopyTextToClipboard(text, btn);
-                });
-            } else {
-                // Fallback for older browsers
-                fallbackCopyTextToClipboard(text, btn);
-            }
-        }
-
-        // Separate fallback function to use deprecated execCommand
-        function fallbackCopyTextToClipboard(text, btn) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.style.position = 'fixed'; // Prevents scrolling to bottom
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                document.execCommand('copy');
-                btn.textContent = "Copied!";
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.textContent = "Copy Code";
-                    btn.classList.remove('copied');
-                }, 2000);
-            } catch (err) {
-                console.error('Fallback copy failed', err);
-            }
-            document.body.removeChild(textarea);
-        }
-
-
-        // Initialize all sections to be collapsed upon load
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.answer-content').forEach(el => {
-                el.classList.add('max-h-0');
-                el.style.maxHeight = '0';
-            });
-        });
-        
-        // Smooth scroll for nav links (Adjusted for fixed nav)
-        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80, // Offset by nav height
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
     </script>
 </body>
 </html>
+
