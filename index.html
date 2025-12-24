@@ -3,694 +3,366 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlienXEdu - Advanced Python Concepts</title>
-    
-    <!-- Tailwind CSS -->
+    <title>A Universe for Sayali</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Prism.js for Code Highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
-    
-    <!-- Google Font: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        body { margin: 0; overflow: hidden; background: #000; font-family: 'Montserrat', sans-serif; touch-action: none; }
+        canvas { display: block; cursor: grab; }
+        canvas:active { cursor: grabbing; }
+        
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        /* Custom class for the code output block */
-        .code-output {
-            background-color: #f3f4f6; /* gray-100 */
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            font-family: monospace;
-            font-size: 0.875rem;
-            color: #111827; /* gray-900 */
-            white-space: pre-wrap;
-            border: 1px solid #e5e7eb; /* gray-200 */
+
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 182, 193, 0.3);
+            color: #ffb6c1;
+            padding: 20px 50px;
+            border-radius: 100px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            backdrop-filter: blur(15px);
+            transition: all 0.5s ease;
+            box-shadow: 0 0 30px rgba(255, 182, 193, 0.1);
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
-        .dark .code-output {
-            background-color: #374151; /* dark:gray-700 */
-            color: #f9fafb; /* dark:gray-50 */
-            border-color: #4b5563; /* dark:gray-600 */
+
+        .glass-btn:hover {
+            background: rgba(255, 182, 193, 0.2);
+            box-shadow: 0 0 50px rgba(255, 182, 193, 0.4);
+            transform: translateY(-5px);
         }
-        /* Smooth transition for accordion */
-        .answer-content {
-            transition: max-height 0.3s ease-out;
-            overflow: hidden;
+
+        #poetry-overlay {
+            position: fixed;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            text-align: center;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 2s ease;
         }
-        /* Custom list styles */
-        .theory-list {
-            list-style-type: disc;
-            margin-left: 1.5rem;
-            margin-bottom: 1rem;
+
+        .poetic-line {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #fff;
+            font-size: 1.8rem;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+            margin-bottom: 10px;
         }
-        .theory-list li {
-            margin-bottom: 0.5rem;
+
+        #ui-controls {
+            position: fixed;
+            bottom: 50px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+
+        .nav-arrow {
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            font-size: 2rem;
+            transition: color 0.3s;
+            pointer-events: auto;
+        }
+
+        .nav-arrow:hover { color: #ffb6c1; }
+
+        .zoom-hint {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<body>
 
-    <!-- Header -->
-    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-10">
-        <div class="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
-            <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-2 md:mb-0">
-                AlienXEdu - Advanced Concepts
-            </div>
-            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2">
-                <a href="#adt" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium">ADTs</a>
-                <a href="#pos" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium">Concurrency (POS)</a>
-            </div>
-        </div>
-    </nav>
+    <div id="intro-screen">
+        <h1 class="text-white text-3xl md:text-5xl font-light mb-12 tracking-widest" style="font-family: 'Playfair Display';">For Sayali</h1>
+        <button class="glass-btn" onclick="igniteMagic()">Enter Her Universe</button>
+    </div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 py-12">
-        
-        <!-- Hero Section -->
-        <header class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Advanced Python Concepts</h1>
-            <p class="text-lg text-gray-600 dark:text-gray-400">In-depth explanations and Python code for Abstract Data Types (ADTs) and Process Synchronization (Concurrency).</p>
-        </header>
+    <div class="zoom-hint">Scroll to Zoom • Drag to Rotate</div>
 
-        <!-- Section 1: Abstract Data Types (ADTs) -->
-        <section id="adt" class="mb-16">
-            <h2 class="text-3xl font-bold border-b border-indigo-500 pb-3 mb-8">Part 1: Abstract Data Types (ADTs)</h2>
-            <div class="space-y-6">
-                
-                <!-- Q1: What is an ADT? -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('adt1')">
-                        <span class="text-lg font-semibold">Q1: What is an Abstract Data Type (ADT) and its types?</span>
-                        <span id="adt1-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="adt1-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold text-xl mb-3">What is an ADT?</h4>
-                            <p class="mb-4">An Abstract Data Type (ADT) is a **theoretical model** or a **blueprint** for a data structure. It defines:</p>
-                            <ul class="theory-list">
-                                <li><strong>Data:</strong> A set of values (e.g., a collection of items).</li>
-                                <li><strong>Operations:</strong> A set of operations that can be performed on that data (e.g., `add_item`, `remove_item`, `find_item`).</li>
-                            </ul>
-                            <p class="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 rounded-md text-yellow-800 dark:text-yellow-200">
-                                <strong>Key Idea:</strong> The ADT specifies **WHAT** the data structure does, but not **HOW** it does it.
-                            </p>
-                            <p class="mb-4">For example, the "List" ADT defines operations like `add(item)`, `remove(index)`, `get(index)`. The **implementation** (the "how") could be a Python List (which is a dynamic array) or a Linked List. Both are valid implementations of the "List" ADT.</p>
+    <div id="poetry-overlay">
+        <p id="poetry-text" class="poetic-line">In the silence of the stars, I found your name.</p>
+        <p id="shape-indicator" class="text-pink-300 text-xs tracking-[10px] uppercase opacity-50 mt-4">The Eternal Heart</p>
+    </div>
 
-                            <h4 class="font-semibold text-xl mt-6 mb-3">Common Types of ADTs:</h4>
-                            <ul class="theory-list">
-                                <li><strong>List ADT:</strong> A collection of ordered items. (e.g., `list`, `array`).</li>
-                                <li><strong>Stack ADT:</strong> A "Last-In, First-Out" (LIFO) collection. Operations: `push`, `pop`, `peek`.</li>
-                                <li><strong>Queue ADT:</strong> A "First-In, First-Out" (FIFO) collection. Operations: `enqueue`, `dequeue`, `peek`.</li>
-                                <li><strong>Priority Queue ADT:</strong> A collection where each item has a priority. The `dequeue` operation always removes the item with the highest priority. (Often implemented with a Heap).</li>
-                                <li><strong>Map / Dictionary ADT:</strong> A collection of unique key-value pairs. Operations: `put(key, value)`, `get(key)`, `remove(key)`.</li>
-                                <li><strong>Set ADT:</strong> A collection of unique, unordered items. Operations: `add`, `remove`, `contains`.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+    <div id="ui-controls">
+        <div class="nav-arrow" onclick="changeShape(-1)">←</div>
+        <div class="text-pink-400 text-3xl animate-pulse">❤</div>
+        <div class="nav-arrow" onclick="changeShape(1)">→</div>
+    </div>
 
-                <!-- Q2: ADT Code (Student) -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('adt2')">
-                        <span class="text-lg font-semibold">Q2: ADT Code (Model a "Student")</span>
-                        <span id="adt2-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="adt2-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Explanation:</h4>
-                            <p class="mb-4">In Python, a `class` is the perfect way to implement an ADT. We define the **data** in the `__init__` method (as attributes) and the **operations** as class methods.</p>
-                            <p class="mb-4">Here, we model a "Student" ADT. The data is `name`, `student_id`, and `grades`. The operations are `add_grade` and `get_gpa`.</p>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python">class Student:
-    """
-    Implements a Student ADT.
-    - Data: name, student_id, list of grades
-    - Operations: add_grade, get_gpa
-    """
-    
-    def __init__(self, name, student_id):
-        self.name = name
-        self.student_id = student_id
-        self.grades = []  # Data
-        print(f"Created student: {self.name} (ID: {self.student_id})")
-
-    def add_grade(self, grade):
-        """Operation to add a grade."""
-        self.grades.append(grade)
-        print(f"Added grade {grade} for {self.name}")
-
-    def get_gpa(self):
-        """Operation to calculate the GPA."""
-        if not self.grades:
-            return 0.0
-        return sum(self.grades) / len(self.grades)
-
-    def display_info(self):
-        """Operation to show student details."""
-        print(f"--- Student Info ---")
-        print(f"Name: {self.name}")
-        print(f"ID: {self.student_id}")
-        print(f"Grades: {self.grades}")
-        print(f"GPA: {self.get_gpa():.2f}")
-
-# --- Using the Student ADT ---
-s1 = Student("Alice", "S101")
-s1.add_grade(90)
-s1.add_grade(85)
-s1.add_grade(95)
-s1.display_info()
-
-s2 = Student("Bob", "S102")
-s2.add_grade(70)
-s2.display_info()
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Created student: Alice (ID: S101)
-Added grade 90 for Alice
-Added grade 85 for Alice
-Added grade 95 for Alice
---- Student Info ---
-Name: Alice
-ID: S101
-Grades: [90, 85, 95]
-GPA: 90.00
-Created student: Bob (ID: S102)
-Added grade 70 for Bob
---- Student Info ---
-Name: Bob
-ID: S102
-Grades: [70]
-GPA: 70.00</pre>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Q3: Polynomial Representation -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('adt3')">
-                        <span class="text-lg font-semibold">Q3: Represent Polynomial ADT</span>
-                        <span id="adt3-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="adt3-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Explanation:</h4>
-                            <p class="mb-4">A polynomial (like $3x^2 + 2x - 4$) can be represented as an ADT. The best way to store the data is a **dictionary**, where keys are the **exponents** and values are the **coefficients**.</p>
-                            <p class="mb-4">Example: $3x^2 + 2x - 4$ is stored as `{2: 3, 1: 2, 0: -4}`.</p>
-                            <p class="mb-4">This method makes operations like addition very efficient.</p>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python">class Polynomial:
-    """
-    Implements a Polynomial ADT using a dictionary.
-    Keys are exponents, values are coefficients.
-    e.g., 3x^2 + 2x is stored as {2: 3, 1: 2}
-    """
-    
-    def __init__(self):
-        self.terms = {} # Data: {exponent: coefficient}
-
-    def add_term(self, coeff, exp):
-        """Operation to add a single term."""
-        if exp in self.terms:
-            self.terms[exp] += coeff
-        else:
-            self.terms[exp] = coeff
-        
-        # Remove term if coefficient becomes zero
-        if self.terms[exp] == 0:
-            del self.terms[exp]
-
-    def add_poly(self, other_poly):
-        """Operation to add two polynomials together."""
-        new_poly = Polynomial()
-        
-        # Add terms from self
-        for exp, coeff in self.terms.items():
-            new_poly.add_term(coeff, exp)
-            
-        # Add terms from other_poly
-        for exp, coeff in other_poly.terms.items():
-            new_poly.add_term(coeff, exp)
-            
-        return new_poly
-
-    def __str__(self):
-        """Helper to print the polynomial nicely."""
-        if not self.terms:
-            return "0"
-        
-        # Sort terms by exponent, highest first
-        sorted_terms = sorted(self.terms.items(), key=lambda item: item[0], reverse=True)
-        
-        parts = []
-        for exp, coeff in sorted_terms:
-            if coeff == 0: continue
-            
-            part = str(abs(coeff))
-            if exp > 0:
-                part += "x"
-                if exp > 1:
-                    part += f"^{exp}"
-            
-            # Add sign
-            if coeff > 0:
-                parts.append(f"+ {part}")
-            else:
-                parts.append(f"- {part}")
-                
-        # Fix the first term's sign
-        result = " ".join(parts)
-        if result.startswith("+ "):
-            return result[2:]
-        elif result.startswith("- "):
-            return result
-        else:
-            return result
-
-# --- Using the Polynomial ADT ---
-# P1 = 3x^2 + 2x + 5
-P1 = Polynomial()
-P1.add_term(3, 2)
-P1.add_term(2, 1)
-P1.add_term(5, 0)
-print(f"P1 = {P1}")
-
-# P2 = 4x^3 - 2x + 1
-P2 = Polynomial()
-P2.add_term(4, 3)
-P2.add_term(-2, 1)
-P2.add_term(1, 0)
-print(f"P2 = {P2}")
-
-# P3 = P1 + P2
-P3 = P1.add_poly(P2)
-# Expected: 4x^3 + 3x^2 + 6
-print(f"P1 + P2 = {P3}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">P1 = 3x^2 + 2x + 5
-P2 = 4x^3 - 2x + 1
-P1 + P2 = 4x^3 + 3x^2 + 6</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q4: Min/Max Heap (Priority Queue) -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('adt4')">
-                        <span class="text-lg font-semibold">Q4: Min Heap, Max Heap, and Priority Queue ADT</span>
-                        <span id="adt4-icon" class="font-mono text-xl text-indigo-500">[+]</span>
-                    </button>
-                    <div id="adt4-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Explanation:</h4>
-                            <p class="mb-4">A **Priority Queue** is an ADT where each item has a priority. When you remove an item, you always get the item with the highest priority (or lowest, depending on the type).</p>
-                            <p class="mb-4">A **Heap** is the perfect *data structure* to *implement* a Priority Queue. It's a tree-based structure that keeps the highest (or lowest) priority item at the root, allowing for very fast insertion and removal.</p>
-                            <ul class="theory-list">
-                                <li><strong>Min Heap:</strong> The parent node is always *smaller* than its children. The root is the smallest item. (e.g., for task scheduling, lowest number = highest priority).</li>
-                                <li><strong>Max Heap:</strong> The parent node is always *larger* than its children. The root is the largest item. (e.g., for patient triage, highest number = highest priority).</li>
-                            </ul>
-                            <p class="mb-4">Python's built-in `heapq` module is a **Min Heap**.</p>
-                            
-                            <h4 class="font-semibold mb-2">Python Code (using `heapq`):</h4>
-<pre><code class="language-python">import heapq
-
-# --- 1. Min Heap (Patient Triage - lower number is higher priority) ---
-print("--- Min Heap (Priority Queue) ---")
-# heapq operates on a standard Python list
-min_heap = []
-
-# Add items (push)
-heapq.heappush(min_heap, (5, "Patient with mild cold"))
-heapq.heappush(min_heap, (1, "Patient with chest pains"))
-heapq.heappush(min_heap, (3, "Patient with broken arm"))
-
-print(f"Heap state: {min_heap}")
-
-# Remove items (pop)
-# heapq.heappop() always removes and returns the SMALLEST item
-highest_priority = heapq.heappop(min_heap)
-print(f"Treating now: {highest_priority}")
-print(f"Heap state: {min_heap}")
-
-
-# --- 2. Max Heap (Job Scheduling - higher number is higher priority) ---
-print("\n--- Max Heap (Priority Queue) ---")
-# TRICK: To use heapq as a Max Heap, store NEGATIVE values.
-# Pushing -10, -8, -5. The Min Heap will see -10 as the "smallest".
-# When we pop -10, we multiply by -1 to get the true value, 10.
-
-max_heap = []
-jobs = [5, 10, 2, 8]
-
-for job_priority in jobs:
-    # Push the negative value
-    heapq.heappush(max_heap, (-job_priority, f"Job with priority {job_priority}"))
-
-print(f"Max Heap (negated): {max_heap}")
-
-# Pop the "highest" priority (which is the most negative number)
-highest_priority_job = heapq.heappop(max_heap)
-
-# Multiply by -1 to get the original value
-print(f"Running job: {highest_priority_job[1]} (Original Prio: {-highest_priority_job[0]})")
-print(f"Max Heap (negated): {max_heap}")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">--- Min Heap (Priority Queue) ---
-Heap state: [(1, 'Patient with chest pains'), (5, 'Patient with mild cold'), (3, 'Patient with broken arm')]
-Treating now: (1, 'Patient with chest pains')
-Heap state: [(3, 'Patient with broken arm'), (5, 'Patient with mild cold')]
-
---- Max Heap (Priority Queue) ---
-Max Heap (negated): [(-10, 'Job with priority 10'), (-8, 'Job with priority 8'), (-2, 'Job with priority 2'), (-5, 'Job with priority 5')]
-Running job: Job with priority 10 (Original Prio: 10)
-Max Heap (negated): [(-8, 'Job with priority 8'), (-5, 'Job with priority 5'), (-2, 'Job with priority 2')]</pre>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Section 2: Concurrency (POS) -->
-        <section id="pos" class="mb-16">
-            <h2 class="text-3xl font-bold border-b border-green-500 pb-3 mb-8">Part 2: Concurrency & OS Concepts (POS)</h2>
-            <div class="space-y-6">
-
-                <!-- Q5: Threading Basics -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('pos1')">
-                        <span class="text-lg font-semibold">Q5: Threading Basics</span>
-                        <span id="pos1-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="pos1-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Explanation:</h4>
-                            <p class="mb-4">A **Thread** is the smallest unit of execution within a process. A single process (like your running Python script) can have multiple threads running *concurrently* (at the same time), sharing the same memory space.</p>
-                            <p class="mb-4">This is useful for tasks that can run in parallel, like downloading multiple files at once or keeping a user interface responsive while doing a calculation in the background.</p>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python">import threading
-import time
-
-def task_1(name):
-    """A simple task for a thread."""
-    print(f"Thread '{name}' starting...")
-    for i in range(3):
-        print(f"Thread '{name}': working {i+1}/3")
-        time.sleep(1) # Simulate work
-    print(f"Thread '{name}' finishing.")
-
-def task_2(name, count):
-    """Another simple task with different args."""
-    print(f"Thread '{name}' starting...")
-    for i in range(count):
-        print(f"Thread '{name}': counting {i+1}/{count}")
-        time.sleep(0.5)
-    print(f"Thread '{name}' finishing.")
-
-# --- Using Threading ---
-print("Main: Starting threads...")
-
-# Create the thread objects
-# target = the function to run
-# args = a tuple of arguments for that function
-t1 = threading.Thread(target=task_1, args=("Task-A",))
-t2 = threading.Thread(target=task_2, args=("Task-B", 5))
-
-# Start the threads (they now run in the background)
-t1.start()
-t2.start()
-
-print("Main: All threads started. Waiting for them to finish...")
-
-# .join() tells the main script to wait until the thread is complete
-t1.join()
-t2.join()
-
-print("Main: Both threads have finished. Exiting.")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output (order may vary slightly):</h4>
-                            <pre class="code-output">Main: Starting threads...
-Thread 'Task-A' starting...
-Thread 'Task-A': working 1/3
-Thread 'Task-B' starting...
-Thread 'Task-B': counting 1/5
-Main: All threads started. Waiting for them to finish...
-Thread 'Task-B': counting 2/5
-Thread 'Task-A': working 2/3
-Thread 'Task-B': counting 3/5
-Thread 'Task-B': counting 4/5
-Thread 'Task-A': working 3/3
-Thread 'Task-B': counting 5/5
-Thread 'Task-B' finishing.
-Thread 'Task-A' finishing.
-Main: Both threads have finished. Exiting.</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q6: Producer-Consumer (Bounded Buffer) -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('pos2')">
-                        <span class="text-lg font-semibold">Q6: Producer-Consumer Problem (Bounded Buffer)</span>
-                        <span id="pos2-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="pos2-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Explanation:</h4>
-                            <p class="mb-4">This is a classic concurrency problem. You have a **Producer** thread that creates items and a **Consumer** thread that uses them. They share a **Bounded Buffer** (a queue with a fixed size).</p>
-                            <p class="mb-4">Problems to solve:</p>
-                            <ul class="theory-list">
-                                <li>The Producer must not add items if the buffer is full (it must wait).</li>
-                                <li>The Consumer must not take items if the buffer is empty (it must wait).</li>
-                                <li>Only one thread can access the buffer at a time (a **Race Condition**).</li>
-                            </ul>
-                            <p class="mb-4">We solve this using **Semaphores**:</p>
-                            <ul class="theory-list">
-                                <li>`empty`: Counts empty slots. Producer waits on this.</li>
-                                <li>`full`: Counts filled slots. Consumer waits on this.</li>
-                                <li>`mutex`: A lock (value 1) to ensure only one thread accesses the buffer.</li>
-                            </ul>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python">import threading
-import time
-import random
-
-BUFFER_SIZE = 5
-buffer = [] # The shared bounded buffer
-
-# Semaphores
-# Controls access to the buffer
-mutex = threading.Semaphore(1) 
-# Counts empty slots (starts full)
-empty = threading.Semaphore(BUFFER_SIZE)
-# Counts filled slots (starts empty)
-full = threading.Semaphore(0)
-
-class Producer(threading.Thread):
-    def run(self):
-        for i in range(10): # Produce 10 items
-            item = random.randint(1, 100)
-            
-            empty.acquire() # Wait for an empty slot
-            mutex.acquire() # Lock the buffer
-            
-            # --- Critical Section ---
-            buffer.append(item)
-            print(f"Producer produced {item}. Buffer: {buffer}")
-            # --- End Critical Section ---
-            
-            mutex.release() # Unlock the buffer
-            full.release()  # Signal that there is a full slot
-            
-            time.sleep(random.uniform(0.1, 0.5))
-
-class Consumer(threading.Thread):
-    def run(self):
-        for i in range(10): # Consume 10 items
-            
-            full.acquire()  # Wait for a full slot
-            mutex.acquire() # Lock the buffer
-            
-            # --- Critical Section ---
-            item = buffer.pop(0)
-            print(f"Consumer consumed {item}. Buffer: {buffer}")
-            # --- End Critical Section ---
-            
-            mutex.release() # Unlock the buffer
-            empty.release() # Signal that there is an empty slot
-            
-            time.sleep(random.uniform(0.5, 1.0))
-
-# --- Run the simulation ---
-producer_thread = Producer()
-consumer_thread = Consumer()
-
-print("Starting Producer-Consumer Simulation...")
-producer_thread.start()
-consumer_thread.start()
-
-producer_thread.join()
-consumer_thread.join()
-print("Simulation finished.")
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Example Output (will vary):</h4>
-                            <pre class="code-output">Starting Producer-Consumer Simulation...
-Producer produced 87. Buffer: [87]
-Producer produced 42. Buffer: [87, 42]
-Consumer consumed 87. Buffer: [42]
-Producer produced 15. Buffer: [42, 15]
-... (Threads will continue until 10 items are produced/consumed) ...
-Producer produced 76. Buffer: [55, 31, 76]
-Consumer consumed 55. Buffer: [31, 76]
-Consumer consumed 31. Buffer: [76]
-Consumer consumed 76. Buffer: []
-Simulation finished.</pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Q7: LRU Cache -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <button class="w-full text-left p-5 flex justify-between items-center" onclick="toggleAnswer('pos3')">
-                        <span class="text-lg font-semibold">Q7: LRU (Least Recently Used) Cache</span>
-                        <span id="pos3-icon" class="font-mono text-xl text-green-500">[+]</span>
-                    </button>
-                    <div id="pos3-answer" class="answer-content max-h-0">
-                        <div class="px-5 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                            <h4 class="font-semibold mb-2">Explanation:</h4>
-                            <p class="mb-4">An **LRU Cache** is a cache with a fixed size. When it gets full and a new item needs to be added, it evicts (removes) the **Least Recently Used** item to make space.</p>
-                            <p class="mb-4">This requires two things:</p>
-                            <ul class="theory-list">
-                                <li>A way to get items by key (like a Dictionary / Hash Map for $O(1)$ lookup).</li>
-                                <li>A way to know the order of use (like a Queue or Doubly Linked List).</li>
-                            </ul>
-                            <p class="mb-4">In Python, the `collections.OrderedDict` is a perfect fit. It's a dictionary that also remembers the order of insertion. We can use `move_to_end()` to mark an item as "recently used" and `popitem(last=False)` to remove the "least recently used" item.</p>
-                            
-                            <h4 class="font-semibold mb-2">Python Code:</h4>
-<pre><code class="language-python">from collections import OrderedDict
-
-class LRUCache:
-    """
-    Implements an LRU Cache using Python's OrderedDict.
-    """
-    
-    def __init__(self, capacity: int):
-        self.cache = OrderedDict()
-        self.capacity = capacity
-        print(f"Created LRU Cache with capacity {capacity}")
-
-    def get(self, key: int) -> int:
-        """
-        Get an item. If it exists, move it to the end (most recent).
-        """
-        if key not in self.cache:
-            print(f"GET {key}: Miss")
-            return -1
-        else:
-            # Move this key to the end to mark it as recently used
-            self.cache.move_to_end(key)
-            print(f"GET {key}: Hit (Value: {self.cache[key]})")
-            return self.cache[key]
-
-    def put(self, key: int, value: int) -> None:
-        """
-        Put an item in the cache.
-        """
-        if key in self.cache:
-            # Key already exists, just update value and move to end
-            self.cache[key] = value
-            self.cache.move_to_end(key)
-            print(f"PUT {key}: Updated value to {value}")
-        else:
-            # Key is new. Check capacity.
-            if len(self.cache) >= self.capacity:
-                # Evict the LRU item (the first item in OrderedDict)
-                # last=False makes it FIFO (which is LRU order)
-                lru_key, lru_val = self.cache.popitem(last=False)
-                print(f"PUT {key}: Cache full. Evicting LRU item {lru_key}.")
-            
-            # Add the new item
-            self.cache[key] = value
-            print(f"PUT {key}: Added value {value}")
-            
-        print(f"Cache state: {list(self.cache.keys())}")
-
-
-# --- Using the LRU Cache ---
-cache = LRUCache(3) # Capacity of 3
-
-cache.put(1, 100) # [1]
-cache.put(2, 200) # [1, 2]
-cache.put(3, 300) # [1, 2, 3]
-
-cache.get(1)      # [2, 3, 1] (1 becomes most recent)
-
-cache.put(4, 400) # [3, 1, 4] (Evicts 2, which is now LRU)
-
-cache.get(2)      # Miss, 2 was evicted
-
-cache.put(5, 500) # [1, 4, 5] (Evicts 3)
-</code></pre>
-                            <h4 class="font-semibold mt-4 mb-2">Output:</h4>
-                            <pre class="code-output">Created LRU Cache with capacity 3
-PUT 1: Added value 100
-Cache state: [1]
-PUT 2: Added value 200
-Cache state: [1, 2]
-PUT 3: Added value 300
-Cache state: [1, 2, 3]
-GET 1: Hit (Value: 100)
-Cache state: [2, 3, 1]
-PUT 4: Cache full. Evicting LRU item 2.
-PUT 4: Added value 400
-Cache state: [3, 1, 4]
-GET 2: Miss
-PUT 5: Cache full. Evicting LRU item 3.
-PUT 5: Added value 500
-Cache state: [1, 4, 5]</pre>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
-        <div class="container mx-auto px-6 py-8 text-center text-gray-500 dark:text-gray-400">
-            &copy; 2025 AlienXEdu. All rights reserved. Advanced Python Concepts.
-        </div>
-    </footer>
-
-    <!-- Accordion JavaScript -->
     <script>
-        function toggleAnswer(id) {
-            const answer = document.getElementById(id + '-answer');
-            const icon = document.getElementById(id + '-icon');
-            
-            if (answer.style.maxHeight) {
-                // Collapse
-                answer.style.maxHeight = null;
-                icon.textContent = '[+]';
-            } else {
-                // Expand
-                answer.style.maxHeight = answer.scrollHeight + 'px';
-                icon.textContent = '[-]';
+        let scene, camera, renderer, particles;
+        let pos, targetPos, colors, sizes;
+        const COUNT = 22000;
+        let currentIndex = 0;
+        
+        // Interaction State
+        let isDragging = false;
+        let mouseX = 0, mouseY = 0;
+        let targetRotX = 0, targetRotY = 0;
+        let zoom = 600;
+        let targetZoom = 600;
+        let lastTouchDist = 0;
+
+        const UNIVERSE = [
+            { id: 'heart', title: 'The Eternal Heart', poem: "You are the beat that my soul follows." },
+            { id: 'infinity', title: 'Infinite Devotion', poem: "Beyond time, beyond space, our love exists." },
+            { id: 'butterfly', title: 'The Ethereal Grace', poem: "Like a butterfly, you brought color to my world." },
+            { id: 'diamond', title: 'The Precious Soul', poem: "Rarer than a star, more brilliant than a diamond." },
+            { id: 'sayali_s', title: 'The Celestial Signature', poem: "Written in the heavens, for you alone." },
+            { id: 'nebula', title: 'The Cosmic Dream', poem: "In a galaxy of billions, it was always you." }
+        ];
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 4000);
+            camera.position.z = 1500; // Start far for entrance
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document.body.appendChild(renderer.domElement);
+
+            const geo = new THREE.BufferGeometry();
+            pos = new Float32Array(COUNT * 3);
+            targetPos = new Float32Array(COUNT * 3);
+            colors = new Float32Array(COUNT * 3);
+            sizes = new Float32Array(COUNT);
+
+            for (let i = 0; i < COUNT; i++) {
+                pos[i*3] = (Math.random() - 0.5) * 4000;
+                pos[i*3+1] = (Math.random() - 0.5) * 4000;
+                pos[i*3+2] = (Math.random() - 0.5) * 4000;
+                sizes[i] = Math.random() * 2 + 0.5;
+            }
+
+            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+            geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+            const mat = new THREE.PointsMaterial({
+                size: 2.8,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.85,
+                blending: THREE.AdditiveBlending,
+                sizeAttenuation: true
+            });
+
+            particles = new THREE.Points(geo, mat);
+            scene.add(particles);
+
+            // Interaction Listeners
+            window.addEventListener('wheel', (e) => {
+                targetZoom += e.deltaY * 0.5;
+                targetZoom = Math.max(200, Math.min(1200, targetZoom));
+            });
+
+            window.addEventListener('mousedown', (e) => { isDragging = true; mouseX = e.clientX; mouseY = e.clientY; });
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                targetRotY += (e.clientX - mouseX) * 0.005;
+                targetRotX += (e.clientY - mouseY) * 0.005;
+                mouseX = e.clientX; mouseY = e.clientY;
+            });
+            window.addEventListener('mouseup', () => isDragging = false);
+
+            // Touch Listeners (Pinch & Pan)
+            window.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                if(e.touches.length === 2) {
+                    lastTouchDist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
+                }
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+            });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                if(e.touches.length === 2) {
+                    const dist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
+                    targetZoom -= (dist - lastTouchDist) * 2;
+                    targetZoom = Math.max(200, Math.min(1200, targetZoom));
+                    lastTouchDist = dist;
+                } else {
+                    targetRotY += (e.touches[0].clientX - mouseX) * 0.008;
+                    targetRotX += (e.touches[0].clientY - mouseY) * 0.008;
+                    mouseX = e.touches[0].clientX;
+                    mouseY = e.touches[0].clientY;
+                }
+            });
+            window.addEventListener('touchend', () => isDragging = false);
+
+            createShape(UNIVERSE[0].id);
+            animate();
+        }
+
+        function createShape(type) {
+            for (let i = 0; i < COUNT; i++) {
+                let x, y, z;
+                const t = Math.random() * Math.PI * 2;
+                const u = Math.random() * Math.PI;
+
+                if (type === 'heart') {
+                    const phi = Math.random() * Math.PI * 2;
+                    x = 16 * Math.pow(Math.sin(phi), 3);
+                    y = 13 * Math.cos(phi) - 5 * Math.cos(2*phi) - 2 * Math.cos(3*phi) - Math.cos(4*phi);
+                    z = (Math.random() - 0.5) * 10;
+                    const sc = 14; x *= sc; y *= sc; z *= sc;
+                } 
+                else if (type === 'butterfly') {
+                    const phi = (Math.random() * 2 - 1) * Math.PI * 2;
+                    const exp = Math.exp(Math.cos(phi)) - 2 * Math.cos(4 * phi) - Math.pow(Math.sin(phi/12), 5);
+                    x = Math.sin(phi) * exp * 60;
+                    y = Math.cos(phi) * exp * 60;
+                    z = (Math.random() - 0.5) * 50;
+                }
+                else if (type === 'diamond') {
+                    const r = 200;
+                    if (i < COUNT/2) {
+                        const h = Math.random() * r;
+                        const ang = Math.random() * Math.PI * 2;
+                        const rad = r - h;
+                        x = Math.cos(ang) * rad;
+                        y = h;
+                        z = Math.sin(ang) * rad;
+                    } else {
+                        const h = -Math.random() * r;
+                        const ang = Math.random() * Math.PI * 2;
+                        const rad = r + h;
+                        x = Math.cos(ang) * rad;
+                        y = h;
+                        z = Math.sin(ang) * rad;
+                    }
+                }
+                else if (type === 'infinity') {
+                    const s = 250;
+                    x = (s * Math.cos(t)) / (1 + Math.pow(Math.sin(t), 2));
+                    y = (s * Math.sin(t) * Math.cos(t)) / (1 + Math.pow(Math.sin(t), 2));
+                    z = (Math.random() - 0.5) * 40;
+                } 
+                else if (type === 'sayali_s') {
+                    const py = (Math.random() - 0.5) * 380;
+                    const angle = py * 0.05;
+                    x = Math.sin(angle) * 130;
+                    y = py;
+                    z = Math.cos(angle) * 40;
+                    if (y > 0) x = -x;
+                } 
+                else { // Nebula
+                    const r = Math.random() * 500;
+                    const sp = r * 0.08;
+                    x = Math.cos(t + sp) * r;
+                    y = Math.sin(t + sp) * r;
+                    z = (Math.random() - 0.5) * 150;
+                }
+
+                targetPos[i*3] = x;
+                targetPos[i*3+1] = y;
+                targetPos[i*3+2] = z;
             }
         }
+
+        function igniteMagic() {
+            document.getElementById('intro-screen').style.opacity = '0';
+            document.getElementById('intro-screen').style.pointerEvents = 'none';
+            document.getElementById('poetry-overlay').style.opacity = '1';
+            document.getElementById('ui-controls').style.opacity = '1';
+            targetZoom = 600;
+            
+            setInterval(() => {
+                if(!isDragging) changeShape(1);
+            }, 10000);
+        }
+
+        function changeShape(dir) {
+            currentIndex = (currentIndex + dir + UNIVERSE.length) % UNIVERSE.length;
+            const item = UNIVERSE[currentIndex];
+            
+            document.getElementById('poetry-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('poetry-text').innerText = item.poem;
+                document.getElementById('shape-indicator').innerText = item.title;
+                document.getElementById('poetry-overlay').style.opacity = '1';
+                createShape(item.id);
+            }, 1000);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.0008;
+            const p = particles.geometry.attributes.position;
+            const c = particles.geometry.attributes.color;
+
+            // Smooth Motion Processing
+            camera.position.z += (targetZoom - camera.position.z) * 0.05;
+            particles.rotation.y += (targetRotY - particles.rotation.y) * 0.06;
+            particles.rotation.x += (targetRotX - particles.rotation.x) * 0.06;
+
+            for (let i = 0; i < COUNT; i++) {
+                const ix = i * 3, iy = i * 3 + 1, iz = i * 3 + 2;
+
+                p.array[ix] += (targetPos[ix] - p.array[ix]) * 0.05;
+                p.array[iy] += (targetPos[iy] - p.array[iy]) * 0.05;
+                p.array[iz] += (targetPos[iz] - p.array[iz]) * 0.05;
+
+                // Stardust breathing effect
+                const pulse = Math.sin(time + i * 0.1) * 0.2;
+                p.array[ix] += pulse;
+
+                // Romantic Color Gradients
+                const h = (0.88 + Math.sin(time * 0.2 + i * 0.0002) * 0.1) % 1;
+                const col = new THREE.Color().setHSL(h, 0.9, 0.6);
+                c.array[ix] = col.r;
+                c.array[iy] = col.g;
+                c.array[iz] = col.b;
+            }
+
+            p.needsUpdate = true;
+            c.needsUpdate = true;
+            
+            if(!isDragging) targetRotY += 0.0015;
+
+            renderer.render(scene, camera);
+        }
+
+        init();
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
