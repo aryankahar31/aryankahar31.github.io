@@ -3,114 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aryan Kahar | Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>AlienX - Neon Strike</title>
     <style>
-        body {
-            background: radial-gradient(circle at top left, #1a1a2e, #16213e);
-            color: #e9ecef;
-            font-family: 'Inter', sans-serif;
-        }
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-        }
-        .accent-text {
-            color: #4cc9f0;
-        }
-        .skill-badge {
-            background: rgba(76, 201, 240, 0.15);
-            border: 1px solid #4cc9f0;
-        }
+        body { margin: 0; background: #050505; color: #00f2ff; font-family: 'Courier New', Courier, monospace; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        canvas { border: 2px solid #00f2ff; box-shadow: 0 0 20px #00f2ff; background: #000; cursor: crosshair; max-width: 95vw; max-height: 80vh; }
+        .ui { position: absolute; top: 20px; left: 20px; pointer-events: none; }
+        .instructions { position: absolute; bottom: 20px; text-align: center; opacity: 0.7; }
+        #overlay { position: absolute; background: rgba(0,0,0,0.8); width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
+        button { background: transparent; border: 2px solid #00f2ff; color: #00f2ff; padding: 10px 20px; font-size: 20px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #00f2ff; color: #000; box-shadow: 0 0 15px #00f2ff; }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body>
 
-    <div class="max-w-4xl mx-auto">
-        <header class="glass p-8 mb-8 text-center md:text-left flex flex-col md:flex-row items-center gap-6">
-            <div class="flex-1">
-                <h1 class="text-4xl font-bold mb-2">Aryan Kahar <span class="text-sm font-normal opacity-70">(he/him)</span></h1>
-                <p class="text-xl accent-text font-medium mb-4">Co-Founder & Lead Engineer of ALIENXCODE</p>
-                <p class="opacity-80">Frontend Developer • AI Enthusiast • B.Sc. Computer Science Student</p>
-                <div class="mt-4 flex flex-wrap justify-center md:justify-start gap-4">
-                    <a href="mailto:aryankahar.business@gmail.com" class="hover:text-cyan-400"><i class="fas fa-envelope"></i> Email</a>
-                    <a href="https://linkedin.com" class="hover:text-cyan-400"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                    <a href="https://github.com/aryankahar31" class="hover:text-cyan-400"><i class="fab fa-github"></i> GitHub</a>
-                </div>
-            </div>
-            <div class="text-right hidden md:block">
-                <p class="text-sm opacity-60">Based in</p>
-                <p class="font-bold">Mumbai, India 🇮🇳</p>
-            </div>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="space-y-8">
-                <section class="glass p-6">
-                    <h3 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2">🛠️ Skills</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="skill-badge px-3 py-1 rounded-full text-xs">React</span>
-                        <span class="skill-badge px-3 py-1 rounded-full text-xs">Vue</span>
-                        <span class="skill-badge px-3 py-1 rounded-full text-xs">Tailwind</span>
-                        <span class="skill-badge px-3 py-1 rounded-full text-xs">Flask</span>
-                        <span class="skill-badge px-3 py-1 rounded-full text-xs">Node.js</span>
-                        <span class="skill-badge px-3 py-1 rounded-full text-xs">Python</span>
-                        <span class="skill-badge px-3 py-1 rounded-full text-xs">C++</span>
-                        <span class="skill-badge px-3 py-1 rounded-full text-xs">Linux</span>
-                    </div>
-                </section>
-
-                <section class="glass p-6">
-                    <h3 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2">🚀 Currently Doing</h3>
-                    <ul class="text-sm space-y-3 opacity-90">
-                        <li>• Building Voice AI Assistant (Whisper + RAG)</li>
-                        <li>• Developing AlienX Autonomous Robot</li>
-                        <li>• Mastering DSA in C++</li>
-                    </ul>
-                </section>
-            </div>
-
-            <div class="md:col-span-2 space-y-8">
-                <section class="glass p-6">
-                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
-                        <i class="fas fa-code accent-text"></i> Featured Projects
-                    </h3>
-                    
-                    <div class="space-y-6">
-                        <div>
-                            <h4 class="font-bold text-lg text-cyan-300">AlienXFileV2</h4>
-                            <p class="text-sm opacity-80 mt-1">A secure and temporary file/text sharing platform built with Flask, featuring glassmorphism UI and Catbox.moe integration.</p>
-                        </div>
-
-                        <div>
-                            <h4 class="font-bold text-lg text-cyan-300">Public WiFi Security Portal</h4>
-                            <p class="text-sm opacity-80 mt-1">A specialized awareness portal built with TypeScript to educate users on public network risks.</p>
-                        </div>
-
-                        <div>
-                            <h4 class="font-bold text-lg text-cyan-300">Parking Management System</h4>
-                            <p class="text-sm opacity-80 mt-1">Automated ticketing system developed in Python for efficient vehicle tracking.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="glass p-6">
-                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                        <i class="fas fa-graduation-cap accent-text"></i> Education
-                    </h3>
-                    <p class="font-bold">B.Sc. Computer Science</p>
-                    <p class="text-sm opacity-70">University Student | Focus on AI/ML & Scalable Tech</p>
-                </section>
-            </div>
-        </div>
-
-        <footer class="mt-10 text-center opacity-50 text-sm">
-            <p>Made with ❤️ by Aryan Kahar — 2025</p>
-        </footer>
+    <div id="overlay">
+        <h1 style="font-size: 3rem; text-shadow: 0 0 10px #00f2ff;">ALIENX STRIKE</h1>
+        <p>Destroy the red glitches before they reach the bottom.</p>
+        <button onclick="startGame()">START MISSION</button>
     </div>
 
+    <div class="ui">
+        <div>SCORE: <span id="score">0</span></div>
+        <div>HP: <span id="hp">100</span>%</div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="instructions">
+        [Move Mouse/Touch to Aim & Shoot] <br>
+        Developed by Aryan Kahar
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+        const hpEl = document.getElementById('hp');
+        const overlay = document.getElementById('overlay');
+
+        canvas.width = 600;
+        canvas.height = 800;
+
+        let score = 0;
+        let hp = 100;
+        let gameActive = false;
+        let bullets = [];
+        let enemies = [];
+        let particles = [];
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x; this.y = y; this.color = color;
+                this.size = Math.random() * 3;
+                this.speedX = (Math.random() - 0.5) * 6;
+                this.speedY = (Math.random() - 0.5) * 6;
+                this.life = 1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= 0.02;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.life;
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function spawnEnemy() {
+            if(!gameActive) return;
+            const size = 30 + Math.random() * 20;
+            enemies.push({
+                x: Math.random() * (canvas.width - size),
+                y: -size,
+                width: size,
+                height: size,
+                speed: 2 + (score / 500)
+            });
+            setTimeout(spawnEnemy, Math.max(400, 1000 - score/10));
+        }
+
+        function startGame() {
+            score = 0; hp = 100; bullets = []; enemies = []; particles = [];
+            scoreEl.innerText = score; hpEl.innerText = hp;
+            gameActive = true;
+            overlay.style.display = 'none';
+            spawnEnemy();
+            animate();
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            if(!gameActive) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            bullets.push({ x: x, y: canvas.height - 20, speed: 10 });
+            // Simple Beep Sound via Web Audio API
+            playShotSound();
+        });
+
+        function playShotSound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'square'; osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+        }
+
+        function animate() {
+            if(!gameActive) return;
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Particles
+            particles.forEach((p, i) => {
+                p.update(); p.draw();
+                if(p.life <= 0) particles.splice(i, 1);
+            });
+
+            // Bullets
+            bullets.forEach((b, i) => {
+                b.y -= b.speed;
+                ctx.fillStyle = '#00f2ff';
+                ctx.shadowBlur = 10; ctx.shadowColor = '#00f2ff';
+                ctx.fillRect(b.x - 2, b.y, 4, 15);
+                ctx.shadowBlur = 0;
+                if(b.y < 0) bullets.splice(i, 1);
+            });
+
+            // Enemies
+            enemies.forEach((en, i) => {
+                en.y += en.speed;
+                ctx.strokeStyle = '#ff0055';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(en.x, en.y, en.width, en.height);
+                
+                // Collision with bullets
+                bullets.forEach((b, bi) => {
+                    if(b.x > en.x && b.x < en.x + en.width && b.y > en.y && b.y < en.y + en.height) {
+                        for(let k=0; k<10; k++) particles.push(new Particle(en.x + en.width/2, en.y + en.height/2, '#ff0055'));
+                        enemies.splice(i, 1);
+                        bullets.splice(bi, 1);
+                        score += 10;
+                        scoreEl.innerText = score;
+                    }
+                });
+
+                if(en.y > canvas.height) {
+                    enemies.splice(i, 1);
+                    hp -= 10;
+                    hpEl.innerText = hp;
+                    if(hp <= 0) gameOver();
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        function gameOver() {
+            gameActive = false;
+            overlay.style.display = 'flex';
+            overlay.innerHTML = `<h1 style="color:#ff0055">MISSION FAILED</h1><p>Score: ${score}</p><button onclick="location.reload()">REBOOT SYSTEM</button>`;
+        }
+    </script>
 </body>
 </html>
