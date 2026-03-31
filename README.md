@@ -9,7 +9,7 @@
 > **Transform your GitHub portfolio into an interactive gaming experience!**  
 > Defeat enemies, unlock repositories, and showcase your projects in the most creative way possible.
 
-![Game Preview](https://aryankahar31.github.io)
+
 
 ## 🌟 Live Demo
 
