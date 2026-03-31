@@ -9,11 +9,11 @@
 > **Transform your GitHub portfolio into an interactive gaming experience!**  
 > Defeat enemies, unlock repositories, and showcase your projects in the most creative way possible.
 
-![Game Preview](https://via.placeholder.com/800x400?text=DevQuest+Game+Preview)
+![Game Preview](https://aryankahar31.github.io)
 
 ## 🌟 Live Demo
 
-🎯 **Play Now:** [aryankahar31.xyz/game](https://aryankahar31.xyz/game)
+🎯 **Play Now:** [aryankahar31.github.io](https://aryankahar31.github.io)
 
 ## ✨ Features
 
