@@ -1,71 +1,189 @@
-# 🎮 DevQuest - Interactive Portfolio Game
+# Terminal Portfolio
 
-![DevQuest Banner](https://img.shields.io/badge/DevQuest-Portfolio%20Game-blueviolet?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen?style=flat-square)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+A modern terminal-inspired developer portfolio built with HTML, CSS, and JavaScript.
 
-> **Transform your GitHub portfolio into an interactive gaming experience!**  
-> Defeat enemies, unlock repositories, and showcase your projects in the most creative way possible.
+The portfolio simulates a real terminal where visitors can explore projects, skills, and contact information using interactive commands.
 
+## Live Demo
 
+**Website**
 
-## 🌟 Live Demo
+https://aryankahar31.github.io/
 
-🎯 **Play Now:** [aryankahar31.github.io](https://aryankahar31.github.io)
+## Features
 
-## ✨ Features
+- Interactive terminal interface
+- Command-based navigation
+- Animated startup sequence
+- Developer-focused UI
+- Responsive design
+- Keyboard navigation
+- Project explorer
+- GitHub integration
+- Portfolio links
+- Modern dark theme
 
-### 🎮 Gameplay Mechanics
-- **Click-based Combat** - Click on enemies to defeat them
-- **Combo System** - Chain hits for bonus XP
-- **4 Challenging Levels** - Progress through increasingly difficult challenges
-- **Boss Battles** - Face the ultimate final boss (OneX)
-- **Health & XP System** - Manage your developer HP and earn experience
+## Available Commands
 
-### 🎨 Visual Features
-- **Glassmorphism Design** - Modern, sleek UI with blur effects
-- **Floating Particles** - Dynamic background animation
-- **Smooth Animations** - Hit effects, explosions, and transitions
-- **Responsive Layout** - Works on desktop, tablet, and mobile
-- **Gradient Color Scheme** - Professional purple theme
+| Command | Description |
+|----------|-------------|
+| `help` | Show available commands |
+| `about` | About me |
+| `projects` | List featured projects |
+| `cat <project>` | View project details |
+| `runx` | Launch the Runx project menu |
+| `skills` | Display technical skills |
+| `contact` | Contact information |
+| `clear` | Clear the terminal |
 
-### 📊 Project Integration
-- **Real GitHub Links** - Each enemy links to actual repositories
-- **Tech Stack Badges** - See technologies used in each project
-- **Repository Showcase** - Unlock all projects upon completion
-- **Live Portfolio Link** - Direct access to GitHub profile
+---
 
-## 🗺️ Game Levels
+## Featured Projects
 
-| Level | Enemies | Type | Boss |
-|-------|---------|------|------|
-| **Level 1** | AlienXFileV2, Public WiFi Security | Web & Security | ❌ |
-| **Level 2** | AlienX Power Chat, DP Visualizer | Web & Algorithms | ❌ |
-| **Level 3** | AI Civic Assistant | Artificial Intelligence | ❌ |
-| **Level 4** | OneX | Android Development | ✅ |
+### Runx
 
-## 🎯 Projects Featured
+Universal project launcher written in Rust.
 
-### Tier 1 - Main Bosses
-| Project | Tech Stack | Description |
-|---------|------------|-------------|
-| **OneX** | Kotlin + Jetpack Compose | Android life visualization app |
-| **AlienXFileV2** | Flask + Python | Secure temporary file sharing platform |
-| **AI Civic Assistant** | Whisper + RAG | Voice-first AI assistant for government schemes |
+Automatically downloads, manages, caches, and runs portable programming language runtimes without requiring global installations.
 
-### Tier 2 - Featured Projects
-| Project | Tech Stack | Description |
-|---------|------------|-------------|
-| **Public WiFi Security Portal** | TypeScript + React | Cybersecurity awareness platform |
-| **AlienX Power Chat** | WebRTC + PeerJS | P2P WebRTC chat application |
-| **Dynamic Programming Visualizer** | JavaScript + Canvas | Algorithm visualization tool |
+Repository
 
-## 🚀 Installation
+https://github.com/aryankahar31/runx
 
-### Option 1: Direct Download
+---
+
+### OneX
+
+A native Android application for visualizing life using interactive dot grids.
+
+Built with Kotlin and Jetpack Compose.
+
+Repository
+
+https://github.com/aryankahar31/onex
+
+---
+
+### AlienXFileV2
+
+Secure temporary file and text sharing platform.
+
+Supports encrypted transfers, cloud storage integration, and fast cross-device sharing.
+
+Repository
+
+https://github.com/aryankahar31/AlienXFileV2
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- HTML5
+- CSS3
+- JavaScript
+
+### Design
+
+- JetBrains Mono
+- Terminal UI
+- Responsive Layout
+
+### Development
+
+- Git
+- GitHub
+- VS Code
+
+---
+
+## Project Structure
+
+```
+.
+├── index.html
+├── assets/
+├── images/
+└── README.md
+```
+
+---
+
+## Running Locally
+
+Clone the repository
+
 ```bash
-git clone https://github.com/aryankahar31/devquest-game.git
-cd devquest-game
-open index.html
+git clone https://github.com/aryankahar31/aryankahar31.github.io.git
+```
+
+Open the project
+
+```bash
+cd aryankahar31.github.io
+```
+
+Start a local server
+
+```bash
+python -m http.server
+```
+
+or
+
+```bash
+npx serve
+```
+
+Open
+
+```
+http://localhost:8000
+```
+
+---
+
+## Customization
+
+You can easily customize:
+
+- Terminal commands
+- Theme colors
+- Projects
+- Skills
+- Social links
+- Animations
+- Startup banner
+
+---
+
+## Author
+
+**Aryan Kahar**
+
+Portfolio
+
+https://aryankahar31.xyz
+
+GitHub
+
+https://github.com/aryankahar31
+
+LinkedIn
+
+https://www.linkedin.com/in/aryan-kahar-4b5370246/
+
+X
+
+https://x.com/aryankahar31
+
+---
+
+## License
+
+MIT License
+
+---
+
+If you like this portfolio, consider giving the repository a ⭐.
