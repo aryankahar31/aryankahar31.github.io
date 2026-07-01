@@ -1,905 +1,385 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Aryan Kahar | DevQuest - Interactive Portfolio Game</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
-
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Floating particles background */
-        .floating-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: float linear infinite;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Main game container */
-        .game-wrapper {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .game-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 48px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2);
-            overflow: hidden;
-            max-width: 1300px;
-            width: 100%;
-            transition: transform 0.3s ease;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Header */
-        .game-header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            padding: 20px 30px;
-            border-bottom: 3px solid #f39c12;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-icon {
-            font-size: 32px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .logo-sub {
-            font-size: 12px;
-            color: #888;
-            margin-left: 10px;
-        }
-
-        /* Stats bar */
-        .stats-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: white;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .stat-card {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 10px 20px;
-            border-radius: 60px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-icon {
-            font-size: 24px;
-        }
-
-        .stat-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #666;
-            font-weight: 600;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a2e;
-            line-height: 1;
-        }
-
-        .progress-bar {
-            flex: 1;
-            max-width: 300px;
-        }
-
-        .progress-label {
-            font-size: 11px;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .progress-track {
-            background: #e0e0e0;
-            height: 8px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s ease;
-            border-radius: 10px;
-        }
-
-        /* Canvas area */
-        .canvas-container {
-            position: relative;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%);
-            padding: 20px;
-        }
-
-        canvas {
-            display: block;
-            margin: 0 auto;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            background: radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-        }
-
-        /* Control buttons */
-        .controls-bar {
-            padding: 20px 30px;
-            background: white;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .btn {
-            padding: 12px 28px;
-            border: none;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #e0e0e0;
-            transform: translateY(-2px);
-        }
-
-        .message-area {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #fef5e7 0%, #fff9ef 100%);
-            border-radius: 40px;
-            border-left: 4px solid #f39c12;
-        }
-
-        .message-icon {
-            font-size: 20px;
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .message-text {
-            font-size: 13px;
-            color: #555;
-            font-weight: 500;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 48px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 25px 30px;
-            color: white;
-            border-radius: 48px 48px 0 0;
-        }
-
-        .modal-header h2 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-
-        .modal-body {
-            padding: 30px;
-        }
-
-        .repo-item {
-            background: #f8f9fa;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 16px;
-            border-left: 4px solid #667eea;
-            transition: all 0.3s ease;
-        }
-
-        .repo-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .repo-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 5px;
-        }
-
-        .repo-desc {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-
-        .repo-tech {
-            font-size: 11px;
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        .repo-link {
-            display: inline-block;
-            margin-top: 8px;
-            color: #764ba2;
-            text-decoration: none;
-            font-size: 12px;
-        }
-
-        .modal-footer {
-            padding: 20px 30px;
-            border-top: 1px solid #e0e0e0;
-            text-align: center;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .stats-bar {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .progress-bar {
-                max-width: 100%;
-                width: 100%;
-            }
-            
-            canvas {
-                width: 100%;
-                height: auto;
-            }
-            
-            .controls-bar {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .stat-card {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aryan Kahar — ~/portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --void:#0a0e14;
+      --panel:#11151c;
+      --panel-edge:#1c2129;
+      --text:#d7dce2;
+      --muted:#5c6773;
+      --amber:#ffb454;
+      --green:#7fd88f;
+      --red:#ff6b6b;
+      --blue:#7ab8ff;
+    }
+    *{box-sizing:border-box;}
+    @media (prefers-reduced-motion: reduce){
+      *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      background: radial-gradient(ellipse at 20% 0%, #131824 0%, var(--void) 55%), var(--void);
+      font-family:'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+      color:var(--text);
+    }
+    .stage{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+    }
+    .window{
+      width:100%;
+      max-width:900px;
+      background:var(--panel);
+      border:1px solid var(--panel-edge);
+      border-radius:10px;
+      box-shadow:0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.02);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .titlebar{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:11px 14px;
+      background:linear-gradient(180deg,#161b23,#12151b);
+      border-bottom:1px solid var(--panel-edge);
+    }
+    .dot{width:11px;height:11px;border-radius:50%;}
+    .dot.r{background:#ff5f57;}
+    .dot.y{background:#febc2e;}
+    .dot.g{background:#28c840;}
+    .titlebar-label{
+      flex:1;
+      text-align:center;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.03em;
+    }
+    .term{
+      padding:22px 24px 16px;
+      height:min(560px, 62vh);
+      overflow-y:auto;
+      font-size:14px;
+      line-height:1.65;
+    }
+    .term::-webkit-scrollbar{width:9px;}
+    .term::-webkit-scrollbar-thumb{background:var(--panel-edge); border-radius:6px;}
+    .line{white-space:pre-wrap; word-break:break-word;}
+    .prompt-line{display:flex; gap:8px;}
+    .prompt-sym{color:var(--amber); flex-shrink:0;}
+    .cmd-echo{color:var(--text);}
+    .muted{color:var(--muted);}
+    .amber{color:var(--amber);}
+    .green{color:var(--green);}
+    .red{color:var(--red);}
+    .blue{color:var(--blue);}
+    .bold{font-weight:700;}
+    a{color:var(--blue); text-decoration:none; border-bottom:1px solid rgba(122,184,255,0.35);}
+    a:hover{border-bottom-color:var(--blue);}
+    .banner{color:var(--amber); font-weight:800; line-height:1.25;}
+    .barwrap{display:inline-block; min-width:170px;}
+    .bar{
+      display:inline-block;
+      height:8px;
+      background:var(--panel-edge);
+      border-radius:4px;
+      overflow:hidden;
+      width:160px;
+      vertical-align:middle;
+      margin-right:8px;
+    }
+    .bar > i{
+      display:block;
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,var(--amber),var(--green));
+      animation:fill 900ms ease forwards;
+    }
+    @keyframes fill{to{width:100%;}}
+    .inputrow{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:0 24px 20px;
+    }
+    .inputrow .prompt-sym{color:var(--amber);}
+    .inputrow input{
+      flex:1;
+      background:transparent;
+      border:none;
+      outline:none;
+      color:var(--text);
+      font:inherit;
+      font-size:14px;
+      caret-color:var(--amber);
+    }
+    .cursor{
+      display:inline-block;
+      width:8px;
+      height:16px;
+      background:var(--amber);
+      margin-left:2px;
+      animation:blink 1s step-end infinite;
+      vertical-align:-3px;
+    }
+    @keyframes blink{50%{opacity:0;}}
+    .hint{
+      font-size:11.5px;
+      color:var(--muted);
+      padding:0 24px 16px;
+      letter-spacing:.02em;
+    }
+    .hint kbd{
+      background:var(--panel-edge);
+      border:1px solid #262c36;
+      border-radius:4px;
+      padding:1px 5px;
+      font-size:11px;
+      color:var(--text);
+    }
+    table{border-collapse:collapse; margin:2px 0 6px;}
+    td{padding:1px 14px 1px 0; vertical-align:top;}
+    @media (max-width:600px){
+      .stage{padding:0;}
+      .window{max-width:100%; height:100vh; border-radius:0;}
+      .term{height:auto; flex:1;}
+    }
+  </style>
 </head>
 <body>
-    <div class="floating-particles" id="particles"></div>
-    
-    <div class="game-wrapper">
-        <div class="game-card">
-            <div class="game-header">
-                <div class="logo">
-                    <span class="logo-icon">🎮</span>
-                    <span class="logo-text">DevQuest</span>
-                    <span class="logo-sub">by Aryan Kahar</span>
-                </div>
-            </div>
-            
-            <div class="stats-bar">
-                <div class="stat-card">
-                    <span class="stat-icon">❤️</span>
-                    <div class="stat-info">
-                        <span class="stat-label">Developer HP</span>
-                        <span class="stat-value" id="hp">100</span>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <span class="stat-icon">⭐</span>
-                    <div class="stat-info">
-                        <span class="stat-label">Experience</span>
-                        <span class="stat-value" id="score">0</span>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <span class="stat-icon">🗺️</span>
-                    <div class="stat-info">
-                        <span class="stat-label">Level</span>
-                        <span class="stat-value" id="level">1</span>
-                    </div>
-                </div>
-                
-                <div class="progress-bar">
-                    <div class="progress-label">Quest Progress</div>
-                    <div class="progress-track">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="canvas-container">
-                <canvas id="gameCanvas" width="1100" height="550"></canvas>
-            </div>
-            
-            <div class="controls-bar">
-                <div class="message-area">
-                    <span class="message-icon">💡</span>
-                    <span class="message-text" id="gameMessage">Click on enemies to defeat them!</span>
-                </div>
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn btn-secondary" id="resetBtn">
-                        <span>🔄</span> Reset Game
-                    </button>
-                    <button class="btn btn-primary" id="githubBtn">
-                        <span>🚀</span> View Portfolio
-                    </button>
-                </div>
-            </div>
-        </div>
+  <div class="stage">
+    <div class="window">
+      <div class="titlebar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="titlebar-label">aryan@portfolio — bash — 90×30</span>
+      </div>
+      <div class="term" id="term" tabindex="-1"></div>
+      <div class="inputrow">
+        <span class="prompt-sym">➜</span>
+        <input id="cmdInput" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command input" />
+        <span class="cursor" id="fakeCursor"></span>
+      </div>
+      <div class="hint">type <kbd>help</kbd> to see what's available · <kbd>↑</kbd>/<kbd>↓</kbd> for history</div>
     </div>
-    
-    <div id="terminalModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>🎉 Achievement Unlocked!</h2>
-                <p>You've conquered all challenges</p>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Dynamic content -->
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" onclick="closeModal()">Continue Journey</button>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Canvas setup
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Game state
-        let gameRunning = true;
-        let playerHP = 100;
-        let score = 0;
-        let currentLevel = 1;
-        let enemies = [];
-        let particles = [];
-        let animations = [];
-        let combo = 0;
-        let lastHit = 0;
-        
-        // Mouse position
-        let mouse = { x: canvas.width/2, y: canvas.height/2 };
-        let mouseDown = false;
-        
-        // Floating particles background
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.width = particle.style.height = Math.random() * 5 + 2 + 'px';
-                particle.style.animationDuration = Math.random() * 10 + 5 + 's';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(particle);
-            }
-        }
-        
-        // Project data
-        const projects = {
-            level1: [
-                { name: "AlienXFileV2", desc: "Secure File Sharing", tech: "Flask + Python", url: "https://github.com/aryankahar31/AlienXFileV2", hp: 30, reward: 100, color: "#3498db", emoji: "📁" },
-                { name: "Public WiFi Security", desc: "Cybersecurity Awareness", tech: "TypeScript + React", url: "https://github.com/aryankahar31/public-wifi-security-awareness-portal", hp: 25, reward: 80, color: "#e74c3c", emoji: "🔒" }
-            ],
-            level2: [
-                { name: "AlienX Power Chat", desc: "P2P WebRTC Chat", tech: "WebRTC + PeerJS", url: "https://github.com/aryankahar31/alienx-power-chat", hp: 35, reward: 120, color: "#2ecc71", emoji: "💬" },
-                { name: "DP Visualizer", desc: "Algorithm Visualizer", tech: "JavaScript + Canvas", url: "https://github.com/aryankahar31/dynamic-programming-visualizer", hp: 30, reward: 90, color: "#f39c12", emoji: "📊" }
-            ],
-            level3: [
-                { name: "AI Civic Assistant", desc: "Voice AI Assistant", tech: "Whisper + RAG", url: "https://github.com/aryankahar31/ai-civic-assistant", hp: 40, reward: 150, color: "#9b59b6", emoji: "🤖" }
-            ],
-            level4: [
-                { name: "OneX", desc: "Android Life Visualization", tech: "Kotlin + Jetpack Compose", url: "https://github.com/aryankahar31/onex", hp: 60, reward: 500, color: "#e74c3c", emoji: "👑", isBoss: true }
-            ]
-        };
-        
-        // Particle effect class
-        class ParticleEffect {
-            constructor(x, y, color, type = 'hit') {
-                this.x = x;
-                this.y = y;
-                this.particles = [];
-                const count = type === 'explosion' ? 20 : 10;
-                for (let i = 0; i < count; i++) {
-                    this.particles.push({
-                        x: x,
-                        y: y,
-                        vx: (Math.random() - 0.5) * (type === 'explosion' ? 8 : 5),
-                        vy: (Math.random() - 0.5) * (type === 'explosion' ? 8 : 5),
-                        life: 1,
-                        size: Math.random() * 4 + 2,
-                        color: color
-                    });
-                }
-            }
-            
-            update() {
-                let alive = false;
-                for (let p of this.particles) {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.life -= 0.02;
-                    if (p.life > 0) alive = true;
-                }
-                return alive;
-            }
-            
-            draw() {
-                for (let p of this.particles) {
-                    ctx.save();
-                    ctx.globalAlpha = p.life;
-                    ctx.fillStyle = p.color;
-                    ctx.fillRect(p.x, p.y, p.size, p.size);
-                    ctx.restore();
-                }
-            }
-        }
-        
-        // Enemy class
-        class Enemy {
-            constructor(data, x, y) {
-                this.data = data;
-                this.x = x;
-                this.y = y;
-                this.currentHp = data.hp;
-                this.maxHp = data.hp;
-                this.radius = data.isBoss ? 50 : 40;
-                this.floatAngle = Math.random() * Math.PI * 2;
-                this.floatSpeed = 0.02;
-                this.hitAnimation = 0;
-            }
-            
-            draw() {
-                // Floating animation
-                this.floatAngle += this.floatSpeed;
-                const floatY = Math.sin(this.floatAngle) * 8;
-                const drawY = this.y + floatY;
-                
-                // Hit animation
-                if (this.hitAnimation > 0) {
-                    this.hitAnimation -= 0.1;
-                }
-                
-                // Shadow
-                ctx.shadowColor = 'rgba(0,0,0,0.3)';
-                ctx.shadowBlur = 15;
-                
-                // Enemy circle
-                const gradient = ctx.createRadialGradient(this.x - 10, drawY - 10, 5, this.x, drawY, this.radius);
-                gradient.addColorStop(0, this.data.isBoss ? '#ff6b6b' : this.data.color);
-                gradient.addColorStop(1, this.data.isBoss ? '#c0392b' : this.adjustColor(this.data.color, -40));
-                
-                ctx.beginPath();
-                ctx.arc(this.x, drawY, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = gradient;
-                ctx.fill();
-                
-                // Hit effect
-                if (this.hitAnimation > 0) {
-                    ctx.beginPath();
-                    ctx.arc(this.x, drawY, this.radius + 5, 0, Math.PI * 2);
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${this.hitAnimation})`;
-                    ctx.lineWidth = 3;
-                    ctx.stroke();
-                }
-                
-                // Emoji
-                ctx.font = `${this.data.isBoss ? 40 : 32}px "Segoe UI Emoji"`;
-                ctx.fillStyle = 'white';
-                ctx.shadowBlur = 5;
-                ctx.fillText(this.data.emoji, this.x - 20, drawY + 10);
-                
-                // HP Bar
-                const hpPercent = this.currentHp / this.maxHp;
-                const barWidth = this.radius * 1.5;
-                const barHeight = 8;
-                const barX = this.x - barWidth/2;
-                const barY = drawY - this.radius - 15;
-                
-                ctx.fillStyle = '#e74c3c';
-                ctx.fillRect(barX, barY, barWidth, barHeight);
-                ctx.fillStyle = '#2ecc71';
-                ctx.fillRect(barX, barY, barWidth * hpPercent, barHeight);
-                
-                // Name
-                ctx.font = 'bold 12px "Poppins"';
-                ctx.fillStyle = '#1a1a2e';
-                ctx.shadowBlur = 0;
-                ctx.fillText(this.data.name, this.x - 30, drawY - this.radius - 20);
-                
-                // Tech badge
-                ctx.font = '10px "Poppins"';
-                ctx.fillStyle = '#7f8c8d';
-                ctx.fillText(this.data.tech, this.x - 25, drawY + this.radius + 15);
-                
-                ctx.shadowBlur = 0;
-            }
-            
-            adjustColor(color, amount) {
-                // Simple color adjustment
-                return color;
-            }
-            
-            hit(damage) {
-                this.currentHp -= damage;
-                this.hitAnimation = 1;
-                return this.currentHp <= 0;
-            }
-            
-            isClicked(mx, my) {
-                const dx = mx - this.x;
-                const dy = my - this.y;
-                return Math.sqrt(dx*dx + dy*dy) <= this.radius;
-            }
-        }
-        
-        // Load level
-        function loadLevel() {
-            enemies = [];
-            const levelProjects = projects[`level${currentLevel}`];
-            if (!levelProjects) {
-                gameComplete();
-                return;
-            }
-            
-            const positions = getPositions(levelProjects.length);
-            levelProjects.forEach((project, index) => {
-                enemies.push(new Enemy(project, positions[index].x, positions[index].y));
-            });
-            
-            updateUI();
-            showMessage(`Level ${currentLevel}: Defeat ${levelProjects.length} challenges!`, '🎯');
-        }
-        
-        function getPositions(count) {
-            const positions = [];
-            const spacing = canvas.width / (count + 1);
-            for (let i = 1; i <= count; i++) {
-                positions.push({
-                    x: spacing * i,
-                    y: canvas.height / 2 - 50
-                });
-            }
-            return positions;
-        }
-        
-        function handleClick(e) {
-            if (!gameRunning) return;
-            
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            const clickX = (e.clientX - rect.left) * scaleX;
-            const clickY = (e.clientY - rect.top) * scaleY;
-            
-            for (let i = 0; i < enemies.length; i++) {
-                if (enemies[i].isClicked(clickX, clickY)) {
-                    const damage = enemies[i].data.isBoss ? 12 : 25;
-                    const defeated = enemies[i].hit(damage);
-                    
-                    // Combo system
-                    const timeSinceLastHit = Date.now() - lastHit;
-                    if (timeSinceLastHit < 1000) {
-                        combo++;
-                        showMessage(`Combo x${combo}!`, '⚡');
-                    } else {
-                        combo = 1;
-                    }
-                    lastHit = Date.now();
-                    
-                    // Add hit effect
-                    particles.push(new ParticleEffect(enemies[i].x, enemies[i].y, '#f39c12', 'hit'));
-                    
-                    if (defeated) {
-                        const reward = enemies[i].data.reward * (1 + combo * 0.1);
-                        score += Math.floor(reward);
-                        showMessage(`+${Math.floor(reward)} XP!`, '✨');
-                        particles.push(new ParticleEffect(enemies[i].x, enemies[i].y, '#2ecc71', 'explosion'));
-                        enemies.splice(i, 1);
-                        updateUI();
-                        
-                        if (enemies.length === 0) {
-                            levelComplete();
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-        
-        function levelComplete() {
-            if (currentLevel < 4) {
-                currentLevel++;
-                playerHP = Math.min(100, playerHP + 20);
-                loadLevel();
-                showMessage(`Level Up! +20 HP`, '🎉');
-            } else {
-                gameComplete();
-            }
-        }
-        
-        function gameComplete() {
-            gameRunning = false;
-            showModal();
-        }
-        
-        function showMessage(msg, emoji = '💡') {
-            document.getElementById('gameMessage').innerHTML = `${emoji} ${msg}`;
-            setTimeout(() => {
-                if (gameRunning) {
-                    document.getElementById('gameMessage').innerHTML = '💡 Click on enemies to defeat them!';
-                }
-            }, 2000);
-        }
-        
-        function updateUI() {
-            document.getElementById('hp').innerHTML = Math.floor(playerHP);
-            document.getElementById('score').innerHTML = Math.floor(score);
-            document.getElementById('level').innerHTML = currentLevel;
-            const progress = ((currentLevel - 1) / 4) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-        }
-        
-        function resetGame() {
-            gameRunning = true;
-            playerHP = 100;
-            score = 0;
-            currentLevel = 1;
-            combo = 0;
-            loadLevel();
-            updateUI();
-            showMessage('Game Reset! Good luck!', '🔄');
-        }
-        
-        function showModal() {
-            const modal = document.getElementById('terminalModal');
-            const modalBody = document.getElementById('modalBody');
-            
-            let html = '<div style="text-align: center; margin-bottom: 20px;">';
-            html += '<div style="font-size: 48px;">🏆</div>';
-            html += '<h3>GitHub Repositories Unlocked</h3>';
-            html += `<p style="color: #666;">Total XP: ${Math.floor(score)} | Level Reached: ${currentLevel}</p>`;
-            html += '</div>';
-            
-            for (let level in projects) {
-                projects[level].forEach(project => {
-                    html += `
-                        <div class="repo-item">
-                            <div class="repo-name">${project.emoji} ${project.name}</div>
-                            <div class="repo-desc">${project.desc}</div>
-                            <div class="repo-tech">🔧 ${project.tech}</div>
-                            <a href="${project.url}" target="_blank" class="repo-link">🔗 View on GitHub →</a>
-                        </div>
-                    `;
-                });
-            }
-            
-            modalBody.innerHTML = html;
-            modal.style.display = 'flex';
-        }
-        
-        function closeModal() {
-            document.getElementById('terminalModal').style.display = 'none';
-            resetGame();
-        }
-        
-        // Animation loop
-        function animate() {
-            // Update particles
-            particles = particles.filter(p => p.update());
-            
-            // Draw
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw background pattern
-            ctx.fillStyle = '#f8f9fa';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw grid
-            ctx.strokeStyle = '#e0e0e0';
-            ctx.lineWidth = 1;
-            for (let i = 0; i < canvas.width; i += 50) {
-                ctx.beginPath();
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i, canvas.height);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(0, i);
-                ctx.lineTo(canvas.width, i);
-                ctx.stroke();
-            }
-            
-            // Draw enemies
-            enemies.forEach(enemy => enemy.draw());
-            
-            // Draw particles
-            particles.forEach(particle => particle.draw());
-            
-            // Draw mouse cursor effect
-            if (mouseDown) {
-                ctx.beginPath();
-                ctx.arc(mouse.x, mouse.y, 20, 0, Math.PI * 2);
-                ctx.strokeStyle = '#667eea';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            }
-            
-            requestAnimationFrame(animate);
-        }
-        
-        // Event listeners
-        canvas.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            mouse.x = (e.clientX - rect.left) * scaleX;
-            mouse.y = (e.clientY - rect.top) * scaleY;
+  </div>
+
+  <script>
+    const term = document.getElementById('term');
+    const input = document.getElementById('cmdInput');
+    const fakeCursor = document.getElementById('fakeCursor');
+
+    const PROJECTS = {
+      runx: {
+        title: "Runx",
+        tag: "Universal Project Launcher",
+        stack: "Rust • CLI • Cross‑Platform",
+        desc: "A universal project launcher written in Rust that automatically downloads, manages, caches, and runs portable programming language runtimes without requiring global installations. Built for reproducible development environments across Linux, macOS, and Windows.",
+        url: "https://github.com/aryankahar31/runx"
+      },
+      onex: {
+        title: "OneX",
+        tag: "Life Visualization Android App",
+        stack: "Kotlin • Jetpack Compose • Android",
+        desc: "A native Android application that turns your life into a grid of dots. Each dot represents a unit of time — helping you visualize life, progress, and habits. Features live wallpapers, widgets, life statistics, habit tracking, and customizable themes.",
+        url: "https://github.com/aryankahar31/onex"
+      },
+      alienxfilev2: {
+        title: "AlienXFileV2",
+        tag: "Secure File Sharing Platform",
+        stack: "Python • Flask • Firebase",
+        desc: "A secure file and text sharing platform featuring temporary links, encrypted transfers, media downloading, and cloud storage integration for fast and private sharing.",
+        url: "https://github.com/aryankahar31/AlienXFileV2"
+      }
+    };
+
+    function esc(s){
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function print(html){
+      const div = document.createElement('div');
+      div.className = 'line';
+      div.innerHTML = html;
+      term.appendChild(div);
+      term.scrollTop = term.scrollHeight;
+    }
+
+    function printPrompt(cmdText){
+      print(`<div class="prompt-line"><span class="prompt-sym">➜</span><span class="cmd-echo">${esc(cmdText)}</span></div>`);
+    }
+
+    function banner(){
+      print(`<pre class="banner">
+ █████╗ ██████╗ ██╗ ██╗ █████╗ ███╗ ██╗
+██╔══██╗██╔══██╗╚██╗ ██╔╝██╔══██╗████╗ ██║
+███████║██████╔╝ ╚████╔╝ ███████║██╔██╗ ██║
+██╔══██║██╔══██╗ ╚██╔╝  ██╔══██║██║╚██╗██║
+██║  ██║██║  ██║  ██║   ██║  ██║██║ ╚████║
+╚═╝  ╚═╝╚═╝  ╚═╝  ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝</pre>`);
+      print(`<span class="muted">Computer Science student · software developer · Mumbai, India</span>`);
+      print(`<span class="muted">Session started. Type </span><span class="amber">help</span><span class="muted"> to see available commands.</span>`);
+      print('');
+    }
+
+    const COMMANDS = {
+      help(){
+        print(`<table>
+          <tr><td class="amber">about</td><td class="muted">who I am</td></tr>
+          <tr><td class="amber">projects</td><td class="muted">list what I'm building</td></tr>
+          <tr><td class="amber">runx</td><td class="muted">launch the project menu (try it)</td></tr>
+          <tr><td class="amber">cat &lt;project&gt;</td><td class="muted">e.g. <span class="green">cat runx</span> — project details</td></tr>
+          <tr><td class="amber">skills</td><td class="muted">tech stack</td></tr>
+          <tr><td class="amber">contact</td><td class="muted">email &amp; socials</td></tr>
+          <tr><td class="amber">clear</td><td class="muted">clear the screen</td></tr>
+        </table>`);
+      },
+      about(){
+        print(`Computer Science student and software developer from India.`);
+        print(`I build developer tools, AI-powered applications, and modern backend systems with a focus on performance, portability, and developer experience.`);
+        print(`Currently working on <span class="amber">Runx</span>, <span class="amber">OneX</span>, and <span class="amber">AlienXFileV2</span> while exploring Rust, systems programming, and AI infrastructure.`);
+        print('');
+      },
+      whoami(){ COMMANDS.about(); },
+      projects(){
+        print(`<span class="muted">Featured Projects</span>`);
+        Object.values(PROJECTS).forEach(p=>{
+          print(`  <span class="green">●</span> <span class="bold">${p.title}</span>`);
+          print(`     <span class="muted">${p.tag}</span>`);
+          print(`     <span class="blue">${p.stack}</span>`);
         });
-        
-        canvas.addEventListener('mousedown', () => mouseDown = true);
-        canvas.addEventListener('mouseup', () => mouseDown = false);
-        canvas.addEventListener('click', handleClick);
-        
-        document.getElementById('resetBtn').addEventListener('click', resetGame);
-        document.getElementById('githubBtn').addEventListener('click', () => {
-            window.open('https://github.com/aryankahar31', '_blank');
-        });
-        
-        // Initialize
-        createParticles();
-        loadLevel();
-        animate();
-    </script>
+        print(`<span class="muted">→ type </span><span class="amber">cat &lt;name&gt;</span><span class="muted"> for details, or run </span><span class="amber">runx</span>`);
+        print('');
+      },
+      ls(){ COMMANDS.projects(); },
+      skills(){
+        print(`<span class="amber bold">Languages</span> Rust · Python · TypeScript · JavaScript · C++ · Kotlin`);
+        print(`<span class="amber bold">Frontend</span> React · Next.js · Vite · Tailwind CSS · Jetpack Compose (Android)`);
+        print(`<span class="amber bold">Backend</span> Node.js · Express · FastAPI · Flask`);
+        print(`<span class="amber bold">Data</span> PostgreSQL · Prisma · Firebase`);
+        print(`<span class="amber bold">AI</span> Gemini API · OpenAI API · LangChain`);
+        print(`<span class="amber bold">Tools</span> Docker · Git · GitHub Actions · Linux · Android Studio`);
+        print('');
+      },
+      stack(){ COMMANDS.skills(); },
+      contact(){
+        print(`<span class="green">portfolio</span> <a href="https://aryankahar31.xyz" target="_blank">aryankahar31.xyz</a>`);
+        print(`<span class="green">email</span>   <a href="mailto:aryankahar.business@gmail.com">aryankahar.business@gmail.com</a>`);
+        print(`<span class="green">github</span>   <a href="https://github.com/aryankahar31" target="_blank">github.com/aryankahar31</a>`);
+        print(`<span class="green">linkedin</span> <a href="https://www.linkedin.com/in/aryan-kahar-4b5370246/" target="_blank">linkedin.com/in/aryan-kahar</a>`);
+        print(`<span class="green">x</span>        <a href="https://x.com/aryankahar31" target="_blank">x.com/aryankahar31</a>`);
+        print('');
+      },
+      socials(){ COMMANDS.contact(); },
+      clear(){
+        term.innerHTML = '';
+      },
+      sudo(args){
+        if(args.join(' ') === 'make me a sandwich'){
+          print(`<span class="red">Permission denied.</span> <span class="muted">Nice try though.</span>`);
+        } else {
+          print(`<span class="red">[sudo] password for aryan: </span><span class="muted">nah, you don't get root here.</span>`);
+        }
+      },
+      async runx(args){
+        if(args.length === 0){
+          print(`<span class="muted">runx v1.0 — detecting portable runtimes...</span>`);
+          const steps = ['scanning workspace', 'resolving runtime targets', 'mounting portable envs'];
+          for(const s of steps){
+            const id = 'b'+Math.random().toString(36).slice(2,8);
+            print(`<span class="barwrap"><span class="bar"><i></i></span><span class="muted">${s}</span></span>`);
+            await sleep(420);
+          }
+          print(`<span class="green">✓ runtimes ready.</span> <span class="muted">Available launch targets:</span>`);
+          Object.keys(PROJECTS).forEach(k=>{
+            print(`  <span class="blue">▸</span> ${PROJECTS[k].title} <span class="muted">— run 'runx run ${k}'</span>`);
+          });
+          print('');
+          return;
+        }
+        if(args[0] === 'run' && args[1]){
+          const key = args[1].toLowerCase();
+          const p = PROJECTS[key];
+          if(!p){
+            print(`<span class="red">runx: no target named "${esc(args[1])}"</span> <span class="muted">— try 'runx' with no args to list targets</span>`);
+            return;
+          }
+          print(`<span class="muted">launching</span> <span class="amber bold">${p.title}</span><span class="muted">...</span>`);
+          await sleep(300);
+          print(`<span class="barwrap"><span class="bar"><i></i></span><span class="muted">booting environment</span></span>`);
+          await sleep(500);
+          print(`<span class="green">✓</span> ${p.title} is live. <a href="${p.url}" target="_blank">open on GitHub →</a>`);
+          print('');
+          return;
+        }
+        print(`<span class="muted">usage: runx [run &lt;project&gt;]</span>`);
+      },
+      cat(args){
+        if(!args.length){ print(`<span class="red">cat: missing operand</span>`); return; }
+        const key = args[0].replace(/.md$/,'').toLowerCase();
+        const p = PROJECTS[key];
+        if(!p){
+          print(`<span class="red">cat: ${esc(args[0])}: no such project</span> <span class="muted">— see 'projects'</span>`);
+          return;
+        }
+        print(`<span class="amber bold">## ${p.title}</span>`);
+        print(`<span class="muted">${p.tag} · ${p.stack}</span>`);
+        print(p.desc);
+        print(`<a href="${p.url}" target="_blank">${p.url}</a>`);
+        print('');
+      }
+    };
+
+    function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+
+    const history = [];
+    let historyIdx = -1;
+
+    async function runCommand(raw){
+      printPrompt(raw);
+      const trimmed = raw.trim();
+      if(!trimmed){ return; }
+      history.push(trimmed);
+      historyIdx = history.length;
+      const parts = trimmed.split(/\s+/);
+      const cmd = parts[0].toLowerCase();
+      const args = parts.slice(1);
+      if(COMMANDS[cmd]){
+        await COMMANDS[cmd](args);
+      } else {
+        print(`<span class="red">command not found:</span> ${esc(cmd)} <span class="muted">— type 'help'</span>`);
+      }
+    }
+
+    input.addEventListener('keydown', async (e)=>{
+      if(e.key === 'Enter'){
+        const val = input.value;
+        input.value = '';
+        await runCommand(val);
+      } else if(e.key === 'ArrowUp'){
+        e.preventDefault();
+        if(historyIdx > 0){ historyIdx--; input.value = history[historyIdx] || ''; }
+      } else if(e.key === 'ArrowDown'){
+        e.preventDefault();
+        if(historyIdx < history.length - 1){ historyIdx++; input.value = history[historyIdx] || ''; }
+        else { historyIdx = history.length; input.value = ''; }
+      }
+    });
+
+    document.querySelector('.window').addEventListener('click', ()=> input.focus());
+
+    banner();
+    input.focus();
+  </script>
 </body>
 </html>
